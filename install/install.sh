@@ -86,15 +86,13 @@ EOF
 rm -f /etc/nginx/sites-enabled/default
 ln -sf /etc/nginx/sites-available/notasi /etc/nginx/sites-enabled
 
-#configure database
-sudo -u postgres -i << EOF
-
-
 NotasiPassword=$(uuidgen)
 echo "DB Username: notasi"
 echo "DB Password: ${NotasiPassword}"
 read -p "Press enter to continue"
 
+#configure database
+sudo -u postgres -i << EOF
 
 echo "CREATE USER notasi WITH PASSWORD '${NotasiPassword}' CREATEDB\gexec" | psql
 echo "SELECT 'CREATE DATABASE notasi OWNER notasi' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'notasi')\gexec" | psql
