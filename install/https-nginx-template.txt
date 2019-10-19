@@ -15,6 +15,6 @@ server {
     ssl_password_file $PrivateKeyPassphrase;
 	location / {
 	    include uwsgi_params;
-	    uwsgi_pass unix:$InstallLocation/app.sock;
+	    uwsgi_pass unix:$InstallLocation/site/app.sock;
     }
 }

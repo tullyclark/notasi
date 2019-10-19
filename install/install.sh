@@ -92,7 +92,7 @@ sudo -u postgres -i << EOF
 echo "SELECT 'DROP DATABASE notasi' WHERE EXISTS (SELECT FROM pg_database WHERE datname = 'notasi')\gexec" | psql
 echo "SELECT 'DROP role notasi' WHERE EXISTS (SELECT FROM pg_catalog.pg_roles WHERE  rolname = 'notasi')\gexec" | psql
 echo "CREATE USER notasi WITH PASSWORD '${NotasiPassword}' CREATEDB\gexec" | psql
-echo "SELECT 'CREATE DATABASE notasi OWNER notasi' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'notasi')\gexec" | psql
+echo "CREATE DATABASE notasi OWNER notasi\gexec" | psql
 
 EOF
 
