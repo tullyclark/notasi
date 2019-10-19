@@ -3,7 +3,7 @@ import os
 from data.source import Location, Query, DataView, User
 from services.select_services import get_locations
 from services.save_services import save_user
-from services.schedule_services import schedule_query, select_into_user_data
+from services.schedule_services import select_into_user_data
 import json
 from flask_login import login_required
 
