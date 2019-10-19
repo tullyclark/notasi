@@ -4,7 +4,6 @@ chardet==3.0.4
 Click==7.0
 Flask==1.1.1
 Flask-Login==0.4.1
-ibm-db==3.0.1
 ibm-db-sa==0.3.5
 idna==2.8
 itsdangerous==1.1.0
