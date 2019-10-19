@@ -92,11 +92,11 @@ sudo -u postgres -i << EOF
 
 NotasiPassword=$(uuidgen)
 echo "DB Username: notasi"
-echo "DB Password: $NotasiPassword"
+echo "DB Password: ${NotasiPassword}"
 read -p "Press enter to continue"
 
 
-echo "CREATE USER notasi WITH PASSWORD '$NotasiPassword' CREATEDB\gexec" | psql
+echo "CREATE USER notasi WITH PASSWORD '${NotasiPassword}' CREATEDB\gexec" | psql
 echo "SELECT 'CREATE DATABASE notasi OWNER notasi' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'notasi')\gexec" | psql
 
 EOF
