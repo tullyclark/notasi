@@ -1,0 +1,27 @@
+{% extends "shared/_layout.html" %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/edit.css" />
+{% endblock %}
+{% block main_content %}
+	<div class="form-container">
+		<h1>{{item_type|capitalize}}</h1>
+		<form action="" method="POST" class="account-form">
+			
+			{% block form_content %}{% endblock %}
+
+			<div class="action-buttons">
+			{% if data_obj.id %}
+			<a onclick="return confirm('Are you sure?');" href="/delete/{{ item_type }}/{{ data_obj.id }}?next={{ back_link }}" class="btn btn-danger action-button push-left" id="delete">Delete</a>
+<!-- 			<a href="/process/run/query/{{ data_obj.id }}/return" class="btn btn-success action-button push-left" id="test" >Test</a>
+			<a href="/process/run/query/{{ data_obj.id }}/write" class="btn btn-success action-button push-left" id="run" >Run</a> -->
+			{% endif %}
+			<a href="{{ back_link }}" class="btn btn-outline-dark action-button">Cancel</a>
+			<button type="submit" class="btn btn-success action-button">Save</button>
+			</div>
+			<div style="clear: both;"></div>
+			{% if error %}
+			<div class="error-msg">{{ error }}</div>
+			{% endif %}
+		</form>
+	</div>
+{% endblock %}

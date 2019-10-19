@@ -1,0 +1,59 @@
+{% extends "shared/_edit_layout.html" %}
+{% block form_content %}
+
+<div>
+	<label for="name">Name</label>
+	<input if="name" name="name" type="text" placeholder="Name" class="form-control" value="{{ data_obj.name if data_obj.name }}">
+</div>
+
+<div>
+	<label for="location_type_id">Type</label>
+	<select id = "location_type_id" name="location_type_id" class="form-control" required>
+	{% if not data_obj.location_type_id %}
+	<option value="" disabled selected="selected">Select Location Type</option>
+	{% endif %}
+	{% for location_type in location_types %}
+	<option value="{{location_type.id}}" {% if data_obj.location_type_id == location_type.id %} selected="selected" {% endif %}>{{location_type.name}}</option>
+	{% endfor %}
+	</select>
+</div>
+
+<div>
+	<label for="address">Address</label>
+	<input id="address" name="address" type="text" placeholder="Address" class="form-control" value="{{ data_obj.address if data_obj.address }}">
+</div>
+
+<div>
+	<label for="port">Port</label>
+	<input id="port" name="port" type="text" placeholder="Port" class="form-control" value="{{ data_obj.port if data_obj.port }}">
+</div>
+
+<div>
+	<label for="database">Database</label>
+	<input id="database" name="database" type="text" placeholder= "Database" class="form-control" value="{{ data_obj.database if data_obj.database }}">
+</div>
+
+<div>
+	<label for="username">Username</label>
+	<input id = "username" name="username" type="text" placeholder="Username" class="form-control" value="{{ data_obj.username if data_obj.username }}">
+</div>
+
+<div>
+	<label for="password">Password</label>
+	<input id="password" name="password" type="password" placeholder= {% if data_obj.password %} "********" {% else %} "Password" {% endif %} class="form-control" value="">
+</div>
+
+<div>
+	<label for="sql_type_id">SQL Type</label>
+	<select id="sql_type_id" name="sql_type_id" class="form-control">
+	{% if not data_obj.sql_type_id %}
+	<option value="" disabled selected="selected" >Select SQL Type</option>
+	{% endif %}
+	<option value="">N/A</option>
+	{% for sql_type in sql_types %}
+	<option value="{{sql_type.id}}" {% if data_obj.sql_type_id == sql_type.id %} selected="selected" {% endif %}>{{sql_type.name}}</option>
+	{% endfor %}
+	</select>
+</div>
+
+{% endblock %}

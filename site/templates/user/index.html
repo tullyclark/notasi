@@ -1,0 +1,39 @@
+{% extends "shared/_layout.html" %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/user.css" />
+{% endblock %}
+{% block main_content %}
+    <div class="big-card">
+    	<h1>Users</h1>
+    	<a href="/user/edit">New</a>
+		<table>
+			<tr class="table_head">
+				<th>ID
+				</th>
+				<th>Username
+				</th>
+				<th>Name
+				</th>
+				<th>
+				</th>
+			</tr>
+			{% for user in users %}
+			<tr>
+				<td>{{ user.id }}</td>
+				<td>{{ user.username }}</td>
+				<td>{{ user.name }}</td>
+				<td><a href="/user/edit?id={{ user.id }}">Edit</a></td>
+			</tr>
+			{% endfor %}
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+    </div>
+{% endblock %}
+
+{% block additional_js %}
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "shared/_edit_layout.html" %}
+{% block form_content %}
+
+
+<div>
+	<label for="name">Name</label>
+	<input id="name" name="name" type="text" placeholder="Name" class="form-control" value="{{ data_obj.name if data_obj.name }}">
+</div>
+
+<div>
+	<label for="username">Username</label>
+	<input id="username" name="username" type="text" placeholder="Username" class="form-control">{{ data_obj.username if data_obj.username }}</input>
+</div>
+
+<div>
+	<label for="password">Password</label>
+	<input id="password" name="password" type="password" placeholder= {% if data_obj.password %} "********" {% else %} "Password" {% endif %} class="form-control" value="">
+</div>
+
+{% endblock %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/edit.css" />
+	<link rel="stylesheet" href="/static/css/edit_query.css" />
+{% endblock %}

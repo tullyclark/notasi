@@ -1,0 +1,89 @@
+{% extends "shared/_layout.html" %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/process.css" />
+{% endblock %}
+{% block main_content %}
+    <div class="big-card">
+    	<h1>Processes</h1>
+		<table>
+			<tr class="table_head">
+				<th>Location 
+					<a href="edit/location">
+						+
+					</a>
+				</th>
+				<th>Query 
+					<a href="edit/query">
+						+
+					</a>
+				</th>
+				<th>View 
+					<a href="edit/view">
+						+
+					</a>
+				</th>
+			</tr>
+			<tr class="odd next_location" >
+			{% for location in locations %}
+				{% set odd_even = loop.cycle('odd', 'even') %}
+				{% if loop.index0 > 0 %}
+					</tr>
+					<tr class="{{odd_even}} next_location">
+				{% endif %}
+
+				<td>
+					<a href="edit/location?id={{ location.id }}">
+						{{ location.name }}
+					</a>
+				</td>
+				<td>
+				{% for query in location.queries %}
+					{% if loop.index0 > 0 %}
+						</td>
+						</tr>
+						<tr  class="{{odd_even}} next_query">
+						<td>
+						</td>
+						<td class="query-td">
+					{% endif %}
+					
+					<a href="edit/query?id={{ query.id }}">
+						{{ query.name }}
+					</a>
+					</td>
+					<td  class="view-td">
+					{% for view in query.views %}
+						{% if loop.index0 > 0 %}
+							</td>
+							</tr>
+							<tr class="{{odd_even}} next_view">
+							<td>
+							</td>
+							<td>
+							</td>
+							<td>
+						{% endif %}
+					
+					<a href="edit/view?id={{ view.id }}">
+						{{ view.name }}
+					</a>
+
+					{% endfor %}
+				{% endfor %}
+
+				{% if location.queries|length == 0 %}
+					</td>
+					<td>
+				{% endif %}
+
+				</td>
+			{% endfor %}
+			</tr>
+		</table>
+    </div>
+{% endblock %}
+
+{% block additional_js %}
+	<script
+        src="/static/js/process.js"></script>
+{% endblock %}

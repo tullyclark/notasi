@@ -1,0 +1,29 @@
+
+
+.big-card > table {
+	width:100%;
+	margin-left: auto;
+	margin-right: auto;
+    border-bottom:  1px solid #d0d0d0;
+}
+
+.footer {
+	min-height: 24px;
+}
+
+td, th {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.query-td {
+	border-top: 1px solid #f0f0f0;
+}
+
+.view-td {
+	border-top: 1px solid #f0f0f0;
+}
+
+.next_location > td {
+	border-top: 1px solid #d0d0d0;
+}
