@@ -34,7 +34,7 @@ SSL=${SSL:="Y"}
 
 #do nginx stuff
 
-if [ $(SSL == "Y" ]; then
+if [ $SSL == "Y" ]; then
 	echo "If SSL files don't exist, starting the NGINX server will fail"
 
 	read -e -p "SSL Certification Location []: " Certificate
