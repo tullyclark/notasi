@@ -100,7 +100,7 @@ EOF
 
 echo "Generating Config File"
 FlaskSecretKey=$(uuidgen) \
-FlaskSecretKey=$NotasiPassword \
+NotasiPassword=$NotasiPassword \
 envsubst < $InstallLocation/install/config-template.py > $InstallLocation/site/config.py
 
 
