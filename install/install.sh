@@ -59,11 +59,6 @@ else
 fi
 
 
-#Generate files
-
-echo "Generating Config File"
-FlaskSecretKey=$(uuidgen) \
-envsubst < $InstallLocation/install/config-template.py > $InstallLocation/site/config.py
 
 echo "Generating systemd File"
 InstallLocation=$InstallLocation \
@@ -99,6 +94,12 @@ echo "SELECT 'CREATE DATABASE notasi OWNER notasi' WHERE NOT EXISTS (SELECT FROM
 
 EOF
 
+#Generate files
+
+echo "Generating Config File"
+FlaskSecretKey=$(uuidgen) \
+FlaskSecretKey=$NotasiPassword \
+envsubst < $InstallLocation/install/config-template.py > $InstallLocation/site/config.py
 
 
 #reload services

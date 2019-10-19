@@ -2,12 +2,13 @@ import sqlalchemy as sa
 import sqlalchemy.orm as orm
 from sqlalchemy.orm import Session
 
+import config
 from data.modelbase import SqlAlchemyBase
 
 __factory = None
 
 def notasi_engine():
-    conn_str = 'postgresql://notasi:notasi@localhost/notasi'
+    conn_str = f'postgresql://notasi:{config.notasi_password}@localhost/notasi'
 
     engine = sa.create_engine(conn_str, echo=False, pool_size=20, max_overflow=40)
     return engine

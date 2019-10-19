@@ -43,20 +43,9 @@ def start_scheduler():
 	scheduler = BackgroundScheduler(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone=utc)
 	return scheduler
 
-
-db_file = os.path.join(
-	os.path.dirname(__file__)
-	, 'db'
-	, 'testdb.sqlite')
-
-
 scheduler = start_scheduler()
 scheduler.start()
 
-def main():
-	register_blueprints()
-	setup_db()
-	app.run(debug=True, host="0.0.0.0")
 
 def setup_db():
 	db_session.global_init()
@@ -73,4 +62,6 @@ def register_blueprints():
 	app.register_blueprint(delete_view.blueprint, url_prefix='/delete')
 
 if __name__ == '__main__':
-	main()
+	register_blueprints()
+	setup_db()
+	app.run(debug=True)
