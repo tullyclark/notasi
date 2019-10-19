@@ -6,11 +6,11 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from flask_login import LoginManager
+import config
 
 
 app = flask.Flask(__name__)
-app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+app.config['SECRET_KEY'] = config.flask_secret_key
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -27,7 +27,7 @@ def load_user(user_id):
     session.close()
 def start_scheduler():
 	jobstores = {
-	    'default': SQLAlchemyJobStore(url='postgresql://notasi:notasi@localhost/notasi')
+	    'default': SQLAlchemyJobStore(url=f'postgresql://notasi:{config.notasi_password}@localhost/notasi')
 	}
 	executors = {
 	    'default': ThreadPoolExecutor(20),
@@ -56,7 +56,7 @@ scheduler.start()
 def main():
 	register_blueprints()
 	setup_db()
-	app.run(debug=True)
+	app.run(debug=True, host="0.0.0.0")
 
 def setup_db():
 	db_session.global_init()

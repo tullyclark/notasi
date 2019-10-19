@@ -5,9 +5,9 @@ After=network.target
 [Service]
 User=$User
 Group=www-data
-WorkingDirectory=$InstallLocation
+WorkingDirectory=$InstallLocation/site
 Environment="PATH=$InstallLocation/env/bin"
-ExecStart=$InstallLocation/env/bin/uwsgi --ini app.ini
+ExecStart=$InstallLocation/env/bin/uwsgi --enable-threads --ini app.ini
 
 [Install]
 WantedBy=multi-user.target

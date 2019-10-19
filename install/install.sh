@@ -11,7 +11,7 @@ fi
 
 #get dependancies
 apt-get update
-apt-get install python3-pip libxmlsec1-dev pkg-config virtualenv uwsgi nginx
+apt-get install python3-pip libxmlsec1-dev pkg-config virtualenv uwsgi nginx postgresql postgresql-server-dev-10
 
 #get installation location
 read -e -p "Install Location [/opt/notasi]: " InstallLocation
@@ -63,7 +63,7 @@ fi
 
 echo "Generating Config File"
 FlaskSecretKey=$(uuidgen) \
-envsubst < $InstallLocation/install/config-template.py > $InstallLocation/config.py
+envsubst < $InstallLocation/install/config-template.py > $InstallLocation/site/config.py
 
 echo "Generating systemd File"
 InstallLocation=$InstallLocation \
@@ -85,6 +85,22 @@ EOF
 
 rm -f /etc/nginx/sites-enabled/default
 ln -sf /etc/nginx/sites-available/notasi /etc/nginx/sites-enabled
+
+#configure database
+sudo -u postgres -i << EOF
+
+
+NotasiPassword=$(uuidgen)
+echo "DB Username: notasi"
+echo "DB Password: $NotasiPassword"
+read -p "Press enter to continue"
+
+
+echo "CREATE USER notasi WITH PASSWORD '$NotasiPassword' CREATEDB\gexec" | psql
+echo "SELECT 'CREATE DATABASE notasi OWNER notasi' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'notasi')\gexec" | psql
+
+EOF
+
 
 
 #reload services
