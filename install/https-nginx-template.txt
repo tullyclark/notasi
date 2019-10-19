@@ -1,0 +1,20 @@
+server {
+    listen 80 default_server;
+
+    server_name _;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443;
+    server_name _;
+    ssl on;
+    ssl_certificate $Certificate;
+    ssl_certificate_key $PrivateKey;
+    ssl_password_file $PrivateKeyPassphrase;
+	location / {
+	    include uwsgi_params;
+	    uwsgi_pass unix:$InstallLocation/app.sock;
+    }
+}

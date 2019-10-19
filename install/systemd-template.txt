@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve Notasi
+After=network.target
+
+[Service]
+User=$User
+Group=www-data
+WorkingDirectory=$InstallLocation
+Environment="PATH=$InstallLocation/env/bin"
+ExecStart=$InstallLocation/env/bin/uwsgi --ini app.ini
+
+[Install]
+WantedBy=multi-user.target
