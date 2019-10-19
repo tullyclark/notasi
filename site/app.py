@@ -7,6 +7,8 @@ from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from flask_login import LoginManager
 import config
+from views import home_views, schedule_views, auth_views, user_views, delete_view
+from views.process_views import edit_view, process_views
 
 
 app = flask.Flask(__name__)
@@ -46,22 +48,15 @@ def start_scheduler():
 scheduler = start_scheduler()
 scheduler.start()
 
+db_session.global_init()
 
-def setup_db():
-	db_session.global_init()
-
-def register_blueprints():
-	from views import home_views, schedule_views, auth_views, user_views, delete_view
-	from views.process_views import edit_view, process_views
-	app.register_blueprint(home_views.blueprint)
-	app.register_blueprint(auth_views.auth, url_prefix='/auth')
-	app.register_blueprint(process_views.blueprint, url_prefix='/process')
-	app.register_blueprint(edit_view.blueprint, url_prefix='/process/edit')
-	app.register_blueprint(user_views.blueprint, url_prefix='/user')
-	app.register_blueprint(schedule_views.blueprint, url_prefix='/schedule')
-	app.register_blueprint(delete_view.blueprint, url_prefix='/delete')
+app.register_blueprint(home_views.blueprint)
+app.register_blueprint(auth_views.auth, url_prefix='/auth')
+app.register_blueprint(process_views.blueprint, url_prefix='/process')
+app.register_blueprint(edit_view.blueprint, url_prefix='/process/edit')
+app.register_blueprint(user_views.blueprint, url_prefix='/user')
+app.register_blueprint(schedule_views.blueprint, url_prefix='/schedule')
+app.register_blueprint(delete_view.blueprint, url_prefix='/delete')
 
 if __name__ == '__main__':
-	register_blueprints()
-	setup_db()
-	app.run(debug=True)
+	app.run()
