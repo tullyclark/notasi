@@ -81,7 +81,7 @@ EOF
 rm -f /etc/nginx/sites-enabled/default
 ln -sf /etc/nginx/sites-available/notasi /etc/nginx/sites-enabled
 
-NotasiPassword=$(uuidgen)
+NotasiPassword=$(openssl rand -base64 64)
 echo "DB Username: notasi"
 echo "DB Password: ${NotasiPassword}"
 read -p "Press enter to continue"
@@ -94,12 +94,20 @@ echo "SELECT 'DROP role notasi' WHERE EXISTS (SELECT FROM pg_catalog.pg_roles WH
 echo "CREATE USER notasi WITH PASSWORD '${NotasiPassword}' CREATEDB\gexec" | psql
 echo "CREATE DATABASE notasi OWNER notasi\gexec" | psql
 
+echo "insert into location_types(name) values('SQL');" | psql notasi
+echo "insert into location_types(name) values('Folder');" | psql notasi
+echo "insert into request_methods(name) values('GET');" | psql notasi
+echo "insert into request_methods(name) values('POST');" | psql notasi
+echo "insert into sql_types(name, dialect) values('DB2', 'db2');" | psql notasi
+echo "insert into sql_types(name, dialect) values('PostgreSQL', 'postgresql');" | psql notasi
+
 EOF
 
 #Generate files
 
 echo "Generating Config File"
-FlaskSecretKey=$(uuidgen) \
+FlaskSecretKey=$(openssl rand -base64 64) \
+SQLAlchemySecretKey=$(openssl rand -base64 64) \
 NotasiPassword=$NotasiPassword \
 envsubst < $InstallLocation/install/config-template.py > $InstallLocation/site/config.py
 
