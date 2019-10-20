@@ -39,16 +39,28 @@ class Location(SqlAlchemyBase):
 	name = sa.Column(sa.String)
 	location_type_id = sa.Column(sa.Integer, sa.ForeignKey('location_types.id'))
 	location_type = sa.orm.relationship("LocationType")
-	address = sa.Column(sa.String)
-	port = sa.Column(sa.String)
-	username = sa.Column(sa.String)
+	address = sa.Column(EncryptedType(sa.String,
+                                       config.sqlalchemy_secret_key,
+                                       AesEngine,
+                                       'pkcs5'))
+	port = sa.Column(EncryptedType(sa.String,
+                                       config.sqlalchemy_secret_key,
+                                       AesEngine,
+                                       'pkcs5'))
+	username = sa.Column(EncryptedType(sa.String,
+                                       config.sqlalchemy_secret_key,
+                                       AesEngine,
+                                       'pkcs5'))
 	password = sa.Column(EncryptedType(sa.String,
                                        config.sqlalchemy_secret_key,
                                        AesEngine,
                                        'pkcs5'))
 	sql_type_id = sa.Column(sa.Integer, sa.ForeignKey('sql_types.id'))
 	sql_type = sa.orm.relationship("SqlType")
-	database = sa.Column(sa.String)
+	database = sa.Column(EncryptedType(sa.String,
+                                       config.sqlalchemy_secret_key,
+                                       AesEngine,
+                                       'pkcs5'))
 	queries = sa.orm.relationship("Query", cascade="all, delete-orphan")
 	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)
 
@@ -58,9 +70,18 @@ class Query(SqlAlchemyBase):
 	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
 	name = sa.Column(sa.String)
 	notasi_query = sa.Column(sa.String)
-	endpoint = sa.Column(sa.String)
-	head = sa.Column(sa.String)
-	body = sa.Column(sa.String)
+	endpoint = sa.Column(EncryptedType(sa.String,
+                                       config.sqlalchemy_secret_key,
+                                       AesEngine,
+                                       'pkcs5'))
+	head = sa.Column(EncryptedType(sa.String,
+                                       config.sqlalchemy_secret_key,
+                                       AesEngine,
+                                       'pkcs5'))
+	body = sa.Column(EncryptedType(sa.String,
+                                       config.sqlalchemy_secret_key,
+                                       AesEngine,
+                                       'pkcs5'))
 	request_method_id = sa.Column(sa.Integer, sa.ForeignKey('request_methods.id'))
 	request_method = sa.orm.relationship("RequestMethod")
 	location_id = sa.Column(sa.Integer, sa.ForeignKey('locations.id'))
