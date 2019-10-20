@@ -1,10 +1,6 @@
 import flask
 import os
 import data.db_session as db_session
-from pytz import utc
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
-from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from flask_login import LoginManager
 import config
 from views import home_views, schedule_views, auth_views, user_views, delete_view
@@ -27,26 +23,6 @@ def load_user(user_id):
     return session.query(User).get(int(user_id))
 
     session.close()
-def start_scheduler():
-	jobstores = {
-	    'default': SQLAlchemyJobStore(url=f'postgresql://notasi:{config.notasi_password}@localhost/notasi')
-	}
-	executors = {
-	    'default': ThreadPoolExecutor(20),
-	    'processpool': ProcessPoolExecutor(1)
-	}
-	job_defaults = {
-	    'coalesce': False,
-	    'max_instances': 1,
-	    'misfire_grace_time': None,
-	    'replace_existing': True
-	}
-
-	scheduler = BackgroundScheduler(jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone=utc)
-	return scheduler
-
-scheduler = start_scheduler()
-scheduler.start()
 
 db_session.global_init()
 

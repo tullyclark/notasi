@@ -13,6 +13,7 @@ class SqlType(SqlAlchemyBase):
 	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
 	name = sa.Column(sa.String)
 	dialect = sa.Column(sa.String)
+	driver = sa.Column(sa.String)
 	locations = sa.orm.relationship("Location")
 
 class RequestMethod(SqlAlchemyBase):

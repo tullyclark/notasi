@@ -2,26 +2,26 @@
 from data.source import Location, Query, DataView, SqlType, LocationType
 from services.process_services import sql_select, file_select, http_select
 from services.save_services import insert_user_data
-# from app import scheduler
+from uwsgi import scheduler
 from apscheduler.triggers.cron import CronTrigger
 import datetime
 from services.select_services import search_object
 import data.db_session as db_session
 import sqlalchemy.orm
 
-# def schedule_query(id):
-# 	session = db_session.create_session()
-# 	query = session.query(Query).options(sqlalchemy.orm.joinedload('*')) \
-# 		.filter_by(id=id) \
-# 		.first()
-# 	if query.cron_schedule:
-# 		job = scheduler.add_job(select_into_user_data
-# 			, CronTrigger.from_crontab(query.cron_schedule)
-# 			, id=str(query.id)
-# 			, replace_existing=True
-# 			, kwargs=
-# 			{ "query_id": id})
-# 	session.close()
+def schedule_query(id):
+	session = db_session.create_session()
+	query = session.query(Query).options(sqlalchemy.orm.joinedload('*')) \
+		.filter_by(id=id) \
+		.first()
+		job = scheduler.add_job(select_into_user_data
+			, CronTrigger.from_crontab("* * * * *")
+			, id=str(query.id)
+			, replace_existing=True
+			, kwargs=
+			{ "query_id": id})
+	session.close()
+
 
 def select_into_user_data(query_id, action):
 	print("start: " + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
