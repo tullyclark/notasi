@@ -12,8 +12,8 @@
 			<div class="action-buttons">
 			{% if data_obj.id %}
 			<a onclick="return confirm('Are you sure?');" href="/delete/{{ item_type }}/{{ data_obj.id }}?next={{ back_link }}" class="btn btn-danger action-button push-left" id="delete">Delete</a>
-<!-- 			<a href="/process/run/query/{{ data_obj.id }}/return" class="btn btn-success action-button push-left" id="test" >Test</a>
-			<a href="/process/run/query/{{ data_obj.id }}/write" class="btn btn-success action-button push-left" id="run" >Run</a> -->
+			<a href="/process/run/query/{{ data_obj.id }}/return" class="btn btn-success action-button push-left" id="test" >Test</a>
+			<a href="/process/run/query/{{ data_obj.id }}/write" class="btn btn-success action-button push-left" id="run" >Run</a>
 			{% endif %}
 			<a href="{{ back_link }}" class="btn btn-outline-dark action-button">Cancel</a>
 			<button type="submit" class="btn btn-success action-button">Save</button>

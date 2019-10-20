@@ -3,8 +3,10 @@ import datetime
 
 from data.modelbase import SqlAlchemyBase
 from sqlalchemy.dialects import postgresql
+from sqlalchemy_utils import EncryptedType
+from sqlalchemy_utils.types.encrypted.encrypted_type import AesEngine
 from flask_login import UserMixin
-
+import config
 
 
 class SqlType(SqlAlchemyBase):
@@ -40,7 +42,10 @@ class Location(SqlAlchemyBase):
 	address = sa.Column(sa.String)
 	port = sa.Column(sa.String)
 	username = sa.Column(sa.String)
-	password = sa.Column(sa.String)
+	password = sa.Column(EncryptedType(sa.String,
+                                       config.sqlalchemy_secret_key,
+                                       AesEngine,
+                                       'pkcs5'))
 	sql_type_id = sa.Column(sa.Integer, sa.ForeignKey('sql_types.id'))
 	sql_type = sa.orm.relationship("SqlType")
 	database = sa.Column(sa.String)
