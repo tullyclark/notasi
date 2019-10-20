@@ -50,5 +50,3 @@ def select_into_user_data(query_id, action):
 			insert_user_data(d, data_view.id)
 	print("stop: " + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
 	session.close()
-
-select_into_user_data()
