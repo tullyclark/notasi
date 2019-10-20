@@ -99,7 +99,6 @@ def save_query(id,
 
     session.commit()
     session.close()
-    schedule_query(query.id)
     return query
 
 
