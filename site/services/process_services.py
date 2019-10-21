@@ -107,10 +107,8 @@ def http_select(
 	
 	elif query.request_method.name == "POST":
 		for request_var in request_vars:
-			print(request_var)
 			response = requests.post(url = request_var['url'], headers = request_var['headers'], data = request_var['data']).json()
 			responses.append(pandas.DataFrame(response, index=[0]))
-	print(responses)	
 	result = pandas.concat(responses)
 	return flatten_json(result.to_dict())
 
