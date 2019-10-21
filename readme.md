@@ -28,7 +28,7 @@ FROM
 
 then you can implement and use Notasi
 
-## Installation
+# Installation
 *Tested on a fresh Ubuntu 18.04 EC2 instance*
 
 Run:
