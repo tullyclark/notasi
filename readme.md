@@ -6,7 +6,10 @@ Notasi is designed for 2 different types of people:
 
  - People who want to care about data, but don't know what data they've got
  - People who don't want to care about data, but have to
-
+ 
+ 
+ 
+ 
 # Design Principles
 
 <h3> Ease of use over performance </h3>
@@ -27,6 +30,10 @@ FROM
 ```
 
 then you can implement and use Notasi
+
+
+
+
 
 # Installation
 *Tested on a fresh Ubuntu 18.04 EC2 instance*
