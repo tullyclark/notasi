@@ -85,6 +85,7 @@ After you've defined a view, you can query the results in another query's *Data 
 
 If a data lake query is entered, the results can be used in curly brackets,`{variable_name}`, in the endpoint, header and body fields. The resulting query is run once per data lake query row.
 
+![Feeding Notasi data to a query](screenshots/screenshot_1.png?raw=true "Feeding Notasi data to a query")
 
 ### Direct Database Connection
 Notasi is built on PostgreSQL.
