@@ -10,7 +10,7 @@ Notasi is designed for 2 different types of people:
  
  
  
-# Design Principles
+## Design Principles
 
 <h3> Ease of use over performance </h3>
 Instead of stressing about perfectly structuring their data, they tell Notasi how a piece of information is identified (business keys) and what changes to the information they care about (e.g. email address but not last read time). Notasi handles the rest.  
@@ -35,7 +35,7 @@ then you can implement and use Notasi
 
 
 
-# Installation
+## Installation
 *Tested on a fresh Ubuntu 18.04 EC2 instance*
 
 Run:
