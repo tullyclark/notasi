@@ -27,7 +27,9 @@ FROM
 then you can implement and use Notasi
 
 ## Installation
-On a fresh Ubuntu 18.04 EC2 instance, run:
+*Tested on a fresh Ubuntu 18.04 EC2 instance*
+
+Run:
 ```
 wget https://raw.githubusercontent.com/tullyclark/notasi/master/install/install.sh
 chmod +x install.sh
