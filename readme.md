@@ -4,6 +4,10 @@ Notasi is designed for 2 different types of people:
 
  - People who want to care about data, but don't know what data they've got
  - People who don't want to care about data, but have to
+
+ Roughly described as a data hub, Notasi deliberately does not care about what the data looks like going in. It does not try to format the data or make it conform to a standard. 
+
+ Unlike most data warehouses or connectors, users only need to format the data when it is pulled out of Notasi. This delays decisions that are nearly impossible to make correctly when first starting out. 
 <br></br>
 # Design Principles
 
