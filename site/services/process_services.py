@@ -31,14 +31,14 @@ def sql_select(
 	query
 ):
 	location = query.location
-	engine = sa.create_engine(location.sql_type.dialect + \
+	location_engine = sa.create_engine(location.sql_type.dialect + \
 		"://" + location.username + \
 		":" + location.password + \
 		"@" + location.address + \
 		":" + location.port + \
 		"/" + location.database)
 
-	df = pandas.read_sql_query(query.body, engine)
+	df = pandas.read_sql_query(query.body, location_engine)
 	return df.to_dict('records')
 
 def file_select(

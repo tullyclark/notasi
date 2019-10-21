@@ -30,7 +30,7 @@ def run(id: int, func: str):
 		try:
 			data = select_into_user_data(id, func)
 		except Exception as error:
-			return str(error)
+			return flask.render_template('error.html', error = str(error))
 		if func == 'return':
 			return json.dumps(data, sort_keys=True)
 		else:

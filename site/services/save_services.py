@@ -10,37 +10,37 @@ from werkzeug.security import generate_password_hash
 
 
 def save_lqv(item_type, id, data):
-	if item_type == 'location':
-		save_location(
-			id = id,
-			location_type_id = data["location_type_id"], 
-			database = data["database"], 
-			name = data["name"], 
-			password = data["password"],
-			address = data["address"],  
-			port = data["port"], 
-			sql_type_id = data.get("sql_type_id", default = None), 
-			username = data["username"])
+    if item_type == 'location':
+        save_location(
+            id = id,
+            location_type_id = data["location_type_id"], 
+            database = data["database"], 
+            name = data["name"], 
+            password = data["password"],
+            address = data["address"],  
+            port = data["port"], 
+            sql_type_id = data.get("sql_type_id", default = None), 
+            username = data["username"])
 
-	elif item_type == 'query':
-		save_query(
-			id = id,
-			name = data["name"], 
-			endpoint = data["endpoint"], 
-			notasi_query = data["notasi_query"], 
-			head = data["head"], 
-			body = data["body"], 
-			location_id = data["location_id"],
-			request_method_id = data.get("request_method_id", default = None))
+    elif item_type == 'query':
+        save_query(
+            id = id,
+            name = data["name"], 
+            endpoint = data["endpoint"], 
+            notasi_query = data["notasi_query"], 
+            head = data["head"], 
+            body = data["body"], 
+            location_id = data["location_id"],
+            request_method_id = data.get("request_method_id", default = None))
 
-	elif item_type == 'view':
-		save_data_view(
-			id = id,
-			name = data["name"],
-			view_name = re.sub('\W+','', data["view_name"] ), 
-			business_keys = data["business_keys"], 
-			information_columns = data["information_columns"], 
-			query_id = data["query_id"])
+    elif item_type == 'view':
+        save_data_view(
+            id = id,
+            name = data["name"],
+            view_name = re.sub('\W+','', data["view_name"] ), 
+            business_keys = data["business_keys"], 
+            information_columns = data["information_columns"], 
+            query_id = data["query_id"])
 
 def save_location(id,
     location_type_id, 
