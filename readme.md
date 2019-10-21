@@ -52,9 +52,9 @@ You will then be stepped through the setup process
 All locations need a name, a type and an address, as well as:
 |Type| Name |Address | Port | Database | Username | Password | SQL Type |
 |--|--|--|--|--|--|--|--|
-| Folder |✓|✓| 
-| HTTP |✓|✓|?|
-| SQL |✓|✓|✓|✓|✓|✓|✓| 
+| Folder |✓|✓|||||| 
+| HTTP |✓|✓|?||||| 
+| SQL |✓|✓|✓|✓|✓|✓|✓|
 
 
  - SQL Database
