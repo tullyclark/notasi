@@ -15,5 +15,7 @@ Notasi has been built to have the lowest possible barrier of entry. While scalin
         
 <h3>Only basic SQL skills needed </h3>
 if you understand 
-`SELECT * FROM foo inner join bar on foo.x = bar.y`
+```
+SELECT * FROM foo inner join bar on foo.x = bar.y
+```
 then you can implement and use Notasi
