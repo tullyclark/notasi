@@ -4,9 +4,113 @@
 {% endblock %}
 {% block main_content %}
 
-    <h1>Notasi - Data Lakes Made Easy</h1>
+    <div class="big-card" style="align-items: normal"><h1 id="welcome-to-notasi"><em>Welcome to Notasi!</em></h1>
+<p>Notasi is designed for 2 different types of people:</p>
+<ul>
+<li>People who want to care about data, but don’t know what data they’ve got</li>
+<li>People who don’t want to care about data, but have to</li>
+</ul>
+<p>Roughly described as a data hub, Notasi deliberately does not care about what the data looks like going in. It does not try to format the data or make it conform to a standard.</p>
+<p>Unlike most data warehouses, hubs or connectors, users only need to format the data when it is pulled out of Notasi. This delays decisions that are nearly impossible to make correctly when first starting out.<br>
+<br></p>
+<h1 id="design-principles">Design Principles</h1>
+<h3 id="ease-of-use-over-performance">Ease of use over performance</h3>
+<p>Instead of stressing about perfectly structuring their data, they tell Notasi how a piece of information is identified (business keys) and what changes to the information they care about (e.g. email address but not last read time). Notasi handles the rest.</p>
+<h3 id="designed-to-be-outgrown">Designed to be outgrown</h3>
+<p>Notasi has been built to have the lowest possible barrier of entry. While scaling Notasi should be possible, it’s designed to help users solve their problems until they’re ready for other enterprise solutions.</p>
+<h3 id="only-basic-sql-skills-needed">Only basic SQL skills needed</h3>
+<p>if you understand:</p>
+<pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">SELECT</span> 
+	<span class="token keyword">column</span> 
+<span class="token keyword">FROM</span> 
+	tab1 
+	<span class="token keyword">inner</span> <span class="token keyword">join</span> tab2 <span class="token keyword">on</span> tab1<span class="token punctuation">.</span>x <span class="token operator">=</span> tab2<span class="token punctuation">.</span>y
+</code></pre>
+<p>then you can implement and use Notasi<br>
+<br></p>
+<h1 id="disclaimers">Disclaimers</h1>
+<p>Addresses, Ports, Usernames, Passwords, Database names, URLs, Headers and Bodies are encrypted using AES 128 bit encryption and a randomly generated key stored in <a href="http://config.py">config.py</a>. If this is not strong enough for you, don’t use Notasi. Better yet, let me and and help me improve Notasi!<br>
 
-    <h2>Subheading</h2>
+<br></p>
+<h1 id="data-structure">Data Structure</h1>
+<h3 id="locations-where-you-get-your-data">Locations: Where you get your data</h3>
+<p>A location can be a:</p>
+<ul>
+<li>SQL Database</li>
+<li>Folder containing CSV, XML or JSON files</li>
+<li>HTTP address</li>
+</ul>
+<h3 id="queries-how-you-get-your-data">Queries: How you get your data</h3>
+<p>All queries need a name and a linked location. Beyond that, each different type on location requires different information:</p>
+
+<table>
+<thead>
+<tr>
+<th>Location Type</th>
+<th>Query Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>SQL databases</em></td>
+<td>SQL databases need a standard SQL query in the <strong>Request Body</strong> field. For safety, it’s best to use fully qualified table names</td>
+</tr>
+<tr>
+<td><em>Folder</em></td>
+<td>Folders are simple, they just need a file name in the <strong>Request Body</strong> field</td>
+</tr>
+<tr>
+<td><em>HTTP</em></td>
+<td>HTTP locations need lots:<br>Endpoint<br>Request Method<br>Headers<br>Request Body</td>
+</tr>
+</tbody>
+</table><h3 id="views-what-data-is-stored">Views: What data is stored</h3>
+<p>All views need a name, a view name, and a linked query.</p>
+<p>Once a view is defined, a Postgres view is built. Views are defined by <strong>business keys</strong> and <strong>information columns</strong>:</p>
+
+<table>
+<thead>
+<tr>
+<th>Column Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>Business Key</em></td>
+<td>Business keys make up a row’s identifier. They are what makes a row unique</td>
+</tr>
+<tr>
+<td><em>Information Column</em></td>
+<td>Information columns contain the information you want to store. They are how Notasi knows when to store a change</td>
+</tr>
+</tbody>
+</table><p><br></p>
+<h1 id="accessing-your-data">Accessing Your Data</h1>
+<h3 id="requests-through-notasi">Requests through Notasi</h3>
+<p>This is where the real power of Notasi is; <strong>you can query the data lake and feed the results directly into another query.</strong></p>
+<p>After you’ve defined a view, you can query the results in another query’s <em>Data Lake Query</em> field.</p>
+<p>If a data lake query is entered, the results can be used in curly brackets,<code>{variable_name}</code>, in the endpoint, header and body fields. The resulting query is run once per data lake query row.</p>
+<h3 id="direct-database-connection">Direct Database Connection</h3>
+<p>Notasi is built on PostgreSQL.</p>
+<pre><code>Database: notasi
+Username: notasi
+Password: In config.py, or printed at install
+</code></pre>
+<p>Views are built with their defined names.</p>
+<p><br></p>
+<h1 id="to-do">TO DO</h1>
+<ul>
+<li>Scheduling</li>
+<li>SSO</li>
+<li>Better handling of deleted views</li>
+<li>Better handling of bad input</li>
+<li>Better error messages</li>
+<li>Exporting sync setups</li>
+<li>Specific edit screens for location types</li>
+<li>Ensure views return unique values when flattening JSON</li>
+</ul>
+</div>
 
 {% endblock %}
 
