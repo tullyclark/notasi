@@ -16,18 +16,23 @@ Notasi has been built to have the lowest possible barrier of entry. While scalin
 <h3>Only basic SQL skills needed </h3>
 if you understand:
 
-<strong>SELECT column FROM tab1 inner join tab2 on tab1.x = tab2.y</strong>
+```
+SELECT 
+	column 
+FROM 
+	tab1 
+	inner join tab2 on tab1.x = tab2.y
+```
 
 then you can implement and use Notasi
 
 ## Installation
 On a fresh Ubuntu 18.04 EC2 instance, run:
-
-`wget https://raw.githubusercontent.com/tullyclark/notasi/master/install/install.sh`
-
-`chmod +x install.sh`
-
-`sudo ./install.sh`
+```
+wget https://raw.githubusercontent.com/tullyclark/notasi/master/install/install.sh
+chmod +x install.sh
+sudo ./install.sh
+```
 
 You will then be stepped through the setup process 
 ## Data Flow
