@@ -1,12 +1,10 @@
-
-
-# Welcome to Notasi!
+# *Welcome to Notasi!*
 
 Notasi is designed for 2 different types of people:
 
  - People who want to care about data, but don't know what data they've got
  - People who don't want to care about data, but have to
-
+<br></br>
 ## Design Principles
 
 #### Ease of use over performance
@@ -27,6 +25,7 @@ FROM
 ```
 
 then you can implement and use Notasi
+<br></br>
 
 ## Installation
 *Tested on a fresh Ubuntu 18.04 EC2 instance*
@@ -39,4 +38,5 @@ sudo ./install.sh
 ```
 
 You will then be stepped through the setup process 
+<br></br>
 ## Data Flow
