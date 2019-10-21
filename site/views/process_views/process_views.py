@@ -27,7 +27,10 @@ def index():
 @blueprint.route('/run/query/<id>/<func>', methods=['POST', 'GET'])
 def run(id: int, func: str):
 	if flask.request.method == "GET":
-		data = select_into_user_data(id, func)
+		try:
+			data = select_into_user_data(id, func)
+		except Exception as error:
+			return str(error)
 		if func == 'return':
 			return json.dumps(data, sort_keys=True)
 		else:
