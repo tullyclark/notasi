@@ -31,6 +31,7 @@ then you can implement and use Notasi
 
 # Disclaimers
 Addresses, Ports, Usernames, Passwords, Database names, URLs, Headers and Bodies are encrypted using AES 128 bit encryption and a randomly generated key stored in config.py. If this is not strong enough for you, don't use Notasi. Better yet, let me and and help me improve Notasi!
+<br></br>
 
 
 # Installation
@@ -48,18 +49,10 @@ You will then be stepped through the setup process
 # Data Structure
 
 ### Locations: Where you get your data
-
-All locations need a name, a type and an address, as well as:
-|Type| Name |Address | Port | Database | Username | Password | SQL Type |
-|--|--|--|--|--|--|--|--|
-| Folder |✓|✓|||||| 
-| HTTP |✓|✓|?||||| 
-| SQL |✓|✓|✓|✓|✓|✓|✓|
-
-
+A location can be a:
  - SQL Database
  - Folder containing CSV, XML or JSON files
- - HTTP
+ - HTTP address
 
 ### Queries: How you get your data
 
@@ -69,22 +62,29 @@ All queries need a name and a linked location. Beyond that, each different type 
 |--|--|
 | *SQL databases* | SQL databases need a standard SQL query in the **Request Body** field. For safety, it's best to use fully qualified table names |
 |*Folder*|Folders are simple, they just need a file name in the **Request Body** field|
-|*HTTP*| HTTP locations need lots:<br></br>**Endpoint**<br></br>**Request Method**<br></br>**Headers**<br></br>**Request Body**|
+|*HTTP*| HTTP locations need lots:<br></br>Endpoint<br></br>Request Method<br></br>Headers<br></br>Request Body|
  
 
 ### Views: What data is stored
 
 All views need a name, a view name, and a linked query. 
 
-Once a view is defined, a Postgres view is built. Views are defined by business keys and information columns:
+Once a view is defined, a Postgres view is built. Views are defined by **business keys** and **information columns**:
 | Column Type | Purpose |
 |--|--|
-| *Business Key* | Business keys make up a row's identifier; they are what makes a column unique |
+| *Business Key* | Business keys make up a row's identifier. They are what makes a row unique |
 | *Information Column* | Information columns contain the information you want to store. They are how Notasi knows when to store a change |
 
+<br></br>
 # Accessing Your Data
 
 ### Requests through Notasi
+This is where the real power of Notasi is; **you can query the data lake and feed the results directly into another query.**
+
+After you've defined a view, you can query the results in another query's *Data Lake Query* field.
+
+If a data lake query is entered, the results can be used in curly brackets,`{variable_name}`, in the endpoint, header and body fields. The resulting query is run once per data lake query row.
+
 
 ### Direct Database Connection
 Notasi is built on PostgreSQL.
@@ -96,6 +96,7 @@ Password: In config.py, or printed at install
 
 Views are built with their defined names.
 
+<br></br>
 # TO DO
 
  - Scheduling
