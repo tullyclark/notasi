@@ -22,8 +22,11 @@ then you can implement and use Notasi
 
 ## Installation
 On a fresh Ubuntu 18.04 EC2 instance, run:
+
 `wget https://raw.githubusercontent.com/tullyclark/notasi/master/install/install.sh`
+
 `chmod +x install.sh`
+
 `sudo ./install.sh`
 
 You will then be stepped through the setup process 
