@@ -38,4 +38,6 @@ chmod +x install.sh
 sudo ./install.sh
 ```
 
-You will then be stepped through the setup process 
+You will then be stepped through the setup process. 
+
+Once complete, open `http://localhost` to set up the first user
