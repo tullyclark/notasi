@@ -1,4 +1,4 @@
-﻿# Welcome to Notasi!
+# Welcome to Notasi!
 
 Notasi is designed for 2 different types of people:
 
@@ -14,7 +14,18 @@ Instead of stressing about perfectly structuring their data, they tell Notasi ho
 Notasi has been built to have the lowest possible barrier of entry. While scaling Notasi should be possible, it’s designed to help users solve their problems until they’re ready for other enterprise solutions.  
         
 <h3>Only basic SQL skills needed </h3>
-if you understand 
-```SELECT * FROM foo inner join bar on foo.x = bar.y
-```
+if you understand:
+
+<strong>SELECT column FROM tab1 inner join tab2 on tab1.x = tab2.y</strong>
+
 then you can implement and use Notasi
+
+## Installation
+On a fresh Ubuntu 18.04 EC2 instance, run:
+`wget https://raw.githubusercontent.com/tullyclark/notasi/master/install/install.sh`
+`chmod +x install.sh`
+`sudo ./install.sh`
+
+You will then be stepped through the setup process 
+## Data Flow
+
