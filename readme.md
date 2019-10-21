@@ -1,3 +1,4 @@
+
 # Welcome to Notasi!
 
 Notasi is designed for 2 different types of people:
@@ -16,7 +17,7 @@ Notasi has been built to have the lowest possible barrier of entry. While scalin
 <h3>Only basic SQL skills needed </h3>
 if you understand:
 
-```
+```SQL
 SELECT 
 	column 
 FROM 
@@ -30,7 +31,7 @@ then you can implement and use Notasi
 *Tested on a fresh Ubuntu 18.04 EC2 instance*
 
 Run:
-```
+```bash
 wget https://raw.githubusercontent.com/tullyclark/notasi/master/install/install.sh
 chmod +x install.sh
 sudo ./install.sh
