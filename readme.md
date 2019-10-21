@@ -65,7 +65,7 @@ All queries need a name and a linked location. Beyond that, each different type 
 | Location Type | Query Details |
 |--|--|
 | *SQL databases* | SQL databases need a standard SQL query in the **Request Body** field. For safety, it's best to use fully qualified table names |
-|*Folder*|Folders are simple, they just need a file name in the **Request Body** field|
+|*Folder*|Folders are simple, they just need a file name in the **Endpoint** field|
 |*HTTP*| HTTP locations need lots:<br></br>Endpoint<br></br>Request Method<br></br>Headers<br></br>Request Body|
  
 
