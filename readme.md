@@ -6,10 +6,10 @@ Notasi is designed for 2 different types of people:
 
  - People who want to care about data, but don't know what data they've got
  - People who don't want to care about data, but have to
- 
- 
- 
- 
+ <br>
+ <br>
+ <br>
+ <br>
 ## Design Principles
 
 <h3> Ease of use over performance </h3>
