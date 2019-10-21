@@ -5,22 +5,6 @@
 	<label for="name">Name</label>
 	<input id="name" name="name" type="text" placeholder="Name" class="form-control" value="{{ data_obj.name if data_obj.name }}" required>
 </div>
-
-<div>
-	<label for="view_name">View Name</label>
-	<input id="view_name" name="view_name" type="text" placeholder="View Name" class="form-control" value="{{ data_obj.view_name if data_obj.view_name }}" required>
-</div>
-
-<div>
-	<label for="business_keys">Business Keys</label>
-	<input id="business_keys" name="business_keys" type="text" placeholder="Business Keys" class="form-control" value="" required>
-</div>
-
-<div>
-	<label for="information_columns">Information Columns</label>
-	<input id="information_columns" name="information_columns" type="text" placeholder="Information Columns" class="form-control" value="" required>
-</div>
-
 <div>
 	<label for="query_id">Query</label>
 	<select id="query_id" name="query_id" class="form-control" required>
@@ -35,6 +19,21 @@
 	{% endfor %}
 	</select>
 </div>
+<div>
+	<label for="view_name">View Name</label>
+	<input id="view_name" name="view_name" type="text" placeholder="View Name" class="form-control" value="{{ data_obj.view_name if data_obj.view_name }}" required>
+</div>
+
+<div>
+	<label for="business_keys">Business Keys</label>
+	<input id="business_keys" name="business_keys" type="text" placeholder="Key1, Key2, Key3" class="form-control" value="" required>
+</div>
+
+<div>
+	<label for="information_columns">Information Columns</label>
+	<input id="information_columns" name="information_columns" type="text" placeholder="Col1, Col2, Col3" class="form-control" value="" required>
+</div>
+
 
 {% endblock %}
 {% block additional_css %}

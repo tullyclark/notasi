@@ -1,5 +1,6 @@
 import sqlalchemy.orm
 from sqlalchemy import sql
+import re
 import data.db_session as db_session
 from data.source import Location, Query, DataView, SqlType, LocationType, UserData, User
 from services.process_services import create_view
@@ -36,7 +37,7 @@ def save_lqv(item_type, id, data):
 		save_data_view(
 			id = id,
 			name = data["name"],
-			view_name = data["view_name"], 
+			view_name = re.sub('\W+','', data["view_name"] ), 
 			business_keys = data["business_keys"], 
 			information_columns = data["information_columns"], 
 			query_id = data["query_id"])

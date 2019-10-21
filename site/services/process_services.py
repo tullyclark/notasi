@@ -44,7 +44,7 @@ def sql_select(
 def file_select(
 	query
 	):
-	file = pathlib.Path(query.location.address) / query.body
+	file = pathlib.Path(query.location.address) / query.endpoint
 	if file.suffix =='.csv':
 		df = pandas.read_csv(file)
 		return df.to_dict('records')
