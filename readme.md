@@ -39,24 +39,3 @@ sudo ./install.sh
 ```
 
 You will then be stepped through the setup process 
-## Data Flow
-
-You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
-
-
-```mermaid
-graph LR
-Loc1(SQL DB Location) --> Query1(Query: SELECT...FROM)
-Query1 --> View1(Business Keys, Info Columns)
-View1 -->  DL1(Notasi)
-Loc2(File Location) --> Query2(File Name)
-Query2 --> View2(Business Keys, Info Columns)
-View2 -->  DL1(Notasi)
-Loc3(HTTP/HTTPS) --> Query3(Endpoint, headers, footers)
-Query3 --> View3(Business Keys, Info Columns)
-View3 --> DL1(Notasi)
-```
-Blah
-```mermaid
-graph LR
-```
