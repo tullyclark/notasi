@@ -84,7 +84,7 @@ def run(category: str, endpoint_location: str):
 	where_list = []
 
 	for key in data_dict:
-		where_list.append(key + " = :" + key)
+		where_list.append("lower(" + key + ") = lower(:" + key +")")
 
 	if where_list:
 		notasi_query_string = notasi_query_string + " where " + " AND ".join(where_list)
