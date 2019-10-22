@@ -123,5 +123,5 @@ dmypy.json
 .pyre/
 
 # Other
-config.py
+site/config.py
 
