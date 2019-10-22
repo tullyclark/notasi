@@ -21,7 +21,7 @@
 			<tr>
 				<td>{{ schedule.name }}</td>
 				<td> {% for step in schedule.schedule_steps%}
-					{{ step.query.name }}, 
+					{{ step.query.name }}<br>
 					{% endfor %}
 					<a href="/schedule/schedule_step/edit?schedule_id={{ schedule.id }}">Edit</a>
 				</td>
