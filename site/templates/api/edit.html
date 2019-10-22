@@ -32,14 +32,14 @@
 	<textarea id="notasi_query" name="notasi_query" type="text" placeholder="Query Notasi Database" class="form-control">{{ data_obj.notasi_query if data_obj.notasi_query }}</textarea>
 </div>
 
-<div>
+<!-- <div>
 	<label for="request_body">Request Body</label>
 	<textarea id="request_body" name="request_body" type="text" placeholder="Request Body" class="form-control">{{ data_obj.request_body if data_obj.request_body }}</textarea>
 </div>
 <div>
 	<label for="response_body">Response Body</label>
 	<textarea id="response_body" name="response_body" type="text" placeholder="Response Body" class="form-control">{{ data_obj.response_body if data_obj.response_body }}</textarea>
-</div>
+</div>-->
 <div>
 	<label for="key">Key</label>
 	<input id="key" name="key" type="password" placeholder= {% if data_obj.key %} "********" {% else %} "Key" {% endif %} class="form-control" value="">
