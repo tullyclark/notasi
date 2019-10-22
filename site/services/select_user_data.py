@@ -8,19 +8,6 @@ from services.select_services import search_object
 import data.db_session as db_session
 import sqlalchemy.orm
 
-# def schedule_query(id):
-# 	session = db_session.create_session()
-# 	query = session.query(Query).options(sqlalchemy.orm.joinedload('*')) \
-# 		.filter_by(id=id) \
-# 		.first()
-# 	job = scheduler.add_job(select_into_user_data
-# 		, CronTrigger.from_crontab("* * * * *")
-# 		, id=str(query.id)
-# 		, replace_existing=True
-# 		, kwargs=
-# 		{ "query_id": id})
-# 	session.close()
-
 
 def select_user_data(query_id):
 	print("start: " + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
