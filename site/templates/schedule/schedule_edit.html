@@ -1,0 +1,18 @@
+{% extends "shared/_edit_layout.html" %}
+{% block form_content %}
+
+
+<div>
+	<label for="name">Name</label>
+	<input id="name" name="name" type="text" placeholder="Name" class="form-control" value="{{ data_obj.name if data_obj.name }}">
+</div>
+
+<div>
+	<label for="cron_schedule">Cron Schedule</label>
+	<input id="cron_schedule" name="cron_schedule" type="text" placeholder="* * * * *" class="form-control" value="{{ data_obj.cron_schedule if data_obj.cron_schedule }}">
+</div>
+
+{% endblock %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/edit.css" />
+{% endblock %}

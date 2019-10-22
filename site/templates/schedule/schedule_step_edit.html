@@ -1,0 +1,44 @@
+{% extends "shared/_layout.html" %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/user.css" />
+{% endblock %}
+{% block main_content %}
+    <div class="big-card">
+    	<h1>Schedule Steps</h1>
+    	<a href="/schedule/edit">New</a>
+		<table>
+			<tr class="table_head">
+				<th>Name
+				</th>
+				<th>
+				</th>
+			</tr>
+			{% for step in schedule.schedule_steps %}
+			<tr>
+				<td>{{ step.name }}</td>
+				<td>
+			<a onclick="return confirm('Are you sure?');" href="/delete/{{ item_type }}/{{ step.id }}?next={{ back_link }}" class="btn btn-danger action-button push-left" id="delete">Delete</a>/td>
+			</tr>
+			{% endfor %}
+			<tr>
+				<form action="" method="POST" class="account-form">
+					<td>
+						<div>
+							<input id="schedule_id" name="schedule_id" type="text" class="form-control" value="{{ schedule.id }}" style="display: none;">
+							<select id="query_id" name="query_id" class="form-control">
+							<option value="" disabled  selected="selected">Select Query</option>
+							{% for query in queries %}
+							<option value="{{query.id}}">{{query.name}}</option>
+							{% endfor %}
+							</select>
+						</div>	
+					</td>
+					<td><button type="submit" class="btn btn-success action-button">Save</button></td>
+				</form>
+			</tr>
+		</table>
+    </div>
+{% endblock %}
+
+{% block additional_js %}
+{% endblock %}

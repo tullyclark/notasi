@@ -111,29 +111,23 @@ class UserData(SqlAlchemyBase):
 	data_view = sa.orm.relationship("DataView")
 	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)
 
-class Schedules(SqlAlchemyBase):
+class Schedule(SqlAlchemyBase):
 	
 	__tablename__ = 'schedules'
 	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
 	name = sa.Column(sa.String)
+	schedule_steps = sa.orm.relationship("ScheduleStep")
 	cron_schedule = sa.Column(sa.String)
-	apscheduler_job_id = sa.Column(sa.String, sa.ForeignKey('apscheduler_jobs.id'))
-	apscheduler_job = sa.orm.relationship("APSchedulerJobs")
 
-class ScheduleSteps(SqlAlchemyBase):
+class ScheduleStep(SqlAlchemyBase):
 	
 	__tablename__ = 'schedule_steps'
 	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
 	schedule_id = sa.Column(sa.Integer, sa.ForeignKey('schedules.id'))
-	schedule = sa.orm.relationship("Schedules")
-	order = sa.Column(sa.Integer)
+	schedule = sa.orm.relationship("Schedule")
 	query_id = sa.Column(sa.Integer, sa.ForeignKey('queries.id'))
 	query = sa.orm.relationship("Query")
 
-class APSchedulerJobs(SqlAlchemyBase):
-	__tablename__ = 'apscheduler_jobs'
-	id = sa.Column(sa.String, primary_key=True)
-	next_run_time = sa.Column(sa.Integer)
 
 class User(UserMixin, SqlAlchemyBase):
 	__tablename__ = 'notasi_users'

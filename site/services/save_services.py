@@ -2,7 +2,7 @@ import sqlalchemy.orm
 from sqlalchemy import sql
 import re
 import data.db_session as db_session
-from data.source import Location, Query, DataView, SqlType, LocationType, UserData, User, Endpoint
+from data.source import Location, Query, DataView, SqlType, LocationType, UserData, User, Endpoint, Schedule, ScheduleStep
 from services.process_services import create_view
 from services.delete_services import drop_view
 from utils.split_strip import split_strip
@@ -53,6 +53,20 @@ def save_object(item_type, id, data):
             notasi_query = data["notasi_query"], 
             # request_body =  data["request_body"], 
             response_body =  data["response_body"]
+            )
+
+    elif item_type == 'schedule':
+        save_schedule(
+            id = id,
+            name = data["name"],
+            cron_schedule = data["cron_schedule"]
+            )
+
+    elif item_type == 'schedule_step':
+        save_schedule_step(
+            id = id,
+            query_id = data["query_id"],
+            schedule_id = data["schedule_id"]
             )
 
 def save_location(id,
@@ -192,6 +206,40 @@ def save_endpoint(id,
     session.commit()
     session.close()
     return endpoint
+
+def save_schedule(id,
+    name,
+    cron_schedule
+):
+
+    session = db_session.create_session()
+    if id:
+        schedule = session.query(Schedule).filter_by(id=id).first()
+    else:
+        schedule = Schedule()
+        session.add(schedule)
+    schedule.name = name
+    schedule.cron_schedule = cron_schedule
+    session.commit()
+    session.close()
+    return schedule
+
+def save_schedule_step(id,
+    query_id,
+    schedule_id
+):
+
+    session = db_session.create_session()
+    if id:
+        schedule_step = session.query(ScheduleStep).filter_by(id=id).first()
+    else:
+        schedule_step = ScheduleStep()
+        session.add(schedule_step)
+    schedule_step.query_id = query_id
+    schedule_step.schedule_id = schedule_id
+    session.commit()
+    session.close()
+    return schedule_step
 
 
 def insert_user_data(new_data, data_view_id):

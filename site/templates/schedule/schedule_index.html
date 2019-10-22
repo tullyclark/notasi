@@ -1,0 +1,43 @@
+{% extends "shared/_layout.html" %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/user.css" />
+{% endblock %}
+{% block main_content %}
+    <div class="big-card">
+    	<h1>Schedule</h1>
+    	<a href="/schedule/edit">New</a>
+		<table>
+			<tr class="table_head">
+				<th>Name
+				</th>
+				<th>Schedule Steps
+				</th>
+				<th>Cron Schedule
+				</th>
+				<th>
+				</th>
+			</tr>
+			{% for schedule in schedules %}
+			<tr>
+				<td>{{ schedule.name }}</td>
+				<td> {% for step in schedule.schedule_steps%}
+					{{ step.query.name }}, 
+					{% endfor %}
+					<a href="/schedule/schedule_step/edit?schedule_id={{ schedule.id }}">Edit</a>
+				</td>
+				<td>{{ schedule.cron_schedule }}</td>
+				<td><a href="/schedule/edit?id={{ schedule.id }}">Edit</a></td>
+			</tr>
+			{% endfor %}
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+    </div>
+{% endblock %}
+
+{% block additional_js %}
+{% endblock %}

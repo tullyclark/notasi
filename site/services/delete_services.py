@@ -1,14 +1,13 @@
 import sqlalchemy.orm
 
 import data.db_session as db_session
-from data.source import Location, Query, DataView, SqlType, LocationType, User, Endpoint
+from data.source import Location, Query, DataView, SqlType, LocationType, User, Endpoint, Schedule, ScheduleStep
 
 def delete_object(id, item_type):
     session = db_session.create_session()
     obj = session.query(item_type) \
         .filter_by(id=id) \
         .first()
-    print(obj.name)
     session.delete(obj)
     
     session.commit()

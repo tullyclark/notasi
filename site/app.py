@@ -60,4 +60,4 @@ app.register_blueprint(schedule_views.blueprint, url_prefix='/schedule')
 app.register_blueprint(delete_view.blueprint, url_prefix='/delete')
 
 if __name__ == '__main__':
-	app.run()
+	app.run(debug = True)
