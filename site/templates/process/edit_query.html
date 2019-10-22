@@ -49,6 +49,14 @@
 	<textarea id="request_body" name="body" type="text" placeholder="Query Body" class="form-control">{{ data_obj.body if data_obj.body }}</textarea>
 </div>
 {% endblock %}
+
+{% block extra_buttons %}
+	<a href="/process/run/query/{{ data_obj.id }}/return" class="btn btn-success action-button push-left" id="test" >Test</a>
+	<a href="/process/run/query/{{ data_obj.id }}/write" class="btn btn-success action-button push-left" id="run" >Run</a>
+{% endblock %}
+
+
+
 {% block additional_css %}
 	<link rel="stylesheet" href="/static/css/edit.css" />
 	<link rel="stylesheet" href="/static/css/edit_query.css" />
