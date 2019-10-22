@@ -57,12 +57,41 @@ def run(category: str, endpoint_location: str):
 		.filter_by(endpoint_location=endpoint_location, category=category)\
 		.first()
 	session.close()
+
 	key = flask.request.headers.get('key')
 	if not check_password_hash(endpoint.key, key):
 		return "Unauthorised", 401
 
+
+	
+	data = flask.request.data.decode('utf-8')
+	args = flask.request.args.to_dict()
+
+
+	data_dict = dict()
+	if data:
+		data_dict = json.loads(data)
+	else:
+		for key in args:
+			data_dict[key] = args[key]
+
+
+
+	notasi_query_string = "select * from (" \
+		+ endpoint.notasi_query \
+		+") as tab1"
+
+	where_list = []
+
+	for key in data_dict:
+		where_list.append(key + " = :" + key)
+
+	if where_list:
+		notasi_query_string = notasi_query_string + " where " + " AND ".join(where_list)
+	t = text(notasi_query_string)
+
 	try:
-		notasi_query = pandas.read_sql(endpoint.notasi_query, db_session.notasi_engine()).to_dict('records')
+		notasi_query = pandas.read_sql(t, db_session.notasi_engine(), params=data_dict).to_dict('records')
 		return (json.dumps(notasi_query, default=default))
 	except Exception as error:
 		return str(error)

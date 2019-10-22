@@ -51,7 +51,7 @@ def save_object(item_type, id, data):
             request_method_id = data.get("request_method_id", default = None),
             key = data["key"],
             notasi_query = data["notasi_query"], 
-            request_body =  data["request_body"], 
+            # request_body =  data["request_body"], 
             response_body =  data["response_body"]
             )
 
@@ -171,7 +171,7 @@ def save_endpoint(id,
     request_method_id,
     key,
     notasi_query, 
-    request_body, 
+    # request_body, 
     response_body
 ):
 
@@ -187,7 +187,7 @@ def save_endpoint(id,
     endpoint.request_method_id = request_method_id
     if key !='': endpoint.key = generate_password_hash(key, method='sha256')
     endpoint.notasi_query = notasi_query
-    endpoint.request_body = request_body
+    # endpoint.request_body = request_body
     endpoint.response_body = response_body
     session.commit()
     session.close()
