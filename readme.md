@@ -34,7 +34,7 @@ then you can implement and use Notasi
 
 
 # Disclaimers
-Addresses, Ports, Usernames, Passwords, Database names, URLs, Headers and Bodies are encrypted using AES 128 bit encryption and a randomly generated key stored in config.py. If this is not strong enough for you, don't use Notasi. Better yet, let me and and help me improve Notasi!
+Addresses, Ports, Usernames, Passwords, Database names, URLs, Headers and Bodies are encrypted using AES 128 bit encryption and a randomly generated key stored in config.py. If this is not strong enough for you, don't use Notasi. Better yet, let me know and help me improve Notasi!
 <br></br>
 
 
