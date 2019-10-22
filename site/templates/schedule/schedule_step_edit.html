@@ -15,9 +15,10 @@
 			</tr>
 			{% for step in schedule.schedule_steps %}
 			<tr>
-				<td>{{ step.name }}</td>
+				<td>{{ step.query.name }}</td>
 				<td>
-			<a onclick="return confirm('Are you sure?');" href="/delete/{{ item_type }}/{{ step.id }}?next={{ back_link }}" class="btn btn-danger action-button push-left" id="delete">Delete</a>/td>
+					<a onclick="return confirm('Are you sure?');" href="/delete/{{ item_type }}/{{ step.id }}?next={{ back_link }}" class="btn btn-danger action-button push-left" id="delete">Delete</a>
+				</td>
 			</tr>
 			{% endfor %}
 			<tr>

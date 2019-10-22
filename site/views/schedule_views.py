@@ -62,4 +62,4 @@ def schedule_edit():
 		data = flask.request.form
 		print(data)
 		save_object('schedule_step', id, data)
-		return flask.redirect('/schedule')
+		return flask.redirect('/schedule/schedule_step/edit?schedule_id=' + str(schedule_id))
