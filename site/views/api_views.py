@@ -9,6 +9,7 @@ import datetime
 import json
 from flask_login import login_required
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import text
 
 
 template_dir = os.path.abspath('./templates/api/')
@@ -23,7 +24,7 @@ def default(o):
 @login_required
 @blueprint.route('/')
 def index():
-    return flask.render_template('index.html', endpoints = get_objects(Endpoint))
+    return flask.render_template('api_index.html', endpoints = get_objects(Endpoint))
 
 
 
