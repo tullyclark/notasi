@@ -26,12 +26,12 @@
 
 <div>
 	<label for="business_keys">Business Keys</label>
-	<input id="business_keys" name="business_keys" type="text" placeholder="Key1, Key2, Key3" class="form-control" value="" required>
+	<input id="business_keys" name="business_keys" type="text" placeholder="Key1, Key2, Key3" class="form-control" value="{{ data_obj.business_keys if data_obj.business_keys }}" required>
 </div>
 
 <div>
 	<label for="information_columns">Information Columns</label>
-	<input id="information_columns" name="information_columns" type="text" placeholder="Col1, Col2, Col3" class="form-control" value="" required>
+	<input id="information_columns" name="information_columns" type="text" placeholder="Col1, Col2, Col3" class="form-control" value="{{ data_obj.information_columns if data_obj.information_columns }}" required>
 </div>
 
 

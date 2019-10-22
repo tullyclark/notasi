@@ -2,14 +2,14 @@ import sqlalchemy.orm
 from sqlalchemy import sql
 import re
 import data.db_session as db_session
-from data.source import Location, Query, DataView, SqlType, LocationType, UserData, User
+from data.source import Location, Query, DataView, SqlType, LocationType, UserData, User, Endpoint
 from services.process_services import create_view
 from services.delete_services import drop_view
 from utils.split_strip import split_strip
 from werkzeug.security import generate_password_hash
 
 
-def save_lqv(item_type, id, data):
+def save_object(item_type, id, data):
     if item_type == 'location':
         save_location(
             id = id,
@@ -41,6 +41,19 @@ def save_lqv(item_type, id, data):
             business_keys = data["business_keys"], 
             information_columns = data["information_columns"], 
             query_id = data["query_id"])
+
+    elif item_type == 'endpoint':
+        save_endpoint(
+            id = id,
+            name = data["name"],
+            endpoint_location = data["endpoint_location"],
+            category = data["category"],
+            request_method_id = data.get("request_method_id", default = None),
+            key = data["key"],
+            notasi_query = data["notasi_query"], 
+            request_body =  data["request_body"], 
+            response_body =  data["response_body"]
+            )
 
 def save_location(id,
     location_type_id, 
@@ -151,6 +164,35 @@ def save_user(id,
     session.close()
     return user
 
+def save_endpoint(id,
+    name,
+    endpoint_location,
+    category,
+    request_method_id,
+    key,
+    notasi_query, 
+    request_body, 
+    response_body
+):
+
+    session = db_session.create_session()
+    if id:
+        endpoint = session.query(Endpoint).filter_by(id=id).first()
+    else:
+        endpoint = Endpoint()
+        session.add(endpoint)
+    endpoint.name = name
+    endpoint.endpoint_location = endpoint_location
+    endpoint.category = category
+    endpoint.request_method_id = request_method_id
+    if key !='': endpoint.key = generate_password_hash(key, method='sha256')
+    endpoint.notasi_query = notasi_query
+    endpoint.request_body = request_body
+    endpoint.response_body = response_body
+    session.commit()
+    session.close()
+    return endpoint
+
 
 def insert_user_data(new_data, data_view_id):
   
@@ -174,7 +216,7 @@ def insert_user_data(new_data, data_view_id):
   cols = []
   if current_data:
     for col in split_strip(data_view.information_columns, ","):
-      if current_data.data[col] != new_data[col]:
+      if current_data.data.get("col") != new_data.get("col"):
         cols.append(col)
 
   if not current_data or cols:

@@ -15,10 +15,6 @@ from utils.json import flatten_json
 from utils.split_strip import split_strip
 
 
-def default(o):
-    if isinstance(o, (datetime.date, datetime.datetime)):
-        return o.isoformat()
-
 def get_locations():
 	session = db_session.create_session()
 	locations = session.query(Location).all()

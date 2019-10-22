@@ -1,0 +1,52 @@
+{% extends "shared/_edit_layout.html" %}
+{% block form_content %}
+
+
+<div>
+	<label for="name">Name</label>
+	<input id="name" name="name" type="text" placeholder="Name" class="form-control" value="{{ data_obj.name if data_obj.name }}">
+</div>
+
+<div>
+	<label for="category">Category</label>
+	<input id="category" name="category" type="text" placeholder="Category" class="form-control" value="{{ data_obj.category if data_obj.category }}">
+</div>
+
+<div>
+	<label for="endpoint_location">Endpoint Location</label>
+	<input id="endpoint_location" name="endpoint_location" type="text" placeholder="Endpoint Location" class="form-control" value="{{ data_obj.endpoint_location if data_obj.endpoint_location }}">
+</div>
+
+<div>
+	<label for="request_method_id">Request Method</label>
+	<select id="request_method_id" name="request_method_id" class="form-control">
+	<option value="" disabled  selected="selected">Select Request Method</option>
+	{% for request_method in request_methods %}
+	<option value="{{request_method.id}}" {% if data_obj.request_method_id == request_method.id %} selected="selected" {% endif %}>{{request_method.name}}</option>
+	{% endfor %}
+	</select>
+</div>
+
+<div>
+	<label for="notasi_query">Data Lake Query</label>
+	<textarea id="notasi_query" name="notasi_query" type="text" placeholder="Query Notasi Database" class="form-control">{{ data_obj.notasi_query if data_obj.notasi_query }}</textarea>
+</div>
+
+<div>
+	<label for="request_body">Request Body</label>
+	<textarea id="request_body" name="request_body" type="text" placeholder="Request Body" class="form-control">{{ data_obj.request_body if data_obj.request_body }}</textarea>
+</div>
+<div>
+	<label for="response_body">Response Body</label>
+	<textarea id="response_body" name="response_body" type="text" placeholder="Response Body" class="form-control">{{ data_obj.response_body if data_obj.response_body }}</textarea>
+</div>
+<div>
+	<label for="key">Key</label>
+	<input id="key" name="key" type="password" placeholder= {% if data_obj.key %} "********" {% else %} "Key" {% endif %} class="form-control" value="">
+</div>
+
+
+{% endblock %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/edit.css" />
+{% endblock %}

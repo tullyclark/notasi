@@ -141,3 +141,19 @@ class User(UserMixin, SqlAlchemyBase):
 	username = sa.Column(sa.String, unique=True)
 	password = sa.Column(sa.String)
 	name = sa.Column(sa.String)
+
+
+class Endpoint(SqlAlchemyBase):
+	
+	__tablename__ = 'endpoints'
+	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+	name = sa.Column(sa.String)
+	category = sa.Column(sa.String)
+	endpoint_location = sa.Column(sa.String)
+	request_method_id = sa.Column(sa.Integer, sa.ForeignKey('request_methods.id'))
+	request_method = sa.orm.relationship("RequestMethod")
+	key = sa.Column(sa.String)
+	notasi_query = sa.Column(sa.String)
+	request_body = sa.Column(sa.String)
+	response_body = sa.Column(sa.String)
+	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)

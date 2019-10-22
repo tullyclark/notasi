@@ -1,7 +1,7 @@
 import flask
 from data.source import Location, Query, DataView, SqlType, LocationType, RequestMethod
 from services.select_services import get_locations, get_objects, search_object
-from services.save_services import save_lqv
+from services.save_services import save_object
 from flask_login import login_required
 
 blueprint = flask.Blueprint('process_edit', __name__, template_folder = '../../templates/process')
@@ -44,5 +44,5 @@ def edit(item_type: str):
 
 	if flask.request.method == "POST":
 		data = flask.request.form
-		save_lqv(item_type, id, data)
+		save_object(item_type, id, data)
 		return flask.redirect('/process')

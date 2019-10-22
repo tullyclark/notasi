@@ -1,7 +1,7 @@
 import sqlalchemy.orm
 
 import data.db_session as db_session
-from data.source import Location, Query, DataView, SqlType, LocationType, User
+from data.source import Location, Query, DataView, SqlType, LocationType, User, Endpoint
 
 def delete_object(id, item_type):
     session = db_session.create_session()

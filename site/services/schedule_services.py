@@ -1,7 +1,6 @@
 
 from data.source import Location, Query, DataView, SqlType, LocationType
 from services.process_services import sql_select, file_select, http_select
-from services.save_services import insert_user_data
 # from uwsgi import scheduler
 # from apscheduler.triggers.cron import CronTrigger
 import datetime
@@ -23,7 +22,7 @@ import sqlalchemy.orm
 # 	session.close()
 
 
-def select_into_user_data(query_id, action):
+def select_into_user_data(query_id):
 	print("start: " + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
 	session = db_session.create_session()
 	query = session.query(Query).options(sqlalchemy.orm.joinedload('*')) \
@@ -31,7 +30,6 @@ def select_into_user_data(query_id, action):
 		.first()
 
 	location_type_name =  query.location.location_type.name
-	views = query.views
 
 	if location_type_name =='SQL':
 		data_list = sql_select(query)
@@ -41,12 +39,8 @@ def select_into_user_data(query_id, action):
 
 	if location_type_name =='HTTP':
 		data_list = http_select(query)
-	
-	if action =="return":
-		return(data_list)
-	
-	for d in data_list:
-		for data_view in views:
-			insert_user_data(d, data_view.id)
+
 	print("stop: " + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
+	return(data_list)
+	
 	session.close()

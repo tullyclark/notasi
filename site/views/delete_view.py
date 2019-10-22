@@ -1,5 +1,5 @@
 import flask
-from data.source import Location, Query, DataView, User
+from data.source import Location, Query, DataView, User, Endpoint
 from flask_login import login_required
 from services.delete_services import delete_object
 
@@ -27,4 +27,6 @@ def delete(item_type: str, id: int):
 			delete_object(id, DataView)
 		if item_type == 'user':
 			delete_object(id, User)
+		if item_type == 'endpoint':
+			delete_object(id, Endpoint)
 		return flask.redirect(next)
