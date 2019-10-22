@@ -42,7 +42,7 @@ def run(id: int, func: str):
 		session.close()
 
 		try:
-			data = select_into_user_data(id)
+			data = select_user_data(id)
 			data_string = json.dumps(data, sort_keys=True, default=default, indent=40)
 		except Exception as error:
 			return flask.render_template('error.html', error = str(error))

@@ -22,7 +22,7 @@ import sqlalchemy.orm
 # 	session.close()
 
 
-def select_into_user_data(query_id):
+def select_user_data(query_id):
 	print("start: " + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
 	session = db_session.create_session()
 	query = session.query(Query).options(sqlalchemy.orm.joinedload('*')) \
