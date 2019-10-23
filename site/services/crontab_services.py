@@ -17,6 +17,9 @@ def delete_cron_job(id):
 			my_cron.write()
 
 def write_cron_job(id):
+	print(os.path.dirname(sys.executable))
+
+
 	session = db_session.create_session()
 	schedule = session.query(Schedule).filter_by(id=id).first()
 	queries = []
@@ -24,6 +27,6 @@ def write_cron_job(id):
 		queries.append(str(step.query_id))
 	query_string = ",".join(queries)
 	if queries:
-		job = my_cron.new(command=f'{sys.executable} {os.getcwd()}/run_query.py --query {query_string} --out write', comment=str(id))
+		job = my_cron.new(command=f'{os.path.dirname(sys.executable)}/python {os.getcwd()}/run_query.py --query {query_string} --out write', comment=str(id))
 		job.setall(schedule.cron_schedule)
 		my_cron.write()
