@@ -81,7 +81,7 @@ EOF
 rm -f /etc/nginx/sites-enabled/default
 ln -sf /etc/nginx/sites-available/notasi /etc/nginx/sites-enabled
 
-NotasiPassword=$(openssl rand -base64 64)
+NotasiPassword=$(openssl rand -base64 32)
 echo "DB Username: notasi"
 echo "DB Password: ${NotasiPassword}"
 read -p "Press enter to continue"
@@ -107,8 +107,8 @@ EOF
 #Generate files
 
 echo "Generating Config File"
-FlaskSecretKey=$(openssl rand -base64 64) \
-SQLAlchemySecretKey=$(openssl rand -base64 64) \
+FlaskSecretKey=$(openssl rand -base64 32) \
+SQLAlchemySecretKey=$(openssl rand -base64 32) \
 NotasiPassword=$NotasiPassword \
 envsubst < $InstallLocation/install/config-template.py > $InstallLocation/site/config.py
 
