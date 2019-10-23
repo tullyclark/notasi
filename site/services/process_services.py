@@ -15,6 +15,10 @@ from utils.json import flatten_json
 from utils.split_strip import split_strip
 
 
+def default(o):
+    if isinstance(o, (datetime.date, datetime.datetime)):
+        return o.isoformat()
+
 def get_locations():
 	session = db_session.create_session()
 	locations = session.query(Location).all()
@@ -35,7 +39,8 @@ def sql_select(
 		"/" + location.database)
 
 	df = pandas.read_sql_query(query.body, location_engine)
-	return df.to_dict('records')
+	data = json.loads((json.dumps(df.to_dict('records'), default=default)))
+	return data
 
 def file_select(
 	query

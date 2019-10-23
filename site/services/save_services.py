@@ -7,6 +7,9 @@ from services.process_services import create_view
 from services.delete_services import drop_view
 from utils.split_strip import split_strip
 from werkzeug.security import generate_password_hash
+from services.crontab_services import write_cron_job, delete_cron_job
+import json
+import datetime
 
 
 def save_object(item_type, id, data):
@@ -239,6 +242,8 @@ def save_schedule_step(id,
     schedule_step.schedule_id = schedule_id
     session.commit()
     session.close()
+    delete_cron_job(schedule_id)
+    write_cron_job(schedule_id)
     return schedule_step
 
 
@@ -249,8 +254,10 @@ def insert_user_data(new_data, data_view_id):
     .filter_by(id=data_view_id) \
     .first()
 
+  business_keys = split_strip(data_view.business_keys, ",")
+  information_columns = split_strip(data_view.information_columns, ",")
   keys=[]
-  for key in split_strip(data_view.business_keys, ","):
+  for key in business_keys:
     sql_filter = f"data ->> '{key}' = '{new_data[key]}'"
     keys.append(sql_filter)
 
@@ -263,13 +270,21 @@ def insert_user_data(new_data, data_view_id):
 
   cols = []
   if current_data:
-    for col in split_strip(data_view.information_columns, ","):
-      if current_data.data.get("col") != new_data.get("col"):
+    for col in information_columns:
+      if current_data.data.get(col) != new_data.get(col):
         cols.append(col)
+
+  write_date = {}
+
+  for business_key in business_keys:
+    write_date[business_key] = new_data[business_key]
+
+  for information_column in information_columns:
+    write_date[information_column] = new_data[information_column]
 
   if not current_data or cols:
     user_data = UserData()
-    user_data.data = new_data
+    user_data.data = write_date
     user_data.data_view_id = data_view_id
     session.add(user_data)
     session.commit()

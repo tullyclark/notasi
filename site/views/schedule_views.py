@@ -16,15 +16,13 @@ def before_request():
 
 
 @blueprint.route('/')
-
 def index():
-
 	return flask.render_template(
 		'schedule_index.html'
 		,schedules = get_objects(Schedule)
 	)
 
-@login_required
+
 @blueprint.route('/edit', methods=['GET', 'POST'])
 def edit():
 	id = flask.request.args.get('id', default = None, type = int)
@@ -60,6 +58,5 @@ def schedule_edit():
 
 	if flask.request.method == "POST":
 		data = flask.request.form
-		print(data)
 		save_object('schedule_step', id, data)
 		return flask.redirect('/schedule/schedule_step/edit?schedule_id=' + str(schedule_id))
