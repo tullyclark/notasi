@@ -1,7 +1,7 @@
 import sqlalchemy.orm
 
 import data.db_session as db_session
-from data.source import Location, Query, DataView, SqlType, LocationType, RequestMethod, Schedule
+from data.source import Location, Query, DataView, Subtype, LocationType, RequestMethod, Schedule
 
 
 def get_locations():

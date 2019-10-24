@@ -2,7 +2,7 @@ import sqlalchemy.orm
 from sqlalchemy import sql
 import re
 import data.db_session as db_session
-from data.source import Location, Query, DataView, SqlType, LocationType, UserData, User, Endpoint, Schedule, ScheduleStep
+from data.source import Location, Query, DataView, Subtype, LocationType, UserData, User, Endpoint, Schedule, ScheduleStep
 from services.process_services import create_view
 from services.delete_services import drop_view
 from utils.split_strip import split_strip
@@ -22,7 +22,7 @@ def save_object(item_type, id, data):
             password = data["password"],
             address = data["address"],  
             port = data["port"], 
-            sql_type_id = data.get("sql_type_id", default = None), 
+            subtype_id = data.get("subtype_id", default = None), 
             username = data["username"])
 
     elif item_type == 'query':
@@ -79,7 +79,7 @@ def save_location(id,
     password, 
     port, 
     address, 
-    sql_type_id, 
+    subtype_id, 
     username 
 ):
 
@@ -96,7 +96,7 @@ def save_location(id,
     if password !='': location.password = password
     location.address = address
     location.port = port
-    location.sql_type_id = sql_type_id
+    location.subtype_id = subtype_id
     location.username = username
     session.commit()
     session.close()

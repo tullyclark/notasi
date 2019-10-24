@@ -1,7 +1,7 @@
 import sqlalchemy.orm
 
 import data.db_session as db_session
-from data.source import Location, Query, DataView, SqlType, LocationType, User, Endpoint, Schedule, ScheduleStep
+from data.source import Location, Query, DataView, Subtype, LocationType, User, Endpoint, Schedule, ScheduleStep
 from services.crontab_services import write_cron_job, delete_cron_job
 
 def delete_object(id, item_type):

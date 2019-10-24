@@ -1,6 +1,6 @@
 
-from data.source import Location, Query, DataView, SqlType, LocationType
-from services.process_services import sql_select, file_select, http_select
+from data.source import Location, Query, DataView, Subtype, LocationType
+from services.process_services import sql_select, file_select, http_select, ldap_select
 # from uwsgi import scheduler
 # from apscheduler.triggers.cron import CronTrigger
 import datetime
@@ -26,6 +26,9 @@ def select_user_data(query_id):
 
 	if location_type_name =='HTTP':
 		data_list = http_select(query)
+	
+	if location_type_name =='LDAP':
+		data_list = ldap_select(query)
 
 	print("stop: " + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
 	return(data_list)

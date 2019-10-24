@@ -126,3 +126,4 @@ dmypy.json
 site/config.py
 
 site/config.py
+site/ldap_test.py

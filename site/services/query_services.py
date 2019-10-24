@@ -11,7 +11,7 @@ def run_query(id, out):
 	.all()
 
 	session.close()
-
+	data=[]
 	try:
 		data = select_user_data(id)
 	except Exception as error:

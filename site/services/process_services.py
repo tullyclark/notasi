@@ -10,9 +10,11 @@ import requests
 from io import StringIO
 
 import data.db_session as db_session
-from data.source import Location, Query, DataView, SqlType, LocationType
+from data.source import Location, Query, DataView, Subtype, LocationType
 from utils.json import flatten_json
 from utils.split_strip import split_strip
+
+from ldap3 import Server, Connection, ALL, ALL_ATTRIBUTES, NTLM
 
 
 def default(o):
@@ -31,7 +33,7 @@ def sql_select(
 	query
 ):
 	location = query.location
-	location_engine = sa.create_engine(location.sql_type.dialect + \
+	location_engine = sa.create_engine(location.subtype.dialect + \
 		"://" + location.username + \
 		":" + location.password + \
 		"@" + location.address + \
@@ -112,6 +114,31 @@ def http_select(
 			responses.append(pandas.DataFrame(response, index=[0]))
 	result = pandas.concat(responses)
 	return flatten_json(result.to_dict())
+
+def ldap_select(query):
+	
+	location = query.location
+
+	dc = 'dc=' + ',dc='.join(split_strip(location.database, "."))
+
+	server = Server(location.address, get_info=ALL)
+	conn = Connection(
+		server
+		, 'cn=' + location.username + ',' + dc
+		, location.password
+		, auto_bind=True
+		)
+
+	conn.search(dc
+	  , query.body
+	  , attributes=[ALL_ATTRIBUTES])
+
+	data = []
+	for entry in conn.entries:
+	  data.append(json.loads(entry.entry_to_json())["attributes"])
+
+	return(flatten_json(data))
+
 
 
 def create_view(view_id):

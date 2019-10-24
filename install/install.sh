@@ -93,16 +93,8 @@ echo "SELECT 'DROP DATABASE notasi' WHERE EXISTS (SELECT FROM pg_database WHERE 
 echo "SELECT 'DROP role notasi' WHERE EXISTS (SELECT FROM pg_catalog.pg_roles WHERE  rolname = 'notasi')\gexec" | psql
 echo "CREATE USER notasi WITH PASSWORD '${NotasiPassword}' CREATEDB\gexec" | psql
 echo "CREATE DATABASE notasi OWNER notasi\gexec" | psql
-
-echo "insert into location_types(name) values('SQL');" | psql notasi
-echo "insert into location_types(name) values('Folder');" | psql notasi
-echo "insert into location_types(name) values('HTTP');" | psql notasi
-echo "insert into request_methods(name) values('GET');" | psql notasi
-echo "insert into request_methods(name) values('POST');" | psql notasi
-echo "insert into sql_types(name, dialect) values('DB2', 'db2');" | psql notasi
-echo "insert into sql_types(name, dialect) values('PostgreSQL', 'postgresql');" | psql notasi
-
 EOF
+
 
 #Generate files
 
@@ -119,4 +111,18 @@ systemctl daemon-reload
 systemctl restart nginx
 systemctl restart notasi.service
 systemctl status notasi.service
+
+
+
+sudo -u postgres -i << EOF
+echo "insert into location_types(name) values('SQL');" | psql notasi
+echo "insert into location_types(name) values('Folder');" | psql notasi
+echo "insert into location_types(name) values('HTTP');" | psql notasi
+echo "insert into location_types(name) values('LDAP');" | psql notasi
+echo "insert into request_methods(name) values('GET');" | psql notasi
+echo "insert into request_methods(name) values('POST');" | psql notasi
+echo "insert into subtypes(name, dialect) values('DB2', 'db2');" | psql notasi
+echo "insert into subtypes(name, dialect) values('PostgreSQL', 'postgresql');" | psql notasi
+
+EOF
 

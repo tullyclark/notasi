@@ -1,5 +1,5 @@
 import flask
-from data.source import Location, Query, DataView, SqlType, LocationType, RequestMethod
+from data.source import Location, Query, DataView, Subtype, LocationType, RequestMethod
 from services.select_services import get_locations, get_objects, search_object
 from services.save_services import save_object
 from flask_login import login_required
@@ -34,7 +34,7 @@ def edit(item_type: str):
 				, item_type = item_type
 				, back_link = flask.request.referrer
 				, locations = get_locations()
-				, sql_types = get_objects(SqlType)
+				, subtypes = get_objects(Subtype)
 				, request_methods = get_objects(RequestMethod)
 				, location_types = get_objects(LocationType)
 				, data_obj = search_object(id, type_variables[item_type+"_class"])

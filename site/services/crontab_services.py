@@ -17,9 +17,6 @@ def delete_cron_job(id):
 			my_cron.write()
 
 def write_cron_job(id):
-	print(os.path.dirname(sys.executable))
-
-
 	session = db_session.create_session()
 	schedule = session.query(Schedule).filter_by(id=id).first()
 	queries = []

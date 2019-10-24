@@ -44,14 +44,14 @@
 </div>
 
 <div>
-	<label for="sql_type_id">SQL Type</label>
-	<select id="sql_type_id" name="sql_type_id" class="form-control">
-	{% if not data_obj.sql_type_id %}
-	<option value="" disabled selected="selected" >Select SQL Type</option>
+	<label for="subtype_id">Subtype</label>
+	<select id="subtype_id" name="subtype_id" class="form-control">
+	{% if not data_obj.subtype_id %}
+	<option value="" disabled selected="selected" >Select subtype</option>
 	{% endif %}
 	<option value="">N/A</option>
-	{% for sql_type in sql_types %}
-	<option value="{{sql_type.id}}" {% if data_obj.sql_type_id == sql_type.id %} selected="selected" {% endif %}>{{sql_type.name}}</option>
+	{% for subtype in subtypes %}
+	<option value="{{subtype.id}}" {% if data_obj.subtype_id == subtype.id %} selected="selected" {% endif %}>{{subtype.name}}</option>
 	{% endfor %}
 	</select>
 </div>

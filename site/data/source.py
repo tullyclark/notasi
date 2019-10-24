@@ -9,9 +9,9 @@ from flask_login import UserMixin
 import config
 
 
-class SqlType(SqlAlchemyBase):
+class Subtype(SqlAlchemyBase):
 
-	__tablename__ = 'sql_types'
+	__tablename__ = 'subtypes'
 	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
 	name = sa.Column(sa.String)
 	dialect = sa.Column(sa.String)
@@ -55,8 +55,8 @@ class Location(SqlAlchemyBase):
                                        config.sqlalchemy_secret_key,
                                        AesEngine,
                                        'pkcs5'))
-	sql_type_id = sa.Column(sa.Integer, sa.ForeignKey('sql_types.id'))
-	sql_type = sa.orm.relationship("SqlType")
+	subtype_id = sa.Column(sa.Integer, sa.ForeignKey('subtypes.id'))
+	subtype = sa.orm.relationship("Subtype")
 	database = sa.Column(EncryptedType(sa.String,
                                        config.sqlalchemy_secret_key,
                                        AesEngine,
