@@ -123,6 +123,8 @@ echo "insert into request_methods(name) values('GET');" | psql notasi
 echo "insert into request_methods(name) values('POST');" | psql notasi
 echo "insert into subtypes(name, dialect) values('DB2', 'db2');" | psql notasi
 echo "insert into subtypes(name, dialect) values('PostgreSQL', 'postgresql');" | psql notasi
+echo "insert into subtypes(name) values('Active Directory');" | psql notasi
+echo "insert into subtypes(name) values('LDAP3');" | psql notasi
 
 EOF
 
