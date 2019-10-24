@@ -2,7 +2,7 @@ import sqlalchemy.orm
 from sqlalchemy import sql
 import re
 import data.db_session as db_session
-from data.source import Location, Query, DataView, Subtype, LocationType, UserData, User, Endpoint, Schedule, ScheduleStep
+from data.source import Location, Query, DataView, Subtype, LocationType, UserData, User, Endpoint, Schedule, ScheduleStep, ViewRun
 from services.process_services import create_view
 from services.delete_services import drop_view
 from utils.split_strip import split_strip
@@ -247,18 +247,21 @@ def save_schedule_step(id,
     return schedule_step
 
 
-def insert_user_data(new_data, data_view_id):
+def insert_user_data(new_data, view_run_id):
   
   session = db_session.create_session()
-  data_view = session.query(DataView) \
-    .filter_by(id=data_view_id) \
+  view_run = session.query(ViewRun) \
+    .filter_by(id=view_run_id) \
     .first()
+
+  data_view = view_run.data_view
 
   business_keys = split_strip(data_view.business_keys, ",")
   information_columns = split_strip(data_view.information_columns, ",")
   keys=[]
-  for key in business_keys:
-    sql_filter = f"data ->> '{key}' = '{new_data[key]}'"
+  for key in business_keys + information_columns:
+
+    sql_filter = f"coalesce(data ->> '{key}', '') = '{new_data.get(key)}'"
     keys.append(sql_filter)
 
   where = ' AND '.join(keys)
@@ -268,25 +271,16 @@ def insert_user_data(new_data, data_view_id):
     .order_by(UserData.created_date.desc()) \
     .first()
 
-  cols = []
-  if current_data:
-    for col in information_columns:
-      if current_data.data.get(col) != new_data.get(col):
-        cols.append(col)
 
-  write_date = {}
-
-  for business_key in business_keys:
-    write_date[business_key] = new_data[business_key]
-
-  for information_column in information_columns:
-    write_date[information_column] = new_data[information_column]
-
-  if not current_data or cols:
+  if not current_data:
     user_data = UserData()
-    user_data.data = write_date
-    user_data.data_view_id = data_view_id
     session.add(user_data)
-    session.commit()
+    user_data.data = new_data
+    user_data.view_run_id = view_run_id
+  else:
+    current_data.view_run_id = view_run_id
   
+  session.commit()
   session.close()
+
+
