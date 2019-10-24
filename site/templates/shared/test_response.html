@@ -1,0 +1,11 @@
+{% extends "shared/_layout.html" %}
+  {% block main_content %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/test_response.css" />
+{% endblock %}
+
+  <div class = "big-card">
+  	{{ table | safe}}
+  </div>
+
+  {% endblock %}
