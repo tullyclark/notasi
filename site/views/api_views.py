@@ -1,7 +1,7 @@
 import flask
 import os
 import pandas
-from data.source import Endpoint, RequestMethod
+from data.source import Endpoint, RequestMethod, DataView
 from services.select_services import get_objects, search_object
 from services.save_services import save_object
 import data.db_session as db_session
@@ -95,7 +95,5 @@ def run(category: str, endpoint_location: str):
 		return (json.dumps(notasi_query, default=default))
 	except Exception as error:
 		return str(error)
-
-
 
 
