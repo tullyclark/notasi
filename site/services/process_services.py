@@ -33,6 +33,7 @@ def get_locations():
 def sql_select(
 	query
 ):
+		
 	location = query.location
 	location_engine = sa.create_engine(location.subtype.dialect + \
 		"://" + location.username + \
@@ -41,9 +42,31 @@ def sql_select(
 		":" + location.port + \
 		"/" + location.database)
 
-	df = pandas.read_sql_query(query.body, location_engine)
-	data = json.loads((json.dumps(df.to_dict('records'), default=default)))
-	return data
+	formatted_queries = []
+	if query.notasi_query:
+		notasi_query = pandas.read_sql(query.notasi_query, db_session.notasi_engine()).to_dict('records')
+
+		for row in notasi_query:
+			key_list = list(row.keys())
+			formatted_query = query.body
+			
+			for key in key_list:
+				formatted_query = formatted_query.replace('{' + str(key) + '}', str(row[key]))
+
+			formatted_queries.append(formatted_query)
+
+	if not formatted_queries:
+		formatted_queries.append(query.body)
+
+	data = []
+
+	for formatted_query in formatted_queries:
+		df = pandas.read_sql_query(formatted_query, location_engine)
+		data.append(df)
+
+	data = json.loads(json.dumps(pandas.concat(data).to_dict('records'), default=default))
+
+	return flatten_json(data)
 
 def file_select(
 	query
@@ -138,18 +161,39 @@ def ldap_select(query):
 		, authentication = auth
 		)
 
-	conn.search(dc
-	  , query.body
-	  , attributes=[ALL_ATTRIBUTES])
+
+	formatted_queries = []
+	
+	if query.notasi_query:
+		notasi_query = pandas.read_sql(query.notasi_query, db_session.notasi_engine()).to_dict('records')
+
+		for row in notasi_query:
+			key_list = list(row.keys())
+			formatted_query = query.body
+			
+			for key in key_list:
+				formatted_query = formatted_query.replace('{' + str(key) + '}', str(row[key]))
+
+			formatted_queries.append(formatted_query)
+
+	if not formatted_queries:
+		formatted_queries.append(query.body)
 
 	data = []
-	for entry in conn.entries:
 
-	  dict1 = json.loads(entry.entry_to_json())["attributes"]
-	  dict1['dn'] = json.loads(entry.entry_to_json())["dn"]
-	  #dict1.update({"dn": json.loads(entry.entry_to_json())["dn"]})
-	  
-	  data.append(dict1)
+	for formatted_query in formatted_queries:
+
+		conn.search(dc
+		  , formatted_query
+		  , attributes=[ALL_ATTRIBUTES])
+
+		for entry in conn.entries:
+
+		  dict1 = json.loads(entry.entry_to_json())["attributes"]
+		  dict1['dn'] = json.loads(entry.entry_to_json())["dn"]
+		  #dict1.update({"dn": json.loads(entry.entry_to_json())["dn"]})
+		  
+		  data.append(dict1)
 
 	data = flatten_json(data)
 	return(data)
