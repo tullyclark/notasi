@@ -2,10 +2,6 @@ import flask
 import os
 from data.source import Location, Query, DataView, User
 from services.select_services import get_locations
-from services.select_user_data import select_user_data
-from services.save_services import insert_user_data
-import data.db_session as db_session
-import datetime
 import json
 from flask_login import login_required
 from services.query_services import run_query
