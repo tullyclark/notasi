@@ -1,6 +1,3 @@
-from services.select_user_data import select_user_data
-from services.save_services import insert_user_data
-from data.source import DataView
 from data.db_session import global_init
 import argparse
 from services.query_services import run_query
