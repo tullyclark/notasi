@@ -3,6 +3,7 @@ import sqlalchemy as sa
 import ibm_db_sa
 import datetime
 import pandas
+from math import isnan
 import json
 import pathlib
 import json
@@ -14,7 +15,7 @@ from data.source import Location, Query, DataView, Subtype, LocationType
 from utils.json import flatten_json
 from utils.split_strip import split_strip
 
-from ldap3 import Server, Connection, ALL, ALL_ATTRIBUTES, NTLM
+from ldap3 import Server, Connection, ALL, ALL_ATTRIBUTES, NTLM, SIMPLE
 
 
 def default(o):
@@ -121,12 +122,20 @@ def ldap_select(query):
 
 	dc = 'dc=' + ',dc='.join(split_strip(location.database, "."))
 
+	if location.subtype.name == 'Active Directory':
+		auth = NTLM
+	else:
+		auth = SIMPLE
+
+
+
 	server = Server(location.address, get_info=ALL)
 	conn = Connection(
 		server
 		, 'cn=' + location.username + ',' + dc
 		, location.password
 		, auto_bind=True
+		, authentication = auth
 		)
 
 	conn.search(dc
@@ -135,9 +144,15 @@ def ldap_select(query):
 
 	data = []
 	for entry in conn.entries:
-	  data.append(json.loads(entry.entry_to_json())["attributes"])
 
-	return(flatten_json(data))
+	  dict1 = json.loads(entry.entry_to_json())["attributes"]
+	  dict1['dn'] = json.loads(entry.entry_to_json())["dn"]
+	  #dict1.update({"dn": json.loads(entry.entry_to_json())["dn"]})
+	  
+	  data.append(dict1)
+
+	data = flatten_json(data)
+	return(data)
 
 
 
@@ -162,15 +177,40 @@ def create_view(view_id):
 	business_keys_json_name = " , ".join([col["json"] + "as " + col["name"] for col in business_keys])
 	information_columns_json_name = " , ".join([col["json"] + "as " + col["name"] for col in information_columns])
 
-	business_keys_order = "row_number() over (partition by " + " , ".join(col["json"] for col in business_keys) + ' order by created_date desc) as rownum'
+	business_keys_order = "row_number() over (partition by " + " , ".join(col["json"] for col in business_keys) + ' order by view_run_id desc) as rownum'
 
 	all_cols = business_keys_json_name+ ', ' + information_columns_json_name + "," + business_keys_order
 	
-	col_name = " , ".join(col["name"] for col in business_keys + information_columns)
+	col_names = " , ".join(col["name"] for col in business_keys + information_columns)
 
-	sql_text = sql_text \
-		+ f"with q1 as (select {all_cols}" \
-		+ f" from user_data where data_view_id = {data_view.id}) select {col_name} from q1 where rownum = 1;"
+	sql_text = f'''
+		create or replace view {data_view.view_name} as
+			
+			with q1 as 
+			(
+				SELECT 
+					{all_cols}
+					, user_data.view_run_id
+				FROM 
+					user_data 
+					inner join view_runs on view_runs.id = user_data.view_run_id 
+				WHERE 
+					data_view_id = {data_view.id}
+			) 
+
+			SELECT 
+				{col_names}
+				, case 
+					when view_run_id = (select max(id) from view_runs where data_view_id = {data_view.id})
+					then 1
+					end as in_last_run
+			FROM 
+				q1 
+			WHERE 
+				rownum = 1;
+
+
+		'''
 
 	session.execute(sql_text)
 	session.commit()
