@@ -61,7 +61,7 @@ class Location(SqlAlchemyBase):
                                        config.sqlalchemy_secret_key,
                                        AesEngine,
                                        'pkcs5'))
-	queries = sa.orm.relationship("Query", cascade="all, delete-orphan")
+	queries = sa.orm.relationship("Query")
 	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)
 
 class Query(SqlAlchemyBase):
