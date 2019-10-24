@@ -1,4 +1,16 @@
 .big-card {
 	align-items: end;
-	overflow: scroll;
+	overflow-x: scroll;
+}
+.big-card > table {
+	border: none;
+	min-width: 100%;
+}
+.big-card > table > thead > tr {
+	text-align: center !important;
+	line-height: 40px;
+}
+.big-card > table > tbody > tr {
+	text-align: center !important;
+	line-height: 40px;
 }
