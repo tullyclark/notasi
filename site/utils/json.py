@@ -12,9 +12,9 @@ def flatten_json(json, return_type = 'json', sep = "_", cols = [], col_names = N
 	if type(col_names) == dict:
 		df = df.rename(columns=col_names)
 	if return_type =='df':
-		return(df)
+		return(df).where((pandas.notnull(df)), None)
 	if return_type =='json':
-		return(df.to_dict(orient='records'))
+		return(df.where((pandas.notnull(df)), None).to_dict(orient='records'))
 
 def split_dict(df, sep):
 	for index, value in (df.applymap(type) == dict).any().iteritems():
