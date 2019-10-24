@@ -191,7 +191,6 @@ def ldap_select(query):
 
 		  dict1 = json.loads(entry.entry_to_json())["attributes"]
 		  dict1['dn'] = json.loads(entry.entry_to_json())["dn"]
-		  #dict1.update({"dn": json.loads(entry.entry_to_json())["dn"]})
 		  
 		  data.append(dict1)
 
