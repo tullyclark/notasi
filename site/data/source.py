@@ -84,7 +84,7 @@ class Query(SqlAlchemyBase):
                                        'pkcs5'))
 	request_method_id = sa.Column(sa.Integer, sa.ForeignKey('request_methods.id'))
 	request_method = sa.orm.relationship("RequestMethod")
-	location_id = sa.Column(sa.Integer, sa.ForeignKey('locations.id'))
+	location_id = sa.Column(sa.Integer, sa.ForeignKey('locations.id'), nullable=False)
 	location = sa.orm.relationship("Location")
 	views = sa.orm.relationship("DataView")
 	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)
@@ -99,16 +99,23 @@ class DataView(SqlAlchemyBase):
 	information_columns = sa.Column(sa.String, nullable=False)
 	query_id = sa.Column(sa.Integer, sa.ForeignKey('queries.id'), nullable=False)
 	query = sa.orm.relationship("Query")
-	user_data = sa.orm.relationship("UserData")
 	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)
+
+class ViewRun(SqlAlchemyBase):
+	
+	__tablename__ = 'view_runs'
+	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)
+	data_view_id = sa.Column(sa.Integer, sa.ForeignKey('data_views.id', ondelete='SET NULL'))
+	data_view = sa.orm.relationship("DataView")
 
 class UserData(SqlAlchemyBase):
 	
 	__tablename__ = 'user_data'
 	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
 	data = sa.Column(postgresql.JSONB)
-	data_view_id = sa.Column(sa.Integer, sa.ForeignKey('data_views.id', ondelete='SET NULL'))
-	data_view = sa.orm.relationship("DataView")
+	view_run_id = sa.Column(sa.Integer, sa.ForeignKey('view_runs.id'))
+	view_run = sa.orm.relationship("ViewRun")
 	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)
 
 class Schedule(SqlAlchemyBase):
@@ -123,9 +130,9 @@ class ScheduleStep(SqlAlchemyBase):
 	
 	__tablename__ = 'schedule_steps'
 	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
-	schedule_id = sa.Column(sa.Integer, sa.ForeignKey('schedules.id'))
+	schedule_id = sa.Column(sa.Integer, sa.ForeignKey('schedules.id'), nullable=False)
 	schedule = sa.orm.relationship("Schedule")
-	query_id = sa.Column(sa.Integer, sa.ForeignKey('queries.id'))
+	query_id = sa.Column(sa.Integer, sa.ForeignKey('queries.id'), nullable=False)
 	query = sa.orm.relationship("Query")
 
 
