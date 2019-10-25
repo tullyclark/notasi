@@ -1,0 +1,29 @@
+{% extends "shared/_edit_layout.html" %}
+{% block form_content %}
+
+
+<div>
+	<label for="name">Name</label>
+	<input id="name" name="name" type="text" placeholder="Name" class="form-control" value="{{ data_obj.name if data_obj.name }}">
+</div>
+
+
+<div>
+	<label for="group_category_id">Category</label>
+	<select id="group_category_id" name="group_category_id" class="form-control" required>
+	<option value="" disabled  selected="selected">Select Category</option>
+	{% for group_category in group_categories %}
+	<option value="{{group_category.id}}" {% if data_obj.group_category_id == group_category.id %} selected="selected" {% endif %}>{{group_category.name}}</option>
+	{% endfor %}
+	</select>
+</div>
+
+<div>
+	<label for="query_maintainable">Query Maintainable</label>
+	<input type="checkbox" id="query_maintainable" name="query_maintainable" class="form-control" {%if data_obj.query_maintainable %} checked {% endif %}>
+</div>
+
+{% endblock %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/edit.css" />
+{% endblock %}

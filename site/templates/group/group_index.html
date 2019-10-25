@@ -4,29 +4,25 @@
 {% endblock %}
 {% block main_content %}
     <div class="big-card">
-    	<h1>Users</h1>
-    	<a href="/user/edit">New</a>
+    	<h1>Groups</h1>
+    	<a href="/group/edit">New</a>
 		<table>
 			<tr class="table_head">
 				<th>Name
 				</th>
-				<th>Username
+				<th>Category
 				</th>
-				<th>Groups
+				<th>Query Maintainable
 				</th>
 				<th>
 				</th>
 			</tr>
-			{% for user in users %}
+			{% for group in groups %}
 			<tr>
-				<td>{{ user.name }}</td>
-				<td>{{ user.username }}</td>
-				<td> {% for user_group in user.user_groups%}
-					{{ user_group.group.name }}<br>
-					{% endfor %}
-					<a href="/user/user_group/edit?user_id={{ user.id }}">Edit</a>
-				</td>
-				<td><a href="/user/edit?id={{ user.id }}">Edit</a></td>
+				<td>{{ group.name }}</td>
+				<td>{{ group.group_category.name }}</td>
+				<td><input type="checkbox" onclick="return false;" disabled="disabled" {%if group.query_maintainable %} checked {% endif %} ></td>
+				<td><a href="/group/edit?id={{ group.id }}">Edit</a></td>
 			</tr>
 			{% endfor %}
 			<tr>

@@ -1,5 +1,5 @@
 import flask
-from data.source import Location, Query, DataView, User, Endpoint, Schedule, ScheduleStep
+from data.source import Location, Query, DataView, User, Endpoint, Schedule, ScheduleStep, Chart, Group, UserGroup
 from flask_login import login_required
 from services.delete_services import delete_object
 
@@ -33,4 +33,10 @@ def delete(item_type: str, id: int):
 			delete_object(id, Schedule)
 		if item_type == 'schedule_step':
 			delete_object(id, ScheduleStep)
+		if item_type == 'chart':
+			delete_object(id, Chart)
+		if item_type == 'group':
+			delete_object(id, Group)
+		if item_type == 'user_group':
+			delete_object(id, UserGroup)
 		return flask.redirect(next)

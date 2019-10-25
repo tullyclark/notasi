@@ -1,0 +1,45 @@
+{% extends "shared/_layout.html" %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/user.css" />
+{% endblock %}
+{% block main_content %}
+    <div class="big-card">
+    	<h1>User Groups</h1>
+    	<a href="/schedule/edit">New</a>
+		<table>
+			<tr class="table_head">
+				<th>Name
+				</th>
+				<th>
+				</th>
+			</tr>
+			{% for user_group in user.user_groups %}
+			<tr>
+				<td>{{ user_group.group.name }}</td>
+				<td>
+					<a onclick="return confirm('Are you sure?');" href="/delete/{{ item_type }}/{{ user_group.id }}?next={{ back_link }}" class="btn btn-danger action-button push-left" id="delete">Delete</a>
+				</td>
+			</tr>
+			{% endfor %}
+			<tr>
+				<form action="" method="POST" class="account-form">
+					<td>
+						<div>
+							<input id="user_id" name="user_id" type="text" class="form-control" value="{{ user.id }}" style="display: none;">
+							<select id="group_id" name="group_id" class="form-control">
+							<option value="" disabled  selected="selected">Select Group</option>
+							{% for group in groups %}
+							<option value="{{group.id}}">{{group.name}}</option>
+							{% endfor %}
+							</select>
+						</div>	
+					</td>
+					<td><button type="submit" class="btn btn-success action-button">Save</button></td>
+				</form>
+			</tr>
+		</table>
+    </div>
+{% endblock %}
+
+{% block additional_js %}
+{% endblock %}

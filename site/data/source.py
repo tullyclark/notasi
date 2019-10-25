@@ -142,6 +142,35 @@ class User(UserMixin, SqlAlchemyBase):
 	username = sa.Column(sa.String, unique=True)
 	password = sa.Column(sa.String)
 	name = sa.Column(sa.String)
+	user_groups = sa.orm.relationship("UserGroup")
+
+class Group(UserMixin, SqlAlchemyBase):
+
+	__tablename__ = 'notasi_groups'
+	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+	name = sa.Column(sa.String)
+	query_maintainable  = sa.Column(sa.Integer)
+	group_category_id = sa.Column(sa.Integer, sa.ForeignKey('notasi_group_categories.id'), nullable=False)
+	group_category = sa.orm.relationship("GroupCategory")
+	user_groups = sa.orm.relationship("UserGroup")
+
+class GroupCategory(UserMixin, SqlAlchemyBase):
+
+	__tablename__ = 'notasi_group_categories'
+	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+	name = sa.Column(sa.String)
+	groups = sa.orm.relationship("Group")
+
+
+class UserGroup(UserMixin, SqlAlchemyBase):
+
+	__tablename__ = 'notasi_user_group'
+	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+	group_id = sa.Column(sa.Integer, sa.ForeignKey('notasi_groups.id'), nullable=False)
+	group = sa.orm.relationship("Group")
+	user_id = sa.Column(sa.Integer, sa.ForeignKey('notasi_users.id'), nullable=False)
+	user = sa.orm.relationship("User")
+
 
 
 class Endpoint(SqlAlchemyBase):
@@ -157,4 +186,26 @@ class Endpoint(SqlAlchemyBase):
 	notasi_query = sa.Column(sa.String)
 	request_body = sa.Column(sa.String)
 	response_body = sa.Column(sa.String)
+	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)
+
+class Chart(SqlAlchemyBase):
+	
+	__tablename__ = 'charts'
+	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+	name = sa.Column(sa.String)
+	chart_type_id = sa.Column(sa.Integer, sa.ForeignKey('chart_types.id'))
+	chart_type = sa.orm.relationship("ChartType")
+	notasi_query = sa.Column(sa.String)
+	label_column = sa.Column(sa.String)
+	value_columns = sa.Column(sa.String)
+	options = sa.Column(sa.String)
+	access_groups = sa.Column(sa.String)
+	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)
+
+class ChartType(SqlAlchemyBase):
+	
+	__tablename__ = 'chart_types'
+	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+	name = sa.Column(sa.String)
+	chart_type = sa.Column(sa.String)
 	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)

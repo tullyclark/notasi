@@ -39,6 +39,14 @@
             <li class="nav-item {% if '/user' in request.path %} active {% endif %}">
               <a class="nav-link" href="/user">Users</a>
             </li>
+
+            <li class="nav-item {% if '/group' in request.path %} active {% endif %}">
+              <a class="nav-link" href="/group">Groups</a>
+            </li>
+
+            <li class="nav-item {% if '/dashboard/chart' in request.path %} active {% endif %}">
+              <a class="nav-link" href="/dashboard/chart">Charts</a>
+            </li>
           </ul>
         </div>
         <div class = "navbar-right">

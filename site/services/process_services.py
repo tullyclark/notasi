@@ -3,7 +3,6 @@ import sqlalchemy as sa
 import ibm_db_sa
 import datetime
 import pandas
-from math import isnan
 import json
 import pathlib
 import json
@@ -74,7 +73,7 @@ def file_select(
 	file = pathlib.Path(query.location.address) / query.endpoint
 	if file.suffix =='.csv':
 		df = pandas.read_csv(file)
-		return df.to_dict('records')
+		return flatten_json(df.to_dict('records'))
 	elif file.suffix =='.json':
 		json_obj = json.load(file.open())
 		return flatten_json(json_obj)

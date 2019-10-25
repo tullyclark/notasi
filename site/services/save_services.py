@@ -2,7 +2,7 @@ import sqlalchemy.orm
 from sqlalchemy import sql
 import re
 import data.db_session as db_session
-from data.source import Location, Query, DataView, Subtype, LocationType, UserData, User, Endpoint, Schedule, ScheduleStep, ViewRun
+from data.source import Location, Query, DataView, Subtype, LocationType, UserData, User, Endpoint, Schedule, ScheduleStep, ViewRun, Chart, Group, UserGroup
 from services.process_services import create_view
 from services.delete_services import drop_view
 from utils.split_strip import split_strip
@@ -70,6 +70,33 @@ def save_object(item_type, id, data):
             id = id,
             query_id = data["query_id"],
             schedule_id = data["schedule_id"]
+            )
+
+    elif item_type == 'chart':
+        save_chart(
+            id = id,
+            name = data["name"],
+            chart_type_id = data.get("chart_type_id", default = None),
+            notasi_query = data["notasi_query"],
+            label_column = data["label_column"],
+            value_columns = data["value_columns"],
+            access_groups = data["access_groups"],
+            options = data["options"]
+            )
+
+    elif item_type == 'group':
+        save_group(
+            id = id,
+            name = data["name"],
+            group_category_id = data.get("group_category_id", default = None),
+            query_maintainable = 1 if data.get("query_maintainable") else 0
+            )
+
+    elif item_type == 'user_group':
+        save_user_group(
+            id = id,
+            user_id = data["user_id"],
+            group_id = data["group_id"]
             )
 
 def save_location(id,
@@ -181,6 +208,44 @@ def save_user(id,
     session.close()
     return user
 
+def save_group(id,
+    name,
+    group_category_id,
+    query_maintainable
+):
+    session = db_session.create_session()
+
+    if id:
+        group = session.query(Group).filter_by(id=id).first()
+    else:
+        group = Group()
+        session.add(group)
+        
+    group.name = name
+    group.group_category_id = group_category_id
+    group.query_maintainable = query_maintainable
+
+    session.commit()
+    session.close()
+    return group
+
+def save_user_group(id,
+    user_id,
+    group_id
+):
+
+    session = db_session.create_session()
+    if id:
+        user_group = session.query(UserGroup).filter_by(id=id).first()
+    else:
+        user_group = UserGroup()
+        session.add(user_group)
+    user_group.user_id = user_id
+    user_group.group_id = group_id
+    session.commit()
+    session.close()
+    return user_group
+
 def save_endpoint(id,
     name,
     endpoint_location,
@@ -245,6 +310,33 @@ def save_schedule_step(id,
     delete_cron_job(schedule_id)
     write_cron_job(schedule_id)
     return schedule_step
+
+def save_chart(id,
+    name,
+    chart_type_id,
+    notasi_query,
+    label_column,
+    value_columns,
+    options,
+    access_groups
+    ):
+
+    session = db_session.create_session()
+    if id:
+        chart = session.query(Chart).filter_by(id=id).first()
+    else:
+        chart = Chart()
+        session.add(chart)
+    chart.name = name
+    chart.chart_type_id = chart_type_id
+    chart.notasi_query = notasi_query
+    chart.label_column = label_column
+    chart.value_columns = value_columns
+    chart.options = options
+    chart.access_groups = access_groups
+    session.commit()
+    session.close()
+    return chart
 
 
 def insert_user_data(new_data, view_run_id):

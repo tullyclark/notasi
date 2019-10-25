@@ -1,0 +1,50 @@
+{% extends "shared/_edit_layout.html" %}
+{% block form_content %}
+
+
+<div>
+	<label for="name">Name</label>
+	<input id="name" name="name" type="text" placeholder="Name" class="form-control" value="{{ data_obj.name if data_obj.name }}">
+</div>
+
+
+<div>
+	<label for="chart_type_id">Chart Type</label>
+	<select id="request_method_id" name="chart_type_id" class="form-control">
+	<option value="" disabled  selected="selected">Select Chart Type</option>
+	{% for chart_type in chart_types %}
+	<option value="{{chart_type.id}}" {% if data_obj.chart_type_id == chart_type.id %} selected="selected" {% endif %}>{{chart_type.name}}</option>
+	{% endfor %}
+	</select>
+</div>
+
+<div>
+	<label for="notasi_query">Data Lake Query</label>
+	<textarea id="notasi_query" name="notasi_query" type="text" placeholder="Query Notasi Database" class="form-control">{{ data_obj.notasi_query if data_obj.notasi_query }}</textarea>
+</div>
+
+<div>
+	<label for="label_column">Label Column</label>
+	<input id="label_column" name="label_column" type="text" placeholder="Label Column" class="form-control" value="{{ data_obj.label_column if data_obj.label_column }}">
+</div>
+
+<div>
+	<label for="value_columns">Value Columns</label>
+	<input id="value_columns" name="value_columns" type="text" placeholder="Value Columns(comma separated)" class="form-control" value="{{ data_obj.value_columns if data_obj.value_columns }}">
+</div>
+
+<div>
+	<label for="options">Options</label>
+	<textarea id="options" name="options" type="text" placeholder="Options" class="form-control">{{ data_obj.options if data_obj.options }}</textarea>
+</div>
+
+<div>
+	<label for="access_groups">Access Groups</label>
+	<textarea id="access_groups" name="access_groups" type="text" placeholder="Access Groups (comma separated)" class="form-control">{{ data_obj.access_groups if data_obj.access_groups }}</textarea>
+</div>
+
+
+{% endblock %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/edit.css" />
+{% endblock %}

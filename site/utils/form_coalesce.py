@@ -1,1 +1,0 @@
-def form_coalesce ()

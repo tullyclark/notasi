@@ -2,10 +2,10 @@ import flask
 import pandas
 import data.db_session as db_session
 from flask_login import login_required
-from data.source import User
+from data.source import User, Group
 from services.select_services import get_objects, search_object
 from werkzeug.security import generate_password_hash
-from services.save_services import save_user
+from services.save_services import save_user, save_object
 
 
 blueprint = flask.Blueprint('users', __name__, template_folder = '../templates/user')
@@ -45,3 +45,24 @@ def reset():
 		    password = data.get("password")
 			)
 		return flask.redirect('/user')
+
+
+@blueprint.route('/user_group/edit', methods=['GET', 'POST'])
+def user_group_edit():
+	id = flask.request.args.get('id', default = None, type = int)
+	user_id = flask.request.args.get('user_id', default = None, type = int)
+
+	if flask.request.method == "GET":
+		return flask.render_template(
+			'user_group_edit.html'
+			, item_type = 'user_group'
+			, user = search_object(user_id, User)
+			, back_link = flask.request.referrer
+			, groups = get_objects(Group)
+
+			)
+
+	if flask.request.method == "POST":
+		data = flask.request.form
+		save_object('user_group', id, data)
+		return flask.redirect('/user/user_group/edit?user_id=' + str(user_id))

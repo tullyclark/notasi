@@ -126,5 +126,18 @@ echo "insert into subtypes(name, dialect) values('PostgreSQL', 'postgresql');" |
 echo "insert into subtypes(name) values('Active Directory');" | psql notasi
 echo "insert into subtypes(name) values('LDAP3');" | psql notasi
 
+
+echo "insert into chart_types (name, chart_type) values ('Line', 'line');" | psql notasi
+echo "insert into chart_types (name, chart_type) values ('Bar', 'bar');" | psql notasi
+echo "insert into chart_types (name, chart_type) values ('Horizontal Bar', 'horizontalBar');" | psql notasi
+echo "insert into chart_types (name, chart_type) values ('Radar', 'radar');" | psql notasi
+echo "insert into chart_types (name, chart_type) values ('Pie', 'pie');" | psql notasi
+echo "insert into chart_types (name, chart_type) values ('Doughnut', 'doughnut');" | psql notasi
+echo "insert into chart_types (name, chart_type) values ('Polar Area', 'polarArea');" | psql notasi
+
+
+echo "insert into notasi_group_categories (name) values ('Default Groups');" | psql notasi
+
+
 EOF
 

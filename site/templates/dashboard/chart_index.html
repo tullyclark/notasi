@@ -1,0 +1,39 @@
+{% extends "shared/_layout.html" %}
+{% block additional_css %}
+    <link rel="stylesheet" href="/static/css/user.css" />
+{% endblock %}
+{% block main_content %}
+    <div class="big-card">
+        <h1>Charts</h1>
+        <a href="/dashboard/chart/edit">New</a>
+        <table>
+            <tr class="table_head">
+                <th>Name
+                </th>
+                <th>Chart Type
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
+            </tr>
+            {% for chart in charts %}
+            <tr>
+                <td>{{ chart.name }}</td>
+                <td>{{ chart.chart_type.name }}</td>
+                <td><a href="/dashboard/chart/edit?id={{ chart.id }}">Edit</a></td>
+                <td><a href="/dashboard/chart/run/{{ chart.id }}">Run</a></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}
+
+{% block additional_js %}
+{% endblock %}
