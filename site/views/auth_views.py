@@ -13,14 +13,13 @@ from saml2 import (
 )
 from saml2.client import Saml2Client
 from saml2.config import Config as Saml2Config
-from config import config_idp
 
 auth = Blueprint('auth', __name__, template_folder = '../templates/auth')
 
 
 metadata_url_for = {
     # For testing with http://saml.oktadev.com use the following:
-    'test': config_idp,
+    'test': 'https://kambala-login.cloudworkengine.net/saml2/idp/metadata.php',
     # WARNING WARNING WARNING
     #   You MUST remove the testing IdP from a production system,
     #   as the testing IdP will allow ANYBODY to log in as ANY USER!
@@ -51,6 +50,7 @@ def saml_client_for(idp_name=None):
     rv = requests.get(metadata_url_for[idp_name])
 
     settings = {
+        "entityid" : "https://test.notasi.com.au/auth/saml/sso/test",
         'metadata': {
             'inline': [rv.text],
             },
