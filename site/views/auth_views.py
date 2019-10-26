@@ -13,7 +13,7 @@ from saml2 import (
 )
 from saml2.client import Saml2Client
 from saml2.config import Config as Saml2Config
-from config import config_idp
+
 
 auth = Blueprint('auth', __name__, template_folder = '../templates/auth')
 
