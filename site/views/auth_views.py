@@ -13,14 +13,14 @@ from saml2 import (
 )
 from saml2.client import Saml2Client
 from saml2.config import Config as Saml2Config
-
+from config import config_idp
 
 auth = Blueprint('auth', __name__, template_folder = '../templates/auth')
 
 
 metadata_url_for = {
     # For testing with http://saml.oktadev.com use the following:
-    'test': 'https://kambala-login.cloudworkengine.net/saml2/idp/metadata.php',
+    'test': config_idp,
     # WARNING WARNING WARNING
     #   You MUST remove the testing IdP from a production system,
     #   as the testing IdP will allow ANYBODY to log in as ANY USER!
@@ -84,13 +84,12 @@ def saml_client_for(idp_name=None):
     return saml_client
 
 
-@auth.route("/")
-def main_page():
-    return render_template('main_page.html', idp_dict=metadata_url_for)
 
-
-@auth.route("/saml/sso/<idp_name>", methods=['POST'])
+@auth.route("/saml/sso/<idp_name>", methods=['GET', 'POST'])
 def idp_initiated(idp_name):
+    if flask.request.method =='GET':
+        return "test"
+
     saml_client = saml_client_for(idp_name)
     authn_response = saml_client.parse_authn_request_response(
         request.form['SAMLResponse'],
