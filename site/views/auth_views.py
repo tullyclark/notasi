@@ -113,6 +113,24 @@ def idp_initiated(idp_name):
 @auth.route("/saml/login/<idp_name>")
 def sp_initiated(idp_name):
     saml_client = saml_client_for(idp_name)
+    reqid, info = saml_client.prepare_for_authenticate()
+
+    redirect_url = None
+    # Select the IdP URL to send the AuthN request to
+    for key, value in info['headers']:
+        if key is 'Location':
+            redirect_url = value
+    response = redirect(redirect_url, code=302)
+    # NOTE:
+    #   I realize I _technically_ don't need to set Cache-Control or Pragma:
+    #     http://stackoverflow.com/a/5494469
+    #   However, Section 3.2.3.2 of the SAML spec suggests they are set:
+    #     http://docs.oasis-open.org/security/saml/v2.0/saml-bindings-2.0-os.pdf
+    #   We set those headers here as a "belt and suspenders" approach,
+    #   since enterprise environments don't always conform to RFCs
+    response.headers['Cache-Control'] = 'no-cache, no-store'
+    response.headers['Pragma'] = 'no-cache'
+    return response
 
 
 
