@@ -74,6 +74,7 @@ def saml_client_for(idp_name=None):
                 'want_response_signed': False,
             },
         },
+        "xmlsec_binary" : "/usr/local/bin/xmlsec1"
     }
     spConfig = Saml2Config()
     spConfig.load(settings)
