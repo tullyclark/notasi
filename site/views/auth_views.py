@@ -75,6 +75,7 @@ def saml_client_for(idp_name=None):
                 'want_response_signed': True,
             },
         },
+        "cert_file" : "/etc/letsencrypt/keys/0000_key-certbot.pem",
         "xmlsec_binary" : "/usr/lib/x86_64-linux-gnu/libxmlsec1.so"
     }
     spConfig = Saml2Config()
