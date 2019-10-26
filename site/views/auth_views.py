@@ -72,7 +72,7 @@ def saml_client_for(idp_name=None):
                 'authn_requests_signed': False,
                 'logout_requests_signed': True,
                 'want_assertions_signed': False,
-                'want_response_signed': True,
+                'want_response_signed': False,
             },
         },
         "xmlsec_binary" : "/usr/lib/x86_64-linux-gnu/libxmlsec1-openssl.so.1.2.25"
