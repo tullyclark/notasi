@@ -75,7 +75,7 @@ def saml_client_for(idp_name=None):
                 'want_response_signed': False,
             },
         },
-        "xmlsec_binary" : "/usr/lib/x86_64-linux-gnu/libxmlsec1-openssl.so.1.2.25"
+        "xmlsec_binary" : "/usr/lib/x86_64-linux-gnu/libxmlsec1.so"
     }
     spConfig = Saml2Config()
     spConfig.load(settings)
