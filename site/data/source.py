@@ -149,7 +149,6 @@ class Group(UserMixin, SqlAlchemyBase):
 	__tablename__ = 'notasi_groups'
 	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
 	name = sa.Column(sa.String)
-	query_maintainable  = sa.Column(sa.Integer)
 	group_category_id = sa.Column(sa.Integer, sa.ForeignKey('notasi_group_categories.id'), nullable=False)
 	group_category = sa.orm.relationship("GroupCategory")
 	user_groups = sa.orm.relationship("UserGroup")

@@ -4,22 +4,22 @@
 {% endblock %}
 {% block main_content %}
     <div class="big-card">
-    	<h1>Groups</h1>
-    	<a href="/group/group/edit">New</a>
+    	<h1>Group Categories</h1>
+    	<a href="/group/group_category/edit">New</a>
 		<table>
 			<tr class="table_head">
 				<th>Name
 				</th>
-				<th>Category
+				<th>Groups
 				</th>
 				<th>
 				</th>
 			</tr>
-			{% for group in groups %}
+			{% for group_category in group_categories %}
 			<tr>
-				<td>{{ group.name }}</td>
-				<td>{{ group.group_category.name }}</td>
-				<td><a href="/group/group/edit?id={{ group.id }}">Edit</a></td>
+				<td>{{ group_category.name }}</td>
+				<td><a href="/group/group?category_id={{ group_category.id }}">Edit Groups</a></td>
+				<td><a href="/group/group_category/edit?id={{ group_category.id }}">Edit</a></td>
 			</tr>
 			{% endfor %}
 			<tr>

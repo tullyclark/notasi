@@ -2,7 +2,9 @@ import sqlalchemy.orm
 from sqlalchemy import sql
 import re
 import data.db_session as db_session
-from data.source import Location, Query, DataView, Subtype, LocationType, UserData, User, Endpoint, Schedule, ScheduleStep, ViewRun, Chart, Group, UserGroup
+from data.source import Location, Query, DataView, Subtype, LocationType, \
+    UserData, User, Endpoint, Schedule, ScheduleStep, \
+    ViewRun, Chart, Group, UserGroup, GroupCategory
 from services.process_services import create_view
 from services.delete_services import drop_view
 from utils.split_strip import split_strip
@@ -84,12 +86,18 @@ def save_object(item_type, id, data):
             options = data["options"]
             )
 
+    elif item_type == 'group_category':
+        save_group_category(
+            id = id,
+            name = data["name"]
+            )
+
+
     elif item_type == 'group':
         save_group(
             id = id,
             name = data["name"],
-            group_category_id = data.get("group_category_id", default = None),
-            query_maintainable = 1 if data.get("query_maintainable") else 0
+            group_category_id = data.get("group_category_id", default = None)
             )
 
     elif item_type == 'user_group':
@@ -208,10 +216,26 @@ def save_user(id,
     session.close()
     return user
 
+def save_group_category(id,
+    name,
+    notasi_query,
+    cron_schedule
+):
+
+    session = db_session.create_session()
+    if id:
+        group_category = session.query(GroupCategory).filter_by(id=id).first()
+    else:
+        group_category = GroupCategory()
+        session.add(group_category)
+    group_category.name = name
+    session.commit()
+    session.close()
+    return group_category
+
 def save_group(id,
     name,
-    group_category_id,
-    query_maintainable
+    group_category_id
 ):
     session = db_session.create_session()
 
@@ -223,7 +247,6 @@ def save_group(id,
         
     group.name = name
     group.group_category_id = group_category_id
-    group.query_maintainable = query_maintainable
 
     session.commit()
     session.close()

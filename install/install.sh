@@ -119,8 +119,14 @@ echo "insert into location_types(name) values('SQL');" | psql notasi
 echo "insert into location_types(name) values('Folder');" | psql notasi
 echo "insert into location_types(name) values('HTTP');" | psql notasi
 echo "insert into location_types(name) values('LDAP');" | psql notasi
+echo "insert into location_types(name) values('Notasi Users');" | psql notasi
+echo "insert into location_types(name) values('Notasi Groups');" | psql notasi
+
+
 echo "insert into request_methods(name) values('GET');" | psql notasi
 echo "insert into request_methods(name) values('POST');" | psql notasi
+
+
 echo "insert into subtypes(name, dialect) values('DB2', 'db2');" | psql notasi
 echo "insert into subtypes(name, dialect) values('PostgreSQL', 'postgresql');" | psql notasi
 echo "insert into subtypes(name) values('Active Directory');" | psql notasi
