@@ -71,7 +71,7 @@ def saml_client_for(idp_name=None):
                 # sense in a situation where you control both the SP and IdP
                 'authn_requests_signed': False,
                 'logout_requests_signed': True,
-                'want_assertions_signed': True,
+                'want_assertions_signed': False,
                 'want_response_signed': False,
             },
         },
