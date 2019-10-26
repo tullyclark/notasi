@@ -87,7 +87,7 @@ def saml_client_for(idp_name=None):
 
 @auth.route("/saml/sso/<idp_name>", methods=['GET', 'POST'])
 def idp_initiated(idp_name):
-    if flask.request.method =='GET':
+    if request.method =='GET':
         return "test"
 
     saml_client = saml_client_for(idp_name)
