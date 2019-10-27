@@ -42,7 +42,7 @@ def index():
     errors = []
     not_auth_warn = False
     success_slo = False
-    attributes = True
+    attributes = False
     paint_logout = False
 
     if 'sso' in request.args:
