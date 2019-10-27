@@ -24,7 +24,7 @@ def prepare_flask_request(request):
     url_data = urlparse(request.url)
     return {
         #'https': 'on' if request.scheme == 'https' else 'off',
-        'https': 'on',
+        'https': 'on'
         'http_host': request.host,
         'server_port': url_data.port,
         'script_name': request.path,
@@ -80,7 +80,6 @@ def index():
             if 'AuthNRequestID' in session:
                 del session['AuthNRequestID']
             session['samlNameId'] = auth.get_nameid()
-            print(session['samlNameId'])
             session['samlNameIdFormat'] = auth.get_nameid_format()
             session['samlNameIdNameQualifier'] = auth.get_nameid_nq()
             session['samlNameIdSPNameQualifier'] = auth.get_nameid_spnq()
@@ -106,6 +105,7 @@ def index():
         paint_logout = True
         if len(session['samlUserdata']) > 0:
             attributes = session['samlUserdata'].items()
+        print(session)
 
     return "1"
 
