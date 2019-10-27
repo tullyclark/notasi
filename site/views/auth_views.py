@@ -10,35 +10,37 @@ auth = Blueprint('auth', __name__, template_folder = '../templates/auth')
 
 
 
-@auth.route('/login')
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
+    next_dest = request.args.get('next', default = "/", type = str)
+    print(next_dest)
 
-    session = db_session.create_session()
-    count = session.query(User).count()
-    session.close()
+    if request.method =='GET':
+        next = request.args.get('next', default = "/", type = int)
+        session = db_session.create_session()
+        count = session.query(User).count()
+        session.close()
 
-    if count == 0:
-        return redirect(url_for('auth.signup'))
-    return render_template('login.html')
+        if count == 0:
+            return redirect(url_for('auth.signup'))
+        return render_template('login.html', next_dest = next_dest)
+    if request.method =='POST':
+        session = db_session.create_session()
+        username = request.form.get('username')
+        password = request.form.get('password')
+        remember = True if request.form.get('remember') else False
 
-@auth.route('/login', methods=['POST'])
-def login_post():
-    session = db_session.create_session()
-    username = request.form.get('username')
-    password = request.form.get('password')
-    remember = True if request.form.get('remember') else False
+        user = session.query(User).filter_by(username=username).first()
 
-    user = session.query(User).filter_by(username=username).first()
+        # check if user actually exists
+        # take the user supplied password, hash it, and compare it to the hashed password in database
+        if not user or not check_password_hash(user.password, password): 
+            return redirect(url_for('auth.login')) # if user doesn't exist or password is wrong, reload the page
 
-    # check if user actually exists
-    # take the user supplied password, hash it, and compare it to the hashed password in database
-    if not user or not check_password_hash(user.password, password): 
-        return redirect(url_for('auth.login')) # if user doesn't exist or password is wrong, reload the page
-
-    # if the above check passes, then we know the user has the right credentials
-    flask_login.login_user(user, remember=remember)
-    session.close()
-    return redirect(url_for('home.index'))
+        # if the above check passes, then we know the user has the right credentials
+        flask_login.login_user(user, remember=remember)
+        session.close()
+        return redirect(next_dest)
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
