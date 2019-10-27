@@ -1,4 +1,5 @@
 from flask_login import current_user
+from functools import wraps
 
 def is_admin(fn):
     @wraps(fn)
