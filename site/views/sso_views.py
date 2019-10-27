@@ -115,7 +115,7 @@ def index():
         database_session.close
         if not flask_user:
             return 'SSO user not found'
-        flask_login.login_user(session['samlNameId'])
+        flask_login.login_user(flask_user)
         return redirect('/')
 
 
