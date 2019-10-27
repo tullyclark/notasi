@@ -7,12 +7,14 @@ from data.source import Group
 from services.select_services import get_objects, search_object, GroupCategory
 from services.save_services import save_object
 import os
+from decorators.admin import is_admin
 
 
 template_dir = os.path.abspath('./templates/group')
 blueprint = flask.Blueprint('groups', __name__, template_folder = template_dir)
 @blueprint.before_request
 @login_required
+@is_admin
 def before_request():
     """ Protect all of the admin endpoints. """
     pass 

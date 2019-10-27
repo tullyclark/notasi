@@ -2,6 +2,7 @@ import flask
 from data.source import Location, Query, DataView, User, Endpoint, Schedule, ScheduleStep, Chart, Group, UserGroup, GroupCategory, Dashboard, DashboardChart
 from flask_login import login_required
 from services.delete_services import delete_object
+from decorators.admin import is_admin
 
 
 blueprint = flask.Blueprint('delete', __name__)
@@ -9,6 +10,7 @@ blueprint = flask.Blueprint('delete', __name__)
 
 @blueprint.before_request
 @login_required
+@is_admin
 def before_request():
     """ Protect all of the admin endpoints. """
     pass 

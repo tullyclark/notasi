@@ -5,11 +5,13 @@ from services.select_services import get_objects, search_object
 from services.save_services import save_object
 from data.source import Schedule, Query
 from flask_login import login_required
+from decorators.admin import is_admin
 
 
 blueprint = flask.Blueprint('schedule', __name__, template_folder = '../templates/schedule')
 @blueprint.before_request
 @login_required
+@is_admin
 def before_request():
     """ Protect all of the admin endpoints. """
     pass 

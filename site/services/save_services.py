@@ -232,9 +232,7 @@ def save_user(id,
     return user
 
 def save_group_category(id,
-    name,
-    notasi_query,
-    cron_schedule
+    name
 ):
 
     session = db_session.create_session()

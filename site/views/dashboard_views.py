@@ -8,20 +8,26 @@ from data.source import Chart, Dashboard
 from services.select_services import get_objects, search_object
 from services.save_services import save_object
 from services.chart_services import run_chart
+from decorators.admin import is_admin
 
 
 template_dir = os.path.abspath('./templates/dashboard/')
 blueprint = flask.Blueprint('dashboard', __name__, template_folder = template_dir)
 
+@blueprint.before_request
+@login_required
+def before_request():
+    """ Protect all of the admin endpoints. """
+    pass 
 
 @blueprint.route('/')
-@login_required
+@is_admin
 def index():
     return flask.render_template('dashboard_index.html',
     	dashboards = get_objects(Dashboard))
 
 @blueprint.route('/edit', methods=['GET', 'POST'])
-@login_required
+@is_admin
 def edit():
 	id = flask.request.args.get('id', default = None, type = int)
 
@@ -40,7 +46,7 @@ def edit():
 
 
 @blueprint.route('/dashboard_chart/edit', methods=['GET', 'POST'])
-@login_required
+@is_admin
 def dashboard_chart_edit():
 	id = flask.request.args.get('id', default = None, type = int)
 	dashboard_id = flask.request.args.get('dashboard_id', default = None, type = int)
@@ -63,7 +69,6 @@ def dashboard_chart_edit():
 
 
 @blueprint.route('/run/<id>')
-@login_required
 def run(id: int):
 	dashboard =search_object(id, Dashboard)
 	charts = []

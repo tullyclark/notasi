@@ -10,6 +10,7 @@ import json
 from flask_login import login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import text
+from decorators.admin import is_admin
 
 
 template_dir = os.path.abspath('./templates/api/')
@@ -23,6 +24,7 @@ def default(o):
 
 @blueprint.route('/')
 @login_required
+@is_admin
 def index():
     return flask.render_template('api_index.html', endpoints = get_objects(Endpoint))
 
@@ -30,6 +32,7 @@ def index():
 
 @blueprint.route('/edit', methods=['GET', 'POST'])
 @login_required
+@is_admin
 def edit():
 	id = flask.request.args.get('id', default = None, type = int)
 

@@ -8,6 +8,7 @@ from data.source import Chart, ChartType
 from services.select_services import get_objects, search_object
 from services.save_services import save_object
 from services.chart_services import run_chart
+from decorators.admin import is_admin
 
 
 
@@ -16,6 +17,7 @@ blueprint = flask.Blueprint('chart', __name__, template_folder = template_dir)
 
 @blueprint.before_request
 @login_required
+@is_admin
 def before_request():
     """ Protect all of the admin endpoints. """
     pass 

@@ -1,5 +1,6 @@
 import flask
 from flask_login import login_required
+from decorators.admin import is_admin
 
 blueprint = flask.Blueprint('home', __name__, template_folder = 'templates')
 

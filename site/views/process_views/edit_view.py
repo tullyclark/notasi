@@ -3,11 +3,13 @@ from data.source import Location, Query, DataView, Subtype, LocationType, Reques
 from services.select_services import get_locations, get_objects, search_object
 from services.save_services import save_object
 from flask_login import login_required
+from decorators.admin import is_admin
 
 blueprint = flask.Blueprint('process_edit', __name__, template_folder = '../../templates/process')
 
 @blueprint.before_request
 @login_required
+@is_admin
 def before_request():
     """ Protect all of the admin endpoints. """
     pass 

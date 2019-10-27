@@ -6,11 +6,13 @@ from data.source import User, Group
 from services.select_services import get_objects, search_object
 from werkzeug.security import generate_password_hash
 from services.save_services import save_user, save_object
+from decorators.admin import is_admin
 
 
 blueprint = flask.Blueprint('users', __name__, template_folder = '../templates/user')
 @blueprint.before_request
 @login_required
+@is_admin
 def before_request():
     """ Protect all of the admin endpoints. """
     pass 
