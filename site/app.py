@@ -7,7 +7,7 @@ from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from flask_login import LoginManager
 import config
-from views import home_views, schedule_views, auth_views, api_views, user_views, delete_view, chart_views, dashboard_views, group_views
+from views import home_views, schedule_views, auth_views, sso_views, api_views, user_views, delete_view, chart_views, dashboard_views, group_views
 from views.process_views import edit_view, process_views
 
 
@@ -33,6 +33,7 @@ db_session.global_init()
 
 app.register_blueprint(home_views.blueprint)
 app.register_blueprint(auth_views.auth, url_prefix='/auth')
+app.register_blueprint(sso_views.blueprint, url_prefix='/sso')
 app.register_blueprint(api_views.blueprint, url_prefix='/api')
 app.register_blueprint(dashboard_views.blueprint, url_prefix='/dashboard')
 app.register_blueprint(chart_views.blueprint, url_prefix='/chart')
