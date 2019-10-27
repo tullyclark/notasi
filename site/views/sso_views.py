@@ -105,9 +105,8 @@ def index():
         paint_logout = True
         if len(session['samlUserdata']) > 0:
             attributes = session['samlUserdata'].items()
-        print(session['samlUserdata'])
 
-    return "1"
+    return session['samlUserdata']
 
 
 @blueprint.route('/attrs/')
