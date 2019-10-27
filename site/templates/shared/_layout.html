@@ -9,6 +9,10 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/static/css/site.css" />
+    
+    {% if request.args.get('mode') =="iframe"%}
+      <link rel="stylesheet" href="/static/css/iframe.css" />
+    {% endif %}
 
     {% block additional_css %}{% endblock %}
 </head>

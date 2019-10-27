@@ -65,7 +65,6 @@ def dashboard_chart_edit():
 @blueprint.route('/run/<id>')
 @login_required
 def run(id: int):
-	mode = flask.request.args.get('mode', default = None, type = str)
 	dashboard =search_object(id, Dashboard)
 	charts = []
 	for dashboard_chart in dashboard.dashboard_charts:
@@ -73,6 +72,5 @@ def run(id: int):
 
 	return flask.render_template(
 		'dashboard_run.html'
-		, charts = charts
-		, mode=mode)
+		, charts = charts)
 
