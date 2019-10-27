@@ -52,7 +52,7 @@ def index():
         # request.session['AuthNRequestID'] = auth.get_last_request_id()
         # return redirect(sso_built_url)
     elif 'sso2' in request.args:
-        return_to = '%s/sso/attrs/' % request.host_url
+        return_to = '%ssso/attrs/' % request.host_url
         return redirect(auth.login(return_to))
     elif 'slo' in request.args:
         name_id = session_index = name_id_format = name_id_nq = name_id_spnq = None
