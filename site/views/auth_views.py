@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import flask_login
 from data.source import User
 from data import db_session
+from config import login_default
 
 auth = Blueprint('auth', __name__, template_folder = '../templates/auth')
 
