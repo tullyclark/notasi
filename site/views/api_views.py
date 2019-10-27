@@ -21,15 +21,15 @@ def default(o):
 
 
 
-@login_required
 @blueprint.route('/')
+@login_required
 def index():
     return flask.render_template('api_index.html', endpoints = get_objects(Endpoint))
 
 
 
-@login_required
 @blueprint.route('/edit', methods=['GET', 'POST'])
+@login_required
 def edit():
 	id = flask.request.args.get('id', default = None, type = int)
 

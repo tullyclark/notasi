@@ -14,13 +14,16 @@ from services.chart_services import run_chart
 template_dir = os.path.abspath('./templates/chart/')
 blueprint = flask.Blueprint('chart', __name__, template_folder = template_dir)
 
-
+@blueprint.before_request
 @login_required
+def before_request():
+    """ Protect all of the admin endpoints. """
+    pass 
+
 @blueprint.route('/')
 def chart_index():
     return flask.render_template('chart_index.html', charts = get_objects(Chart))
 
-@login_required
 @blueprint.route('/edit', methods=['GET', 'POST'])
 def chart_edit():
 	id = flask.request.args.get('id', default = None, type = int)
@@ -42,7 +45,6 @@ def chart_edit():
 
 
 
-@login_required
 @blueprint.route('/run/<id>')
 def run(id: int):
 	chart = run_chart(id)
