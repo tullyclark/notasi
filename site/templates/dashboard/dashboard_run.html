@@ -28,12 +28,12 @@
 								    ],
 						            borderWidth: 2,
 						            backgroundColor: [
-						            	{% for color in chart["color_palette"] %}
+						            	{% for color in chart["color_palettes"][loop.index0] %}
 						            		'rgba({{ color }}, 0.4)',
 						            	{% endfor %}
 						            ],
 						            baorderColor: [
-						            	{% for color in chart["color_palette"] %}
+						            	{% for color in chart["color_palettes"][loop.index0] %}
 						            		'rgba({{ color }}, 1)',
 						            	{% endfor %}
 						            ]

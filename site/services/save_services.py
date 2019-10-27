@@ -97,6 +97,7 @@ def save_object(item_type, id, data):
             notasi_query = data["notasi_query"],
             label_column = data["label_column"],
             value_columns = data["value_columns"],
+            color_columns = data["color_columns"],
             access_groups = data["access_groups"],
             options = data["options"]
             )
@@ -387,6 +388,7 @@ def save_chart(id,
     notasi_query,
     label_column,
     value_columns,
+    color_columns,
     options,
     access_groups
     ):
@@ -402,6 +404,7 @@ def save_chart(id,
     chart.notasi_query = notasi_query
     chart.label_column = label_column
     chart.value_columns = value_columns
+    chart.color_columns = color_columns
     chart.options = options
     chart.access_groups = access_groups
     session.commit()
