@@ -144,7 +144,7 @@ class User(UserMixin, SqlAlchemyBase):
 	name = sa.Column(sa.String)
 	user_groups = sa.orm.relationship("UserGroup")
 
-class Group(UserMixin, SqlAlchemyBase):
+class Group(SqlAlchemyBase):
 
 	__tablename__ = 'notasi_groups'
 	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
@@ -153,7 +153,7 @@ class Group(UserMixin, SqlAlchemyBase):
 	group_category = sa.orm.relationship("GroupCategory")
 	user_groups = sa.orm.relationship("UserGroup")
 
-class GroupCategory(UserMixin, SqlAlchemyBase):
+class GroupCategory(SqlAlchemyBase):
 
 	__tablename__ = 'notasi_group_categories'
 	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
@@ -161,7 +161,7 @@ class GroupCategory(UserMixin, SqlAlchemyBase):
 	groups = sa.orm.relationship("Group")
 
 
-class UserGroup(UserMixin, SqlAlchemyBase):
+class UserGroup(SqlAlchemyBase):
 
 	__tablename__ = 'notasi_user_group'
 	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)

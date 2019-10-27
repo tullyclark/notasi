@@ -5,13 +5,15 @@ from services.select_services import get_locations
 import json
 from flask_login import login_required
 from services.query_services import run_query
-
+from decorators.admin import is_admin
 
 blueprint = flask.Blueprint('process', __name__)
 
 
 @blueprint.before_request
 @login_required
+@is_admin
+
 def before_request():
     """ Protect all of the admin endpoints. """
     pass 
