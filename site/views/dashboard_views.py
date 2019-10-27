@@ -14,14 +14,14 @@ template_dir = os.path.abspath('./templates/dashboard/')
 blueprint = flask.Blueprint('dashboard', __name__, template_folder = template_dir)
 
 
-@login_required
 @blueprint.route('/')
+@login_required
 def index():
     return flask.render_template('dashboard_index.html',
     	dashboards = get_objects(Dashboard))
 
-@login_required
 @blueprint.route('/edit', methods=['GET', 'POST'])
+@login_required
 def edit():
 	id = flask.request.args.get('id', default = None, type = int)
 
@@ -40,6 +40,7 @@ def edit():
 
 
 @blueprint.route('/dashboard_chart/edit', methods=['GET', 'POST'])
+@login_required
 def dashboard_chart_edit():
 	id = flask.request.args.get('id', default = None, type = int)
 	dashboard_id = flask.request.args.get('dashboard_id', default = None, type = int)
@@ -61,8 +62,8 @@ def dashboard_chart_edit():
 
 
 
-@login_required
 @blueprint.route('/run/<id>')
+@login_required
 def run(id: int):
 	mode = flask.request.args.get('mode', default = None, type = str)
 	dashboard =search_object(id, Dashboard)
