@@ -99,6 +99,6 @@ def signup():
 @flask_login.login_required
 def logout():
     flask_login.logout_user()
-    if 'samlUserdata' in flask_session:
-        return redirect('/sso/?slo')
+    # if 'samlUserdata' in flask_session:
+    #     return redirect('/sso/?slo')
     return redirect('/')
