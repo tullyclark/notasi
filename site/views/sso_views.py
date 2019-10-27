@@ -101,7 +101,7 @@ def index():
                 success_slo = True
 
 #IS LOGGED IN!!
-    print('samlUserdata' in session)
+    print(session['samlNameId'])
     if 'samlUserdata' in session:
         print(session['samlUserdata'])
         paint_logout = True
