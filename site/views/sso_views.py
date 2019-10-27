@@ -106,7 +106,7 @@ def index():
         if len(session['samlUserdata']) > 0:
             attributes = session['samlUserdata'].items()
 
-    return session['samlUserdata']
+    return ", ".join(session['samlUserdata'].items())
 
 
 @blueprint.route('/attrs/')
