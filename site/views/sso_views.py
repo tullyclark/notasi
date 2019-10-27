@@ -42,7 +42,7 @@ def index():
     errors = []
     not_auth_warn = False
     success_slo = False
-    attributes = False
+    attributes = True
     paint_logout = False
 
     if 'sso' in request.args:
@@ -80,6 +80,7 @@ def index():
             if 'AuthNRequestID' in session:
                 del session['AuthNRequestID']
             session['samlNameId'] = auth.get_nameid()
+            print(session['samlNameId'])
             session['samlNameIdFormat'] = auth.get_nameid_format()
             session['samlNameIdNameQualifier'] = auth.get_nameid_nq()
             session['samlNameIdSPNameQualifier'] = auth.get_nameid_spnq()
@@ -106,7 +107,7 @@ def index():
         if len(session['samlUserdata']) > 0:
             attributes = session['samlUserdata'].items()
 
-    return ", ".join(session['samlUserdata'].items())
+    return "1"
 
 
 @blueprint.route('/attrs/')
