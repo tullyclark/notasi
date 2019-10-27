@@ -9,6 +9,8 @@ from onelogin.saml2.auth import OneLogin_Saml2_Auth
 from onelogin.saml2.utils import OneLogin_Saml2_Utils
 from config import saml_path
 
+from data.source import User
+from data import db_session
 
 
 blueprint = Blueprint('sso', __name__)
@@ -103,26 +105,15 @@ def index():
 
 #IS LOGGED IN!!
     if 'samlUserdata' in session:
-        print(session['samlUserdata'])
+        print(session['samlNameId'])
         paint_logout = True
         if len(session['samlUserdata']) > 0:
             attributes = session['samlUserdata'].items()
 
+        session = db_session.create_session()
+        user = session.query(User).filter_by(username="sdfsdfsdf").first()
+        session.close
     return "1"
-
-
-@blueprint.route('/attrs/')
-def attrs():
-    paint_logout = False
-    attributes = False
-
-    if 'samlUserdata' in session:
-        paint_logout = True
-        if len(session['samlUserdata']) > 0:
-            attributes = session['samlUserdata'].items()
-
-    return render_template('attrs.html', paint_logout=paint_logout,
-                           attributes=attributes)
 
 
 @blueprint.route('/metadata/')
