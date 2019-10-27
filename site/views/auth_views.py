@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session as flask_session
 from werkzeug.security import generate_password_hash, check_password_hash
 import flask_login
-from data.source import User
+from data.source import User, Group, UserGroup, GroupCategory
 from data import db_session
 from config import login_default
 from decorators.admin import is_admin
@@ -77,9 +77,18 @@ def signup():
 
         # create new user with the form data. Hash the password so plaintext version isn't saved.
         new_user = User(username=username, name=name, password=generate_password_hash(password, method='sha256'))
+        session.add(new_user)
+        session.commit()
+        admin_group = session.query(Group) \
+            .join(GroupCategory) \
+            .filter(Group.name=='Administrators') \
+            .filter(GroupCategory.name == 'Access Level Groups') \
+            .first()
+        print(admin_group.name)
+        user_group = UserGroup(user_id = new_user.id, group_id = admin_group.id)
 
         # add the new user to the database
-        session.add(new_user)
+        session.add(user_group)
         session.commit()
 
         session.close()

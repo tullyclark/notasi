@@ -89,10 +89,10 @@ read -p "Press enter to continue"
 #configure database
 sudo -u postgres -i << EOF
 
-echo "SELECT 'DROP DATABASE notasi' WHERE EXISTS (SELECT FROM pg_database WHERE datname = 'notasi')\gexec" | psql
-echo "SELECT 'DROP role notasi' WHERE EXISTS (SELECT FROM pg_catalog.pg_roles WHERE  rolname = 'notasi')\gexec" | psql
-echo "CREATE USER notasi WITH PASSWORD '${NotasiPassword}' CREATEDB\gexec" | psql
-echo "CREATE DATABASE notasi OWNER notasi\gexec" | psql
+echo "SELECT 'DROP DATABASE notasi' WHERE EXISTS (SELECT FROM pg_database WHERE datname = 'notasi')\gexec" | psql postgres
+echo "SELECT 'DROP role notasi' WHERE EXISTS (SELECT FROM pg_catalog.pg_roles WHERE  rolname = 'notasi')\gexec" | psql postgres
+echo "CREATE USER notasi WITH PASSWORD '${NotasiPassword}' CREATEDB\gexec" | psql postgres
+echo "CREATE DATABASE notasi OWNER notasi\gexec" | psql postgres
 EOF
 
 
@@ -142,7 +142,8 @@ echo "insert into chart_types (name, chart_type) values ('Doughnut', 'doughnut')
 echo "insert into chart_types (name, chart_type) values ('Polar Area', 'polarArea');" | psql notasi
 
 
-echo "insert into notasi_group_categories (name) values ('Default Groups');" | psql notasi
+echo "insert into notasi_group_categories (name) values ('Access Level Groups');" | psql notasi
+echo "insert into notasi_groups (name, group_category_id) values ('Administrators', (SELECT id from notasi_group_categories where name = 'Access Level Groups'));" | psql notasi
 
 
 EOF
