@@ -105,7 +105,7 @@ def index():
         paint_logout = True
         if len(session['samlUserdata']) > 0:
             attributes = session['samlUserdata'].items()
-        print(vars(session))
+        print(session['samlUserdata'])
 
     return "1"
 
