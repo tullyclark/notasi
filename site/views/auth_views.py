@@ -6,6 +6,9 @@ import flask_login
 from data.source import User
 from data import db_session
 
+auth = Blueprint('auth', __name__, template_folder = '../templates/auth')
+
+
 
 @auth.route('/login')
 def login():
