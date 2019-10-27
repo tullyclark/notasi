@@ -1,6 +1,6 @@
 # auth.py
 
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, session as flask_session
 from werkzeug.security import generate_password_hash, check_password_hash
 import flask_login
 from data.source import User
@@ -12,6 +12,13 @@ auth = Blueprint('auth', __name__, template_folder = '../templates/auth')
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    if login_default == 'sso':
+        return redirect('/sso?sso')
+    elif login_default == 'local':
+        return redirect('/auth/local')
+
+@auth.route('/local', methods=['GET', 'POST'])
+def local():
     next_dest = request.args.get('next', default = "/", type = str)
     print(next_dest)
 
@@ -81,4 +88,6 @@ def signup():
 @flask_login.login_required
 def logout():
     flask_login.logout_user()
+    if 'samlUserdata' in flask_session:
+        return redirect('/sso/?slo')
     return redirect('/')

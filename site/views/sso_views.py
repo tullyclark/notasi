@@ -11,6 +11,7 @@ from config import saml_path
 
 from data.source import User
 from data import db_session
+import flask_login
 
 
 blueprint = Blueprint('sso', __name__)
@@ -105,15 +106,16 @@ def index():
 
 #IS LOGGED IN!!
     if 'samlUserdata' in session:
-        print(session['samlNameId'])
         paint_logout = True
         if len(session['samlUserdata']) > 0:
             attributes = session['samlUserdata'].items()
 
         database_session = db_session.create_session()
-        user = database_session.query(User).filter_by(username="sdfsdfsdf").first()
-        session.close
-    return "1"
+        user = database_session.query(User).filter_by(username=session['samlNameId']).first()
+        database_session.close
+        if not user:
+            return redirect(url_for('auth.login'))
+        flask_login.login_user(session['samlNameId'])
 
 
 @blueprint.route('/metadata/')
