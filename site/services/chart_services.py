@@ -56,10 +56,13 @@ def run_chart(id):
 			if col.lower()=='random':
 				color_palettes.append(random_palette)
 			else:
-				hex_palette = [d[col].strip("#") for d in notasi_query]
+				raw_palette = [d[col] for d in notasi_query]
 				rgb_palette = []
-				for color in hex_palette:
-					rgb_palette.append(",".join([str(int(color[i:i+2], 16)) for i in (0, 2, 4)]))
+				for color in raw_palette:
+					if color.startswith("#"):
+						rgb_palette.append(",".join([str(int(color.strip("#")[i:i+2], 16)) for i in (0, 2, 4)]))
+					else:
+						rgb_palette.append(color)
 				color_palettes.append(rgb_palette)
 
 
