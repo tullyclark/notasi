@@ -217,6 +217,7 @@ class Chart(SqlAlchemyBase):
 	notasi_query = sa.Column(sa.String)
 	label_column = sa.Column(sa.String)
 	value_columns = sa.Column(sa.String)
+	color_columns = sa.Column(sa.String)
 	options = sa.Column(sa.String)
 	access_groups = sa.Column(sa.String)
 	dashboard_charts = sa.orm.relationship("DashboardChart")

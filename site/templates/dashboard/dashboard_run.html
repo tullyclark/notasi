@@ -18,25 +18,28 @@
 						            	"{{item}}",
 						            {% endfor %}
 				        ],
-				        datasets: [{
-				            // label: '{{ chart.name }}',
-				            data: [
-				            		{% for item in chart["values"] %}
-						             "{{item}}",
-						            {% endfor %}
-						    ],
-				            borderWidth: 2,
-				            backgroundColor: [
-				            	{% for color in chart["color_palette"] %}
-				            		'rgba({{ color }}, 0.4)',
-				            	{% endfor %}
-				            ],
-				            baorderColor: [
-				            	{% for color in chart["color_palette"] %}
-				            		'rgba({{ color }}, 1)',
-				            	{% endfor %}
-				            ]
-				        }]
+				        datasets: [
+				        	{% for value_set in chart.value_sets %}
+					            {
+					            	data: [
+						            		{% for item in value_set %}
+								             "{{item}}",
+								            {% endfor %}
+								    ],
+						            borderWidth: 2,
+						            backgroundColor: [
+						            	{% for color in chart["color_palette"] %}
+						            		'rgba({{ color }}, 0.4)',
+						            	{% endfor %}
+						            ],
+						            baorderColor: [
+						            	{% for color in chart["color_palette"] %}
+						            		'rgba({{ color }}, 1)',
+						            	{% endfor %}
+						            ]
+					        	},
+					        {% endfor %}
+				        ]
 				    },
 				    {% if chart.options %}
 				    	{{ chart.options | safe}}

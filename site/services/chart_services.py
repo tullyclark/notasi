@@ -42,11 +42,15 @@ def run_chart(id):
 	color_palette = generate_color_palette(len(notasi_query))
 	random.shuffle(color_palette)
 
+	value_sets = []
+	for col in split_strip(chart.value_columns, ","):
+		value_sets.append([d[col] for d in notasi_query])
+
 
 	return({"chart_type": chart_type, \
 		"color_palette": color_palette, \
-		"values": [d['value'] for d in notasi_query], \
-		"labels": [d['label'] for d in notasi_query], \
+		"value_sets": value_sets, \
+		"labels": [d[chart.label_column] for d in notasi_query], \
 		"chart": chart, \
 		"id": chart.id, \
 		"name": chart.name})
