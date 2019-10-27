@@ -1,0 +1,43 @@
+{% extends "shared/_layout.html" %}
+{% block additional_css %}
+    <link rel="stylesheet" href="/static/css/list.css" />
+{% endblock %}
+{% block main_content %}
+    <div class="big-card">
+        <h1>Dashboards</h1>
+        <a href="/dashboard/edit">New</a>
+        <table>
+            <tr class="table_head">
+                <th>Name
+                </th>
+                <th>Charts
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
+            </tr>
+            {% for dashboard in dashboards %}
+            <tr>
+                <td>{{ dashboard.name }}</td>
+                <td> {% for dashboard_chart in dashboard.dashboard_charts%}
+                    {{ dashboard_chart.chart.name }}<br>
+                    {% endfor %}
+                    <a href="/dashboard/dashboard_chart/edit?dashboard_id={{ dashboard.id }}">Edit</a>
+                </td>
+                <td><a href="/dashboard/edit?id={{ dashboard.id }}">Edit</a></td>
+                <td><a href="/dashboard/run/{{ dashboard.id }}">Run</a></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}
+
+{% block additional_js %}
+{% endblock %}

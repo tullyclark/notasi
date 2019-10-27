@@ -1,0 +1,51 @@
+{% extends "shared/_layout.html" %}
+{% block additional_css %}
+	<link rel="stylesheet" href="/static/css/list.css" />
+{% endblock %}
+{% block main_content %}
+    <div class="big-card">
+    	<h1>Dashboard Charts</h1>
+		<table>
+			<tr class="table_head">
+				<th>Chart
+				</th>
+				<th>Order
+				</th>
+				<th>
+				</th>
+			</tr>
+			{% for dashboard_chart in dashboard.dashboard_charts %}
+			<tr>
+				<td>{{ dashboard_chart.chart.name }}</td>
+				<td>{{ dashboard_chart.order }}</td>
+				<td>
+					<a onclick="return confirm('Are you sure?');" href="/delete/{{ item_type }}/{{ dashboard_chart.id }}?next={{ back_link }}" class="btn btn-danger action-button push-left" id="delete">Delete</a>
+				</td>
+			</tr>
+			{% endfor %}
+			<tr>
+				<form action="" method="POST" class="account-form">
+					<td>
+						<div>
+							<input id="dashboard_id" name="dashboard_id" type="text" class="form-control" value="{{ dashboard.id }}" style="display: none;">
+							<select id="chart_id" name="chart_id" class="form-control">
+							<option value="" disabled  selected="selected">Select Chart</option>
+							{% for chart in charts %}
+							<option value="{{chart.id}}">{{chart.name}}</option>
+							{% endfor %}
+							</select>
+						</div>
+
+					</td>
+					<td>
+							<input id="order" name="order" type="text" placeholder="Order" class="form-control">
+					</td>
+					<td><button type="submit" class="btn btn-success action-button">Save</button></td>
+				</form>
+			</tr>
+		</table>
+    </div>
+{% endblock %}
+
+{% block additional_js %}
+{% endblock %}

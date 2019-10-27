@@ -187,6 +187,26 @@ class Endpoint(SqlAlchemyBase):
 	response_body = sa.Column(sa.String)
 	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)
 
+
+class Dashboard(SqlAlchemyBase):
+	
+	__tablename__ = 'dashboards'
+	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+	name = sa.Column(sa.String)
+	dashboard_charts = sa.orm.relationship("DashboardChart")
+
+
+class DashboardChart(UserMixin, SqlAlchemyBase):
+
+	__tablename__ = 'dashboard_charts'
+	id = sa.Column(sa.Integer, primary_key=True, autoincrement=True)
+	dashboard_id = sa.Column(sa.Integer, sa.ForeignKey('dashboards.id'), nullable=False)
+	dashboard = sa.orm.relationship("Dashboard")
+	chart_id = sa.Column(sa.Integer, sa.ForeignKey('charts.id'), nullable=False)
+	chart = sa.orm.relationship("Chart")
+	order = sa.Column(sa.Integer, nullable=False)
+
+
 class Chart(SqlAlchemyBase):
 	
 	__tablename__ = 'charts'
@@ -199,6 +219,7 @@ class Chart(SqlAlchemyBase):
 	value_columns = sa.Column(sa.String)
 	options = sa.Column(sa.String)
 	access_groups = sa.Column(sa.String)
+	dashboard_charts = sa.orm.relationship("DashboardChart")
 	created_date = sa.Column(sa.DateTime, default = datetime.datetime.now)
 
 class ChartType(SqlAlchemyBase):

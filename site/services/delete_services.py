@@ -1,7 +1,7 @@
 import sqlalchemy.orm
 
 import data.db_session as db_session
-from data.source import Location, Query, DataView, Subtype, LocationType, User, Endpoint, Schedule, ScheduleStep, Chart, Group, UserGroup, GroupCategory
+import data.source as source
 from services.crontab_services import write_cron_job, delete_cron_job
 
 def delete_object(id, item_type):
@@ -11,7 +11,7 @@ def delete_object(id, item_type):
     obj = session.query(item_type) \
         .filter_by(id=id) \
         .first()
-    if item_type == ScheduleStep:   
+    if item_type == source.ScheduleStep:   
         delete_cron_job(obj.schedule_id)
         session.commit()
         write_cron_job(obj.schedule_id)
@@ -22,7 +22,7 @@ def delete_object(id, item_type):
 def drop_view(id):
     session = db_session.create_session()
 
-    obj = session.query(DataView) \
+    obj = session.query(source.DataView) \
         .filter_by(id=id) \
         .first()
 

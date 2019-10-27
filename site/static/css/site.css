@@ -46,10 +46,32 @@ body {
     flex: 1;
 }
 
+.row-cards {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%
+}
+
 .big-card {
-	width: 80%;
+    width: 80%;
     margin-top: 20px; 
     margin-bottom: 20px; 
+    background: white;
+    padding: 20px;
+    border-radius: 4px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.two-card {
+    width: 40%;
+    margin: 2.5%;
+    min-width: 300px; 
     background: white;
     padding: 20px;
     border-radius: 4px;

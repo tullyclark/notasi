@@ -4,7 +4,8 @@ import re
 import data.db_session as db_session
 from data.source import Location, Query, DataView, Subtype, LocationType, \
     UserData, User, Endpoint, Schedule, ScheduleStep, \
-    ViewRun, Chart, Group, UserGroup, GroupCategory
+    ViewRun, Group, UserGroup, GroupCategory, \
+    Dashboard, DashboardChart, Chart
 from services.process_services import create_view
 from services.delete_services import drop_view
 from utils.split_strip import split_strip
@@ -72,6 +73,20 @@ def save_object(item_type, id, data):
             id = id,
             query_id = data["query_id"],
             schedule_id = data["schedule_id"]
+            )
+
+    elif item_type == 'dashboard':
+        save_dashboard(
+            id = id,
+            name = data["name"]
+            )
+
+    elif item_type == 'dashboard_chart':
+        save_dashboard_chart(
+            id = id,
+            dashboard_id = data["dashboard_id"],
+            order = data.get("order", default = None),
+            chart_id = data["chart_id"]
             )
 
     elif item_type == 'chart':
@@ -333,6 +348,40 @@ def save_schedule_step(id,
     delete_cron_job(schedule_id)
     write_cron_job(schedule_id)
     return schedule_step
+
+def save_dashboard(id,
+    name
+):
+
+    session = db_session.create_session()
+    if id:
+        dashboard = session.query(Dashboard).filter_by(id=id).first()
+    else:
+        dashboard = Dashboard()
+        session.add(dashboard)
+    dashboard.name = name
+    session.commit()
+    session.close()
+    return dashboard
+
+def save_dashboard_chart(id,
+    dashboard_id,
+    order,
+    chart_id
+):
+
+    session = db_session.create_session()
+    if id:
+        dashboard_chart = session.query(DashboardChart).filter_by(id=id).first()
+    else:
+        dashboard_chart = DashboardChart()
+        session.add(dashboard_chart)
+    dashboard_chart.dashboard_id = dashboard_id
+    dashboard_chart.order = order
+    dashboard_chart.chart_id = chart_id
+    session.commit()
+    session.close()
+    return dashboard_chart
 
 def save_chart(id,
     name,

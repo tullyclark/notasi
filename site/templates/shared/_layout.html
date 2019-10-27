@@ -36,16 +36,20 @@
               <a class="nav-link" href="/api">Endpoints</a>
             </li>
 
-            <li class="nav-item {% if '/user' in request.path %} active {% endif %}">
-              <a class="nav-link" href="/user">Users</a>
-            </li>
-
             <li class="nav-item {% if '/group' in request.path %} active {% endif %}">
               <a class="nav-link" href="/group/group_category">Groups</a>
             </li>
 
-            <li class="nav-item {% if '/dashboard/chart' in request.path %} active {% endif %}">
-              <a class="nav-link" href="/dashboard/chart">Charts</a>
+            <li class="nav-item {% if '/user' in request.path %} active {% endif %}">
+              <a class="nav-link" href="/user">Users</a>
+            </li>
+
+            <li class="nav-item {% if '/dashboard' in request.path %} active {% endif %}">
+              <a class="nav-link" href="/dashboard">Dashboards</a>
+            </li>
+
+            <li class="nav-item {% if '/chart' in request.path %} active {% endif %}">
+              <a class="nav-link" href="/chart">Charts</a>
             </li>
           </ul>
         </div>
