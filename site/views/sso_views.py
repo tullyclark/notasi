@@ -102,6 +102,7 @@ def index():
 
 #IS LOGGED IN!!
     if 'samlUserdata' in session:
+        print(session['samlUserdata'])
         paint_logout = True
         if len(session['samlUserdata']) > 0:
             attributes = session['samlUserdata'].items()
@@ -117,7 +118,6 @@ def attrs():
     if 'samlUserdata' in session:
         paint_logout = True
         if len(session['samlUserdata']) > 0:
-            print(session['samlUserdata'])
             attributes = session['samlUserdata'].items()
 
     return render_template('attrs.html', paint_logout=paint_logout,
