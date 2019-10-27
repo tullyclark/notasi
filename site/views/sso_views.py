@@ -114,8 +114,10 @@ def index():
         user = database_session.query(User).filter_by(username=session['samlNameId']).first()
         database_session.close
         if not user:
-            return redirect(url_for('auth.login'))
+            return redirect('/auth/login')
         flask_login.login_user(session['samlNameId'])
+        return redirect('/')
+
 
 
 @blueprint.route('/metadata/')
