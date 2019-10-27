@@ -110,8 +110,8 @@ def index():
         if len(session['samlUserdata']) > 0:
             attributes = session['samlUserdata'].items()
 
-        session = db_session.create_session()
-        user = session.query(User).filter_by(username="sdfsdfsdf").first()
+        database_session = db_session.create_session()
+        user = database_session.query(User).filter_by(username="sdfsdfsdf").first()
         session.close
     return "1"
 
