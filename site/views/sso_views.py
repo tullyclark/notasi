@@ -114,7 +114,7 @@ def index():
         user = database_session.query(User).filter_by(username=session['samlNameId']).first()
         database_session.close
         if not user:
-            return redirect('/auth/login')
+            return 'SSO user not found'
         flask_login.login_user(session['samlNameId'])
         return redirect('/')
 
