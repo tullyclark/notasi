@@ -79,6 +79,7 @@ def index():
         if len(errors) == 0:
             if 'AuthNRequestID' in session:
                 del session['AuthNRequestID']
+            session['samlUserdata'] = auth.get_attributes()
             session['samlNameId'] = auth.get_nameid()
             session['samlNameIdFormat'] = auth.get_nameid_format()
             session['samlNameIdNameQualifier'] = auth.get_nameid_nq()
@@ -101,7 +102,6 @@ def index():
                 success_slo = True
 
 #IS LOGGED IN!!
-    print(session['samlNameId'])
     if 'samlUserdata' in session:
         print(session['samlUserdata'])
         paint_logout = True
