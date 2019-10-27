@@ -111,9 +111,9 @@ def index():
             attributes = session['samlUserdata'].items()
 
         database_session = db_session.create_session()
-        user = database_session.query(User).filter_by(username=session['samlNameId']).first()
+        flask_user = database_session.query(User).filter_by(username=session['samlNameId']).first()
         database_session.close
-        if not user:
+        if not flask_user:
             return 'SSO user not found'
         flask_login.login_user(session['samlNameId'])
         return redirect('/')
