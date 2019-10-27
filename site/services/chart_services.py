@@ -45,19 +45,22 @@ def run_chart(id):
 		value_sets.append([d[col] for d in notasi_query])
 
 	color_palettes = []
+	random_palette = generate_color_palette(len(notasi_query))
+	random.shuffle(random_palette)
 
-	if not chart.color_columns or chart.color_columns.lower()=='random':
-		color_palette = generate_color_palette(len(notasi_query))
-		random.shuffle(color_palette)
+	if not chart.color_columns:
 		for value_set in value_sets:
-			color_palettes.append(color_palette)
+			color_palettes.append(random_palette)
 	else:
 		for col in split_strip(chart.color_columns, ","):
-			hex_palette = [d[col].strip("#") for d in notasi_query]
-			rgb_palette = []
-			for color in hex_palette:
-				rgb_palette.append(",".join([str(int(color[i:i+2], 16)) for i in (0, 2, 4)]))
-			color_palettes.append(rgb_palette)
+			if col.lower()=='random':
+				color_palettes.append(random_palette)
+			else:
+				hex_palette = [d[col].strip("#") for d in notasi_query]
+				rgb_palette = []
+				for color in hex_palette:
+					rgb_palette.append(",".join([str(int(color[i:i+2], 16)) for i in (0, 2, 4)]))
+				color_palettes.append(rgb_palette)
 
 
 
