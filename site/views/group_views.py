@@ -44,7 +44,6 @@ def category_edit():
 
 	if flask.request.method == "POST":
 		data = flask.request.form
-		print(data)
 		save_object('group_category', id, data)
 		return flask.redirect('/group/group_category')
 
@@ -82,6 +81,5 @@ def group_edit():
 
 	if flask.request.method == "POST":
 		data = flask.request.form
-		print(data)
 		save_object('group', id, data)
 		return flask.redirect('/group/group?category_id=' +str(data["group_category_id"]))

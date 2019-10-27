@@ -28,7 +28,6 @@ type_variables = {
 @blueprint.route('/<item_type>', methods=['POST', 'GET'])
 def edit(item_type: str):
 	id = flask.request.args.get('id', default = None, type = int)
-	print(id)
 	if flask.request.method == "GET":
 		return flask.render_template(
 

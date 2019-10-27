@@ -22,7 +22,6 @@ def login():
 @auth.route('/local', methods=['GET', 'POST'])
 def local():
     next_dest = request.args.get('next', default = "/", type = str)
-    print(next_dest)
 
     if request.method =='GET':
         next = request.args.get('next', default = "/", type = int)
@@ -84,7 +83,6 @@ def signup():
             .filter(Group.name=='Administrators') \
             .filter(GroupCategory.name == 'Access Level Groups') \
             .first()
-        print(admin_group.name)
         user_group = UserGroup(user_id = new_user.id, group_id = admin_group.id)
 
         # add the new user to the database

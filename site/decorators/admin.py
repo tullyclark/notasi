@@ -5,7 +5,6 @@ from functools import wraps
 def is_admin(fn):
     @wraps(fn)
     def wrap(*args, **kwargs):
-        print(current_user)
         for user_group in current_user.user_groups:
             if user_group.group.name =='Administrators' and user_group.group.group_category.name == 'Access Level Groups': 
                 return fn(*args, **kwargs)
