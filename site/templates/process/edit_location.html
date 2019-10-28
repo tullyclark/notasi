@@ -13,37 +13,37 @@
 	<option value="" disabled selected="selected">Select Location Type</option>
 	{% endif %}
 	{% for location_type in location_types %}
-	<option value="{{location_type.id}}" {% if data_obj.location_type_id == location_type.id %} selected="selected" {% endif %}>{{location_type.name}}</option>
+	<option value="{{location_type.id}}" data-location_type = '{{location_type.name}}'{% if data_obj.location_type_id == location_type.id %} selected="selected" {% endif %}>{{location_type.name}}</option>
 	{% endfor %}
 	</select>
 </div>
 
-<div>
+<div style = 'display: none;'>
 	<label for="address">Address</label>
 	<input id="address" name="address" type="text" placeholder="Address" class="form-control" value="{{ data_obj.address if data_obj.address }}">
 </div>
 
-<div>
+<div style = 'display: none;'>
 	<label for="port">Port</label>
 	<input id="port" name="port" type="text" placeholder="Port" class="form-control" value="{{ data_obj.port if data_obj.port }}">
 </div>
 
-<div>
+<div style = 'display: none;'>
 	<label for="database">Database</label>
 	<input id="database" name="database" type="text" placeholder= "Database" class="form-control" value="{{ data_obj.database if data_obj.database }}">
 </div>
 
-<div>
+<div style = 'display: none;'>
 	<label for="username">Username</label>
 	<input id = "username" name="username" type="text" placeholder="Username" class="form-control" value="{{ data_obj.username if data_obj.username }}">
 </div>
 
-<div>
+<div style = 'display: none;'>
 	<label for="password">Password</label>
-	<input id="password" name="password" type="password" placeholder= {% if data_obj.password %} "********" {% else %} "Password" {% endif %} class="form-control" value="">
+	<input id="password" name="password" type="password" placeholder= {% if data_obj.password %} "********" {% else %} "Password" {% endif %} class="form-control">
 </div>
 
-<div>
+<div style = 'display: none;'>
 	<label for="subtype_id">Subtype</label>
 	<select id="subtype_id" name="subtype_id" class="form-control">
 	{% if not data_obj.subtype_id %}
@@ -55,5 +55,11 @@
 	{% endfor %}
 	</select>
 </div>
+
+{% endblock %}
+
+{% block additional_js %}
+
+<script src="/static/js/location.js"></script>
 
 {% endblock %}
