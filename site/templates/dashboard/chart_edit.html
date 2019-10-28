@@ -20,17 +20,22 @@
 
 <div>
 	<label for="notasi_query">Data Lake Query</label>
-	<textarea id="notasi_query" name="notasi_query" type="text" placeholder="Query Notasi Database" class="form-control">{{ data_obj.notasi_query if data_obj.notasi_query }}</textarea>
+	<textarea id="notasi_query" name="notasi_query" type="text" placeholder="Query Notasi Database'Category.Group' for Permissions - Hex or RGB for Colors" class="form-control">{{ data_obj.notasi_query if data_obj.notasi_query }}</textarea>
 </div>
 
 <div>
-	<label for="label_column">Label Column</label>
-	<input id="label_column" name="label_column" type="text" placeholder="Label Column" class="form-control" value="{{ data_obj.label_column if data_obj.label_column }}">
+	<label for="x_categories">X Axis Categories</label>
+	<input id="x_categories" name="x_categories" type="text" placeholder="col1" class="form-control" value="{{ data_obj.x_categories if data_obj.x_categories }}">
 </div>
 
 <div>
 	<label for="value_columns">Value Columns</label>
 	<input id="value_columns" name="value_columns" type="text" placeholder="Value Columns(comma separated)" class="form-control" value="{{ data_obj.value_columns if data_obj.value_columns }}">
+</div>
+
+<div>
+	<label for="dataset_legends">Dataset Legends</label>
+	<input id="dataset_legends" name="dataset_legends" type="text" placeholder='Column 1, Column 2' class="form-control" value="{{ data_obj.dataset_legends if data_obj.dataset_legends }}">
 </div>
 
 
@@ -47,6 +52,11 @@
 <div>
 	<label for="access_groups">Access Groups</label>
 	<textarea id="access_groups" name="access_groups" type="text" placeholder="Access Groups (comma separated)" class="form-control">{{ data_obj.access_groups if data_obj.access_groups }}</textarea>
+</div>
+
+<div>
+	<label for="access_columns">Access Columns</label>
+	<textarea id="access_columns" name="access_columns" type="text" placeholder="Access Columns (comma separated)" class="form-control">{{ data_obj.access_columns if data_obj.access_columns }}</textarea>
 </div>
 
 

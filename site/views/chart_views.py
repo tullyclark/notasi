@@ -12,7 +12,7 @@ from decorators.admin import is_admin
 
 
 
-template_dir = os.path.abspath('./templates/chart/')
+template_dir = os.path.abspath('./templates/dashboard/')
 blueprint = flask.Blueprint('chart', __name__, template_folder = template_dir)
 
 @blueprint.before_request
@@ -49,13 +49,10 @@ def chart_edit():
 
 @blueprint.route('/run/<id>')
 def run(id: int):
-	chart = run_chart(id)
+	charts = []
+	charts.append(run_chart(id))
 
 	return flask.render_template(
-		'chart_run.html'
-		, chart = chart["chart"]
-		, values = chart["values"]
-		, labels = chart["labels"]
-		, type = chart["chart_type"]
-		, color_palette = chart["color_palette"])
+		'dashboard_run.html'
+		, charts = charts)
 

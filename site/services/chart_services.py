@@ -1,4 +1,5 @@
 import pandas
+from flask import abort
 import data.db_session as db_session
 from data.source import Chart, UserGroup
 from flask_login import current_user
@@ -17,14 +18,16 @@ def run_chart(id):
 		.filter_by(user_id=current_user.id)\
 		.all()
 
+	####### COLUMN ACCESS ############
+
 	groups = []
 	for user_group in user_groups:
-		groups.append(user_group.group.name)
-	
+		groups.append(user_group.group.group_category.name + '.' + user_group.group.name)
+
 	sql_cols = []
 	
-	if chart.access_groups.strip():
-		cols = split_strip(chart.access_groups, ",")
+	if chart.access_columns.strip():
+		cols = split_strip(chart.access_columns, ",")
 		for col in cols:
 			q = col + " in ('" + "','".join(groups) + "')"
 			sql_cols.append(q)
@@ -36,6 +39,19 @@ def run_chart(id):
 		query = "select * from (" + query + ") as tab1 where " + sql_cols_concat
 
 	session.close()
+
+
+	####### COLUMN GROUPS ############
+
+	if chart.access_groups.strip():
+		access_groups = split_strip(chart.access_groups, ",")
+		match = set(groups) & set(access_groups)
+		if not match and not sql_cols:
+			abort(401)
+
+
+
+	##################################
 
 	notasi_query = pandas.read_sql(query, db_session.notasi_engine()).to_dict('records')
 	
@@ -73,7 +89,8 @@ def run_chart(id):
 	return({"chart_type": chart_type, \
 		"color_palettes": color_palettes, \
 		"value_sets": value_sets, \
-		"labels": [d[chart.label_column] for d in notasi_query], \
+		"x_categories": [d[chart.x_categories] for d in notasi_query], \
+		"dataset_legends": split_strip(chart.dataset_legends, ","), \
 		"chart": chart, \
 		"id": chart.id, \
 		"name": chart.name})

@@ -14,13 +14,14 @@
 				    type: '{{ chart.chart_type }}',
 				    data: {
 				        labels: [
-				            		{% for item in chart["labels"] %}
+				            		{% for item in chart["x_categories"] %}
 						            	"{{item}}",
 						            {% endfor %}
 				        ],
 				        datasets: [
 				        	{% for value_set in chart.value_sets %}
 					            {
+					            	label: '{{chart.dataset_legends[loop.index0]}}',
 					            	data: [
 						            		{% for item in value_set %}
 								             "{{item}}",
@@ -46,7 +47,7 @@
 				    {% else %}
 					    options: {
 					        legend: {
-					            display: false,
+					            //display: false,
 					        },
 					    	responsive: true,
 					    	{% if type == 'bar' or type =='line' %}
