@@ -6,6 +6,7 @@ from flask_login import current_user
 from utils.color_palette import generate_color_palette
 from utils.split_strip import split_strip
 import random
+import collections
 
 def run_chart(id):
 	session = db_session.create_session()
@@ -17,6 +18,7 @@ def run_chart(id):
 	user_groups = session.query(UserGroup) \
 		.filter_by(user_id=current_user.id)\
 		.all()
+
 
 	####### COLUMN ACCESS ############
 
@@ -51,46 +53,74 @@ def run_chart(id):
 
 
 
-	##################################
-
+	###########GET DATA ##############
 	notasi_query = pandas.read_sql(query, db_session.notasi_engine()).to_dict('records')
+
+	####### COLORS ############
 	
 
-	value_sets = []
-	for col in split_strip(chart.value_columns, ","):
-		value_sets.append([d[col] for d in notasi_query])
 
-	color_palettes = []
-	random_palette = generate_color_palette(len(notasi_query))
-	random.shuffle(random_palette)
 
-	if not chart.color_columns:
-		for value_set in value_sets:
-			color_palettes.append(random_palette)
+
+
+	###########SPLIT CHART ON COL ##############
+
+	charts = []
+	result_list = []
+
+
+	if chart.page_column:
+
+		result = collections.defaultdict(list)
+
+		for d in notasi_query:
+		    result[d[chart.page_column]].append(d)
+
+		result_list = list(result.values())
+
 	else:
-		for col in split_strip(chart.color_columns, ","):
-			if col.lower()=='random':
+		result_list.append(notasi_query)
+
+
+	for l in result_list:
+		value_sets = []
+		for col in split_strip(chart.value_columns, ","):
+			value_sets.append([d[col] for d in l])
+
+
+		color_palettes = []
+		random_palette = generate_color_palette(len(l))
+		random.shuffle(random_palette)
+
+		if not chart.color_columns:
+			for value_set in value_sets:
 				color_palettes.append(random_palette)
-			else:
-				raw_palette = [d[col] for d in notasi_query]
-				rgb_palette = []
-				for color in raw_palette:
-					if color.startswith("#"):
-						rgb_palette.append(",".join([str(int(color.strip("#")[i:i+2], 16)) for i in (0, 2, 4)]))
-					else:
-						rgb_palette.append(color)
-				color_palettes.append(rgb_palette)
+		else:
+			for col in split_strip(chart.color_columns, ","):
+				if col.lower()=='random':
+					color_palettes.append(random_palette)
+				else:
+					raw_palette = [d[col] for d in l]
+					rgb_palette = []
+					for color in raw_palette:
+						if color.startswith("#"):
+							rgb_palette.append(",".join([str(int(color.strip("#")[i:i+2], 16)) for i in (0, 2, 4)]))
+						else:
+							rgb_palette.append(color)
+					color_palettes.append(rgb_palette)
 
-
-
-
-
-
-	return({"chart_type": chart_type, \
+		charts.append({"page": l[0].get(chart.page_column), \
+		"chart_type": chart_type, \
 		"color_palettes": color_palettes, \
 		"value_sets": value_sets, \
-		"x_categories": [d[chart.x_categories] for d in notasi_query], \
+		"x_categories": [d[chart.x_categories] for d in l], \
 		"dataset_legends": split_strip(chart.dataset_legends, ","), \
 		"chart": chart, \
 		"id": chart.id, \
 		"name": chart.name})
+
+
+
+
+
+	return(charts)

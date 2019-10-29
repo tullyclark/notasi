@@ -72,10 +72,15 @@ def dashboard_chart_edit():
 def run(id: int):
 	dashboard =search_object(id, Dashboard)
 	charts = []
+	pages = []
 	for dashboard_chart in dashboard.dashboard_charts:
-		charts.append(run_chart(dashboard_chart.chart_id))
+		for chart in run_chart(dashboard_chart.chart_id):
+			charts.append(chart)
+			if chart["page"] and chart["page"] not in pages:
+				pages.append(chart["page"])
 
 	return flask.render_template(
 		'dashboard_run.html'
-		, charts = charts)
+		, charts = charts
+		, pages = pages)
 

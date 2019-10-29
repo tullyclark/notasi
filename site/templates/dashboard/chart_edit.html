@@ -44,6 +44,12 @@
 	<input id="color_columns" name="color_columns" type="text" placeholder="Color Columns(comma separated)" class="form-control" value="{{ data_obj.color_columns if data_obj.color_columns }}">
 </div>
 
+
+<div>
+	<label for="page_column">Paginate on Column</label>
+	<input id="page_column" name="page_column" type="text" placeholder="e.g. student_id for new chart on student_id" class="form-control" value="{{ data_obj.page_column if data_obj.page_column }}">
+</div>
+
 <div>
 	<label for="options">Options</label>
 	<textarea id="options" name="options" type="text" placeholder="Options" class="form-control">{{ data_obj.options if data_obj.options }}</textarea>

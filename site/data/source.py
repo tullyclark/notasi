@@ -219,6 +219,7 @@ class Chart(SqlAlchemyBase):
 	dataset_legends = sa.Column(sa.String)
 	value_columns = sa.Column(sa.String)
 	color_columns = sa.Column(sa.String)
+	page_column = sa.Column(sa.String)
 	options = sa.Column(sa.String)
 	access_columns = sa.Column(sa.String)
 	access_groups = sa.Column(sa.String)

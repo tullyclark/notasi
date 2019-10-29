@@ -99,6 +99,7 @@ def save_object(item_type, id, data):
             value_columns = data["value_columns"],
             dataset_legends = data["dataset_legends"],
             color_columns = data["color_columns"],
+            page_column = data["page_column"],
             access_columns = data["access_columns"],
             access_groups = data["access_groups"],
             options = data["options"]
@@ -392,6 +393,7 @@ def save_chart(id,
     dataset_legends,
     value_columns,
     color_columns,
+    page_column,
     options,
     access_columns,
     access_groups
@@ -410,6 +412,7 @@ def save_chart(id,
     chart.dataset_legends = dataset_legends
     chart.value_columns = value_columns
     chart.color_columns = color_columns
+    chart.page_column = page_column
     chart.options = options
     chart.access_columns = access_columns
     chart.access_groups = access_groups

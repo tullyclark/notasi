@@ -50,9 +50,15 @@ def chart_edit():
 @blueprint.route('/run/<id>')
 def run(id: int):
 	charts = []
-	charts.append(run_chart(id))
+	pages = []
+
+	for chart in run_chart(id):
+			charts.append(chart)
+			if  chart["page"] and chart["page"] not in pages:
+				pages.append(chart["page"])
 
 	return flask.render_template(
 		'dashboard_run.html'
-		, charts = charts)
+		, charts = charts
+		, pages = pages)
 

@@ -1,5 +1,6 @@
 {% extends "shared/_layout.html" %}
 {% block additional_css %}
+	<link rel="stylesheet" href="/static/css/dashboard.css" />
 {% endblock %}
 {% block main_content %}
 	<script type="text/javascript">
@@ -8,6 +9,7 @@
 			{% if loop.index0 > 0 %},{% endif %}
 			{
 				"id": "chart{{loop.index0}}",
+				"page": "{{chart.page}}",
 				"name": '{{chart["name"]}}',
 				"chart": {
 					"type": '{{ chart.chart_type }}',
@@ -43,9 +45,26 @@
 						{% endfor %}
 						]
 					},
-					"options":{
-						"responsive": true
-					}
+				    {% if chart.options %}
+				    	{{ chart.options | safe}}
+				    {% else %}
+					    options: {
+					    	animation: false,
+					        legend: {
+					            //display: false,
+					        },
+					    	responsive: true,
+					    	{% if type == 'bar' or type =='line' %}
+						        scales: {
+						            yAxes: [{
+						                ticks: {
+						                    beginAtZero: true
+						                }
+						            }]
+						        }
+						    {% endif %}
+					    }
+					{% endif %}
 				}
 			}
 		{% endfor %}
@@ -55,6 +74,17 @@
 
 
 	</script>
+	{% if pages %}
+		<div class="page-tabs">
+			<ul class="nav nav-tabs">
+			  {% for page in pages %}
+			      <li class="nav-item">
+				    <a class="nav-link page_tabs" id="page_{{page}}" onclick="load_page(chart_data, '{{page}}')">{{page}}</a>
+				  </li>
+			  {% endfor %}
+			</ul>
+		</div>
+	{% endif %}
 
 	<div class = "row-cards">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis=" crossorigin="anonymous"></script>
@@ -65,8 +95,12 @@
 {% block additional_js %}
 	<script src="/static/js/chart_tools.js"></script>
 	<script type="text/javascript">
-	
+		
+	{% if pages %}
+		load_page(chart_data, '{{pages[0]}}')
+	{% else %}
 		create_all_charts(chart_data)
+	{% endif %}
 
 	</script>
 {% endblock %}
