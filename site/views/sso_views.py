@@ -50,7 +50,7 @@ def index():
 
     next_dest = request.args.get('next', default = "/", type = str)
     if 'sso' in request.args:
-        return redirect(auth.login(next_dest))
+        return redirect(auth.login(request.host_url + next_dest))
         # If AuthNRequest ID need to be stored in order to later validate it, do instead
         # sso_built_url = auth.login()
         # request.session['AuthNRequestID'] = auth.get_last_request_id()
@@ -90,6 +90,15 @@ def index():
             session['samlNameIdSPNameQualifier'] = auth.get_nameid_spnq()
             session['samlSessionIndex'] = auth.get_session_index()
             self_url = OneLogin_Saml2_Utils.get_self_url(req)
+
+
+            database_session = db_session.create_session()
+            flask_user = database_session.query(User).filter_by(username=session['samlNameId']).first()
+            database_session.close
+            if not flask_user:
+                return 'SSO user not found'
+            flask_login.login_user(flask_user)
+            
             if 'RelayState' in request.form and self_url != request.form['RelayState']:
                 return redirect(auth.redirect_to(request.form['RelayState']))
     elif 'sls' in request.args:
@@ -110,13 +119,6 @@ def index():
         paint_logout = True
         if len(session['samlUserdata']) > 0:
             attributes = session['samlUserdata'].items()
-
-        database_session = db_session.create_session()
-        flask_user = database_session.query(User).filter_by(username=session['samlNameId']).first()
-        database_session.close
-        if not flask_user:
-            return 'SSO user not found'
-        flask_login.login_user(flask_user)
         return redirect('/')
 
 
