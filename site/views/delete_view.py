@@ -1,4 +1,6 @@
 import flask
+import sys
+from sqlalchemy import exc
 from data.source import Location, Query, DataView, User, Endpoint, Schedule, ScheduleStep, Chart, Group, UserGroup, GroupCategory, Dashboard, DashboardChart
 from flask_login import login_required
 from services.delete_services import delete_object
@@ -16,11 +18,11 @@ def before_request():
     pass 
 
     
-@blueprint.route('/<item_type>/<id>', methods=['POST', 'GET'])
+@blueprint.route('/<item_type>/<id>', methods=['GET'])
 def delete(item_type: str, id: int):
 
 	next = flask.request.args.get('next', default = None, type = str)
-	if flask.request.method == "GET":
+	try:
 		if item_type == 'location':
 			delete_object(id, Location)
 		if item_type ==  'query':
@@ -48,3 +50,7 @@ def delete(item_type: str, id: int):
 		if item_type == 'dashboard_chart':
 			delete_object(id, DashboardChart)
 		return flask.redirect(next)
+	except exc.IntegrityError as error:
+	    return flask.render_template(
+		'./process/error.html',
+		 error = "Integrity Error: Make sure you delete all child objects before deleting the parent")
