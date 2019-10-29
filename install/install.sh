@@ -28,35 +28,35 @@ User="${User:-${SUDO_USER:-$(whoami)}}"
 sudo chown -R $User $InstallLocation
 
 
-read -e -p "Use SSL (Y/N) [Y]: " SSL
-SSL=${SSL:="Y"}
+# read -e -p "Use SSL (Y/N) [Y]: " SSL
+# SSL=${SSL:="Y"}
 
 
-#do nginx stuff
+# #do nginx stuff
 
-if [ $SSL == "Y" ]; then
-	echo "If SSL files don't exist, starting the NGINX server will fail"
+# if [ $SSL == "Y" ]; then
+# 	echo "If SSL files don't exist, starting the NGINX server will fail"
 
-	read -e -p "SSL Certification Location []: " Certificate
-	echo $Certificate
+# 	read -e -p "SSL Certification Location []: " Certificate
+# 	echo $Certificate
 
-	read -e -p "SSL Private Key Location []: " PrivateKey
-	echo $PrivateKey
+# 	read -e -p "SSL Private Key Location []: " PrivateKey
+# 	echo $PrivateKey
 
-	read -e -p "SSL Private Key Passphrase Location []: " PrivateKeyPassphrase
-	echo $PrivateKeyPassphrase
+# 	read -e -p "SSL Private Key Passphrase Location []: " PrivateKeyPassphrase
+# 	echo $PrivateKeyPassphrase
 
-	echo "Generating NGINX File"
-	InstallLocation=$InstallLocation \
-	Certificate=$Certificate \
-	PrivateKey=$PrivateKey \
-	PrivateKeyPassphrase=$PrivateKeyPassphrase \
-	envsubst '$InstallLocation $Certificate $PrivateKey $PrivateKeyPassphrase'< $InstallLocation/install/https-nginx-template.txt > /etc/nginx/sites-available/notasi
-else
+# 	echo "Generating NGINX File"
+# 	InstallLocation=$InstallLocation \
+# 	Certificate=$Certificate \
+# 	PrivateKey=$PrivateKey \
+# 	PrivateKeyPassphrase=$PrivateKeyPassphrase \
+# 	envsubst '$InstallLocation $Certificate $PrivateKey $PrivateKeyPassphrase'< $InstallLocation/install/https-nginx-template.txt > /etc/nginx/sites-available/notasi
+# else
 	echo "Generating NGINX File"
 	InstallLocation=$InstallLocation \
 	envsubst '$InstallLocation'< $InstallLocation/install/http-nginx-template.txt > /etc/nginx/sites-available/notasi
-fi
+# fi
 
 
 
