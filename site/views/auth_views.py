@@ -14,10 +14,11 @@ auth = Blueprint('auth', __name__, template_folder = '../templates/auth')
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    next_dest = request.args.get('next', default = "/", type = str)
     if login_default == 'sso':
-        return redirect('/sso?sso')
+        return redirect(url_for('sso.index',  sso = 1, next = next_dest))
     elif login_default == 'local':
-        return redirect('/auth/local')
+        return redirect(url_for('auth.local',  next = next_dest))
 
 @auth.route('/local', methods=['GET', 'POST'])
 def local():
