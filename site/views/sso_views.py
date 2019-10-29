@@ -48,8 +48,9 @@ def index():
     attributes = False
     paint_logout = False
 
+    next_dest = request.args.get('next', default = "/", type = str)
     if 'sso' in request.args:
-        return redirect(auth.login())
+        return redirect(auth.login(next_dest))
         # If AuthNRequest ID need to be stored in order to later validate it, do instead
         # sso_built_url = auth.login()
         # request.session['AuthNRequestID'] = auth.get_last_request_id()
