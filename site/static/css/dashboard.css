@@ -3,8 +3,13 @@
 .page-tabs{
     width: 100%;
     margin-top: 10px;
+    /*overflow-x: scroll;*/
 }
 
 .row-cards{
 	background-color: white;
 }
+
+/*.nav-tabs {
+	flex-wrap: nowrap;
+}*/
