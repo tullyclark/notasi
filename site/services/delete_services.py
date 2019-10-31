@@ -26,7 +26,7 @@ def drop_view(id):
         .filter_by(id=id) \
         .first()
 
-    sql_text = f"drop view {obj.view_name}"
+    sql_text = f"drop view if exists {obj.view_name}"
     session.execute(sql_text)
     
     session.commit()

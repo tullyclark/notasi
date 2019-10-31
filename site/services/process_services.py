@@ -126,7 +126,7 @@ def http_select(
 	if query.request_method.name == "GET":
 		for request_var in request_vars:
 			response = requests.get(url = request_var['url'], headers = request_var['headers'], data = request_var['data']).json()
-			responses.append(flatten_json(pandas.DataFrame(response)))
+			responses.append(flatten_json(pandas.DataFrame(response, index=[0]).reset_index(drop=True)))
 			
 	elif query.request_method.name == "POST":
 		for request_var in request_vars:
