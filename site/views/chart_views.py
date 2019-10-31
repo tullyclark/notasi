@@ -51,11 +51,16 @@ def chart_edit():
 def run(id: int):
 	charts = []
 	pages = []
-
-	for chart in run_chart(id):
-			charts.append(chart)
-			if  chart["page"] and chart["page"] not in pages:
-				pages.append(chart["page"])
+	try:
+		for chart in run_chart(id):
+				charts.append(chart)
+				if  chart["page"] and chart["page"] not in pages:
+					pages.append(chart["page"])
+	except Exception as error:
+		message = str(type(error).__name__) +': ' +str(error)
+		return flask.render_template(
+		'./process/error.html',
+		 error = message)
 
 	return flask.render_template(
 		'dashboard_run.html'
