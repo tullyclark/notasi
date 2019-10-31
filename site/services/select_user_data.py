@@ -1,7 +1,7 @@
 
 from data.source import Location, Query, DataView, Subtype, LocationType
 from services.process_services import sql_select, file_select, http_select, ldap_select
-from services.user_group_services import update_users, update_groups
+from services.user_group_services import update_users, update_groups, update_user_groups
 # from uwsgi import scheduler
 # from apscheduler.triggers.cron import CronTrigger
 import datetime
@@ -35,7 +35,9 @@ def select_user_data(query_id):
 		data_list = update_users(query)
 	
 	if location_type_name =='Notasi Groups':
-		data_list = update_groups(query)
+		update_groups(query)
+		update_user_groups(query)
+		data_list = []
 
 	print("stop: " + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
 	return(data_list)

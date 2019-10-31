@@ -2,7 +2,7 @@ charts = []
 
 function append_canvas(name, id){
 	
-	obj_str = "<div class='two-card chart'><h3>" + name +"</h3><canvas id='"+id+"'></canvas></div>"
+	obj_str = "<div class='two-card chart' style = 'display: none;'><h3>" + name +"</h3><canvas id='"+id+"'></canvas></div>"
 	$('.row-cards').append(obj_str)
 }
 
@@ -36,6 +36,7 @@ function create_all_charts(charts) {
 	$.each(charts, function( index, chart ) {
 		create_chart(chart.name, chart.id, chart.chart);
 	})
+	$('.chart').show()
 }
 
 function create_page_charts(charts, page) {
@@ -64,5 +65,6 @@ function load_page(charts, page) {
 	create_page_charts(charts, page)
 	$(".page_tabs").removeClass("active")
 	$("#page_" + page).addClass("active")
+	$('.chart').show()
 }
 

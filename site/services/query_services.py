@@ -13,10 +13,8 @@ def run_query(id, out):
 	session.close()
 
 	data=[]
-	try:
-		data = select_user_data(id)
-	except Exception as error:
-		print(str(error))
+	data = select_user_data(id)
+
 
 	if out == 'write':
 		for data_view in views:

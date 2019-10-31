@@ -40,6 +40,7 @@ def sql_select(
 		"@" + location.address + \
 		":" + location.port + \
 		"/" + location.database)
+	location_connection = location_engine.connect()
 
 	formatted_queries = []
 	if query.notasi_query:
@@ -53,18 +54,15 @@ def sql_select(
 				formatted_query = formatted_query.replace('{' + str(key) + '}', str(row[key]))
 
 			formatted_queries.append(formatted_query)
-
 	if not formatted_queries:
 		formatted_queries.append(query.body)
-
 	data = []
-
 	for formatted_query in formatted_queries:
+
 		df = pandas.read_sql_query(formatted_query, location_engine)
 		data.append(df)
 
 	data = json.loads(json.dumps(pandas.concat(data).to_dict('records'), default=default))
-
 	return flatten_json(data)
 
 def file_select(
@@ -127,16 +125,16 @@ def http_select(
 
 	if query.request_method.name == "GET":
 		for request_var in request_vars:
-
 			response = requests.get(url = request_var['url'], headers = request_var['headers'], data = request_var['data']).json()
-			responses.append(pandas.DataFrame(response))
-	
+			responses.append(flatten_json(pandas.DataFrame(response)))
+			
 	elif query.request_method.name == "POST":
 		for request_var in request_vars:
 			response = requests.post(url = request_var['url'], headers = request_var['headers'], data = request_var['data']).json()
 			responses.append(pandas.DataFrame(response, index=[0]))
-	result = pandas.concat(responses)
-	return flatten_json(result.to_dict())
+
+	result = [item for sublist in responses for item in sublist]
+	return result
 
 def ldap_select(query):
 	

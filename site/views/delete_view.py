@@ -3,7 +3,7 @@ import sys
 from sqlalchemy import exc
 from data.source import Location, Query, DataView, User, Endpoint, Schedule, ScheduleStep, Chart, Group, UserGroup, GroupCategory, Dashboard, DashboardChart
 from flask_login import login_required
-from services.delete_services import delete_object
+from services.delete_services import delete_object, drop_view
 from decorators.admin import is_admin
 
 
@@ -28,6 +28,7 @@ def delete(item_type: str, id: int):
 		if item_type ==  'query':
 			delete_object(id, Query)
 		if item_type == 'view':
+			drop_view(id)
 			delete_object(id, DataView)
 		if item_type == 'user':
 			delete_object(id, User)

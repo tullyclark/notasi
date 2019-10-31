@@ -93,6 +93,7 @@ echo "SELECT 'DROP DATABASE notasi' WHERE EXISTS (SELECT FROM pg_database WHERE 
 echo "SELECT 'DROP role notasi' WHERE EXISTS (SELECT FROM pg_catalog.pg_roles WHERE  rolname = 'notasi')\gexec" | psql postgres
 echo "CREATE USER notasi WITH PASSWORD '${NotasiPassword}' CREATEDB\gexec" | psql postgres
 echo "CREATE DATABASE notasi OWNER notasi\gexec" | psql postgres
+echo "CREATE SCHEMA notasi" | psql notasi
 EOF
 
 

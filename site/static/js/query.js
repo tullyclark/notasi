@@ -47,7 +47,8 @@ fields = [{
 	"type": "SQL",
 	"fields": [{
 		"id": "notasi_query",
-		"display": "show"
+		"display": "show",
+		"placeholder": "Query Notasi Database"
 	}, {
 		"id": "endpoint",
 		"display": "hide"
@@ -67,7 +68,8 @@ fields = [{
 	"type": "HTTP",
 	"fields": [{
 		"id": "notasi_query",
-		"display": "show"
+		"display": "show",
+		"placeholder": "Query Notasi Database"
 	}, {
 		"id": "endpoint",
 		"display": "show",
@@ -111,7 +113,8 @@ fields = [{
 	"type": "Notasi Users",
 	"fields": [{
 		"id": "notasi_query",
-		"display": "show"
+		"display": "show",
+		"placeholder": "query should return \"name\" and \"username\""
 	}, {
 		"id": "endpoint",
 		"display": "hide"
@@ -129,7 +132,8 @@ fields = [{
 	"type": "Notasi Groups",
 	"fields": [{
 		"id": "notasi_query",
-		"display": "show"
+		"display": "show",
+		"placeholder": "query should return \"group\", \"group_category\" and \"username\""
 	}, {
 		"id": "endpoint",
 		"display": "hide"

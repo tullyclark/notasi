@@ -1,7 +1,7 @@
 import pandas
 
 
-def flatten_json(json, return_type = 'json', sep = "_", cols = [], col_names = None):
+def flatten_json(json, return_type = 'json', sep = "__", cols = [], col_names = None):
 	df = pandas.DataFrame(json)
 	while any((df.applymap(type) == list).any()) or any((df.applymap(type) == dict).any()):
 		df = explode_list(split_dict(df, sep))

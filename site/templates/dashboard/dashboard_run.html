@@ -9,7 +9,7 @@
 			{% if loop.index0 > 0 %},{% endif %}
 			{
 				"id": "chart{{loop.index0}}",
-				"page": "{{chart.page}}",
+				{% if chart.page %}"page": "{{chart.page}}", {% endif %}
 				"name": '{{chart["name"]}}',
 				"chart": {
 					"type": '{{ chart.chart_type }}',
@@ -48,17 +48,17 @@
 				    {% if chart.options %}
 				    	{{ chart.options | safe}}
 				    {% else %}
-					    options: {
-					    	animation: false,
-					        legend: {
+					    "options": {
+					    	"animation": false,
+					        "legend": {
 					            //display: false,
 					        },
-					    	responsive: true,
-					    	{% if type == 'bar' or type =='line' %}
-						        scales: {
-						            yAxes: [{
-						                ticks: {
-						                    beginAtZero: true
+					    	"responsive": true,
+					    	{% if chart.chart_type == 'bar' or chart.chart_type =='line' %}
+						        "scales": {
+						            "yAxes": [{
+						                "ticks": {
+						                    "beginAtZero": true
 						                }
 						            }]
 						        }
