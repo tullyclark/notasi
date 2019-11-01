@@ -12,3 +12,16 @@ function query_view(id, value){
 		$("label[for='" +field.id+"']").text(field.label)
 	});
 }
+
+
+$(".code").each(function(index, field){
+	cm = CodeMirror.fromTextArea(field, {
+    indentWithTabs: true,
+  	autoRefresh:true,
+    lineNumbers: true,
+    viewportMargin: Infinity
+  	})
+	cm.setSize("80%", "auto")
+})
+
+// $('.CodeMirror').('form-control')

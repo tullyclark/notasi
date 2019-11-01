@@ -13,7 +13,10 @@
     {% if request.args.get('mode') =="iframe"%}
       <link rel="stylesheet" href="/static/css/iframe.css" />
     {% endif %}
-
+    <script src="/static/js/codemirror/codemirror.js"></script>
+    <script src="/static/js/codemirror/autorefresh.js"></script>
+    <link rel="stylesheet" href="/static/js/codemirror/codemirror.css">
+    <script src="/static/js/codemirror/sql.js"></script>
     {% block additional_css %}{% endblock %}
 </head>
 <body>

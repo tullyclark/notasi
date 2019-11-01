@@ -67,4 +67,3 @@ function load_page(charts, page) {
 	$("#page_" + page).addClass("active")
 	$('.chart').show()
 }
-

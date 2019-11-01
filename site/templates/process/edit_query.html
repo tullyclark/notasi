@@ -21,7 +21,7 @@
 
 <div style = 'display: none;'>
 	<label for="notasi_query">Data Lake Query</label>
-	<textarea id="notasi_query" name="notasi_query" type="text" placeholder="Query Notasi Database" class="form-control">{{ data_obj.notasi_query if data_obj.notasi_query }}</textarea>
+	<textarea id="notasi_query" name="notasi_query" type="text" placeholder="Query Notasi Database" class="code form-control">{{ data_obj.notasi_query if data_obj.notasi_query }}</textarea>
 </div>
 
 <div style = 'display: none;'>
@@ -41,12 +41,12 @@
 
 <div style = 'display: none;'>
 	<label for="head">Headers</label>
-	<textarea id="head" name="head" placeholder="Query Head" class="form-control">{{ data_obj.head if data_obj.head }}</textarea>
+	<textarea id="head" name="head" placeholder="Query Head" class="code form-control">{{ data_obj.head if data_obj.head }}</textarea>
 </div>
 
 <div style = 'display: none;'>
 	<label for="request_body">Request Body</label>
-	<textarea id="request_body" name="body" type="text" placeholder="Query Body" class="form-control">{{ data_obj.body if data_obj.body }}</textarea>
+	<textarea id="request_body" name="body" type="text" placeholder="Query Body" class="code form-control">{{ data_obj.body if data_obj.body }}</textarea>
 </div>
 {% endblock %}
 

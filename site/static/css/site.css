@@ -103,3 +103,10 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+  max-height: 300px;
+}
