@@ -22,13 +22,13 @@ def init_rows():
 		, {'name': 'LDAP3','dialect': 'LDAP3'}]
 
 	chart_types = [
-		{'name':'Line', 'chart_type':'line'}
-		,{'name':'Bar', 'chart_type':'bar'}
-		,{'name':'Horizontal Bar', 'chart_type':'horizontalBar'}
-		,{'name':'Radar', 'chart_type':'radar'}
-		,{'name':'Pie', 'chart_type':'pie'}
-		,{'name':'Doughnut', 'chart_type':'doughnut'}
-		,{'name':'Polar Area', 'chart_type':'polarArea'}]
+		{'name':'Line', 'type':'line'}
+		,{'name':'Bar', 'type':'bar'}
+		,{'name':'Horizontal Bar', 'type':'horizontalBar'}
+		,{'name':'Radar', 'type':'radar'}
+		,{'name':'Pie', 'type':'pie'}
+		,{'name':'Doughnut', 'type':'doughnut'}
+		,{'name':'Polar Area', 'type':'polarArea'}]
 
 	session = db_session.create_session()
 	try:	
@@ -42,7 +42,7 @@ def init_rows():
 			init_subtype(subtype.get("name"), subtype.get("dialect"), session)
 
 		for chart_type in chart_types:
-			init_chart_type(chart_type.get("name"), chart_type.get("chart_type"), session)
+			init_chart_type(chart_type.get("name"), chart_type.get("type"), session)
 
 		group_category = session.query(GroupCategory).filter_by(name='Access Level Groups').first()
 		
@@ -85,9 +85,9 @@ def init_subtype(name, dialect, session):
     	subtype.dialect = dialect
     	session.add(subtype)
 
-def init_chart_type(name, chart_type, session):
+def init_chart_type(name, type, session):
     if not session.query(ChartType).filter_by(name=name, chart_type=chart_type).first():
     	chart_type = ChartType()
     	chart_type.name = name
-    	chart_type.chart_type = chart_type
+    	chart_type.chart_type = type
     	session.add(chart_type)
