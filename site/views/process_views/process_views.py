@@ -6,6 +6,7 @@ import json
 from flask_login import login_required
 from services.query_services import run_query
 from decorators.admin import is_admin
+import data.db_session as db_session
 
 blueprint = flask.Blueprint('process', __name__)
 
