@@ -6,10 +6,10 @@ from data.db_session import create_session
 ##get linked sessions
 def run_query(id, out):
 	session = create_session()
+	data=[]
 
 	try:
 		views = session.query(DataView).filter_by(query_id=id).all()
-		data=[]
 		data = select_user_data(id, session)
 		
 		if out == 'write':
@@ -21,12 +21,12 @@ def run_query(id, out):
 
 				for d in data:
 					insert_user_data(d, view_run.id, session)
+		session.commit()
 
 
 	except Exception as error:
 		print(str(error))
-		session.rollback()
+		# session.rollback()
 	finally:
-		session.commit()
 		session.close()
 		return(data)
