@@ -3,6 +3,7 @@
 .page-tabs{
     width: 100%;
     margin-top: 10px;
+    cursor: pointer;
     /*overflow-x: scroll;*/
 }
 
