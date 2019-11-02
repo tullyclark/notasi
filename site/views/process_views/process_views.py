@@ -1,7 +1,7 @@
 import flask
 import pandas
 from data.source import Location, Query, DataView, User
-from services.select_services import get_locations
+from services.select_services import get_objects
 import json
 from flask_login import login_required
 from services.query_services import run_query
@@ -21,7 +21,16 @@ def before_request():
 
 @blueprint.route('/')
 def index():
-    return flask.render_template('process/index.html', locations = get_locations())
+
+	session = db_session.create_session()
+	try:
+		locations = get_objects(Location, session)
+	except Exception as error:
+		print(str(error))
+	finally:
+		session.close()
+
+	return flask.render_template('process/index.html', locations = locations)
 
 
 @blueprint.route('/run/query/<id>/<func>', methods=['POST', 'GET'])

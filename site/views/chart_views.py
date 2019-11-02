@@ -24,25 +24,51 @@ def before_request():
 
 @blueprint.route('/')
 def chart_index():
-    return flask.render_template('chart_index.html', charts = get_objects(Chart))
+
+	session = db_session.create_session()
+	try:
+		charts = get_objects(Chart, session)
+	except Exception as error:
+		print(str(error))
+	finally:
+		session.close()
+
+	return flask.render_template('chart_index.html', charts = charts)
 
 @blueprint.route('/edit', methods=['GET', 'POST'])
 def chart_edit():
 	id = flask.request.args.get('id', default = None, type = int)
 
 	if flask.request.method == "GET":
+
+		session = db_session.create_session()
+		try:
+			chart_types = get_objects(ChartType, session)
+			data_obj = search_object(id, Chart, session)
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
+
 		return flask.render_template(
 			'chart_edit.html'
 			, item_type = 'chart'
-			, data_obj = search_object(id, Chart)
+			, data_obj = data_obj
 			, back_link = flask.request.referrer
-			, chart_types = get_objects(ChartType)
+			, chart_types = chart_types
 
 			)
 
 	if flask.request.method == "POST":
 		data = flask.request.form
-		save_object('chart', id, data)
+		session = db_session.create_session()
+		try:
+			save_object('chart', id, data, session)
+			session.commit()
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
 		return flask.redirect('/chart')
 
 
@@ -51,19 +77,25 @@ def chart_edit():
 def run(id: int):
 	charts = []
 	pages = []
+	session = db_session.create_session()
 	try:
-		for chart in run_chart(id):
+		for chart in run_chart(id, session):
 				charts.append(chart)
 				if  chart["page"] and chart["page"] not in pages:
 					pages.append(chart["page"])
+
+		temp = flask.render_template(
+			'dashboard_run.html'
+			, charts = charts
+			, pages = pages)
+
 	except Exception as error:
 		message = str(type(error).__name__) +': ' +str(error)
-		return flask.render_template(
+		temp = flask.render_template(
 		'./process/error.html',
 		 error = message)
 
-	return flask.render_template(
-		'dashboard_run.html'
-		, charts = charts
-		, pages = pages)
+	finally:
+		session.close()
+		return temp
 

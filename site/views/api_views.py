@@ -26,7 +26,15 @@ def default(o):
 @login_required
 @is_admin
 def index():
-    return flask.render_template('api_index.html', endpoints = get_objects(Endpoint))
+	session = db_session.create_session()
+	try:
+		endpoints = get_objects(Endpoint, session)
+	except Exception as error:
+		print(str(error))
+	finally:
+		session.close()
+
+	return flask.render_template('api_index.html', endpoints = endpoints)
 
 
 
@@ -35,20 +43,37 @@ def index():
 @is_admin
 def edit():
 	id = flask.request.args.get('id', default = None, type = int)
-
+	
 	if flask.request.method == "GET":
+	
+		session = db_session.create_session()
+		try:
+			request_methods = get_objects(RequestMethod, session)
+			data_obj = search_object(id, Endpoint, session)
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
+
+	
 		return flask.render_template(
 			'edit.html'
 			, item_type = 'endpoint'
-			, data_obj = search_object(id, Endpoint)
+			, data_obj = data_obj
 			, back_link = flask.request.referrer
-			, request_methods = get_objects(RequestMethod)
-
+			, request_methods = request_methods
 			)
 
 	if flask.request.method == "POST":
 		data = flask.request.form
-		save_object('endpoint', id, data)
+		session = db_session.create_session()
+		try:
+			save_object('endpoint', id, data, session)
+			session.commit()
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
 		return flask.redirect('/api')
 
 

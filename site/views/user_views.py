@@ -1,11 +1,11 @@
 import flask
 import pandas
-import data.db_session as db_session
 from flask_login import login_required
 from data.source import User, Group
 from services.select_services import get_objects, search_object
 from werkzeug.security import generate_password_hash
-from services.save_services import save_user, save_object
+from services.save_services import save_object
+import data.db_session as db_session
 from decorators.admin import is_admin
 
 
@@ -31,21 +31,34 @@ def reset():
 	id = flask.request.args.get('id', default = None, type = int)
 
 	if flask.request.method == "GET":
+
+		session = db_session.create_session()
+		try:
+			data_obj = search_object(id, User, session)
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
+
+
 		return flask.render_template(
 			'user/edit_user.html'
 			, item_type = 'user'
-			, data_obj = search_object(id=id, item_type=User)
+			, data_obj = data_obj
 			, back_link = flask.request.referrer
 		)
 
 	if flask.request.method == "POST":
 		data = flask.request.form
-		save_user(
-			id = id,
-		    name = data.get("name"),
-		    username = data.get("username"),
-		    password = data.get("password")
-			)
+		session = db_session.create_session()
+		try:
+			save_object('user', id, data, session)
+			session.commit()
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
+
 		return flask.redirect('/user')
 
 
@@ -55,16 +68,32 @@ def user_group_edit():
 	user_id = flask.request.args.get('user_id', default = None, type = int)
 
 	if flask.request.method == "GET":
+
+		session = db_session.create_session()
+		try:
+			user = search_object(user_id, User, session)
+			groups = get_objects(Group, session)
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
+
 		return flask.render_template(
 			'user_group_edit.html'
 			, item_type = 'user_group'
-			, user = search_object(user_id, User)
+			, user = user
 			, back_link = flask.request.referrer
-			, groups = get_objects(Group)
-
+			, groups = groups
 			)
 
 	if flask.request.method == "POST":
 		data = flask.request.form
-		save_object('user_group', id, data)
+		session = db_session.create_session()
+		try:
+			save_object('user_group', id, data, session)
+			session.commit()
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
 		return flask.redirect('/user/user_group/edit?user_id=' + str(user_id))

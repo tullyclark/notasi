@@ -2,7 +2,6 @@ from crontab import CronTab
 import os
 import sys
 import getpass
-import data.db_session as db_session
 from data.source import Schedule
 
 
@@ -16,8 +15,7 @@ def delete_cron_job(id):
 			my_cron.remove(job)
 			my_cron.write()
 
-def write_cron_job(id):
-	session = db_session.create_session()
+def write_cron_job(id, session):
 	schedule = session.query(Schedule).filter_by(id=id).first()
 	queries = []
 	for step in schedule.schedule_steps:

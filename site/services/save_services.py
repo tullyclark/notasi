@@ -1,7 +1,6 @@
 import sqlalchemy.orm
 from sqlalchemy import sql
 import re
-import data.db_session as db_session
 from data.source import Location, Query, DataView, Subtype, LocationType, \
     UserData, User, Endpoint, Schedule, ScheduleStep, \
     ViewRun, Group, UserGroup, GroupCategory, \
@@ -15,7 +14,7 @@ import json
 import datetime
 
 
-def save_object(item_type, id, data):
+def save_object(item_type, id, data, session):
     if item_type == 'location':
         save_location(
             id = id,
@@ -26,7 +25,8 @@ def save_object(item_type, id, data):
             address = data["address"],  
             port = data["port"], 
             subtype_id = data.get("subtype_id", default = None), 
-            username = data["username"])
+            username = data["username"],
+            session = session)
 
     elif item_type == 'query':
         save_query(
@@ -37,7 +37,8 @@ def save_object(item_type, id, data):
             head = data["head"], 
             body = data["body"], 
             location_id = data["location_id"],
-            request_method_id = data.get("request_method_id", default = None))
+            request_method_id = data.get("request_method_id", default = None),
+            session = session)
 
     elif item_type == 'view':
         save_data_view(
@@ -46,7 +47,8 @@ def save_object(item_type, id, data):
             view_name = re.sub('\W+','', data["view_name"] ), 
             business_keys = data["business_keys"], 
             information_columns = data["information_columns"], 
-            query_id = data["query_id"])
+            query_id = data["query_id"],
+            session = session)
 
     elif item_type == 'endpoint':
         save_endpoint(
@@ -58,27 +60,31 @@ def save_object(item_type, id, data):
             key = data["key"],
             notasi_query = data["notasi_query"], 
             # request_body =  data["request_body"], 
-            response_body =  data["response_body"]
+            response_body =  data["response_body"],
+            session = session
             )
 
     elif item_type == 'schedule':
         save_schedule(
             id = id,
             name = data["name"],
-            cron_schedule = data["cron_schedule"]
+            cron_schedule = data["cron_schedule"],
+            session = session
             )
 
     elif item_type == 'schedule_step':
         save_schedule_step(
             id = id,
             query_id = data["query_id"],
-            schedule_id = data["schedule_id"]
+            schedule_id = data["schedule_id"],
+            session = session
             )
 
     elif item_type == 'dashboard':
         save_dashboard(
             id = id,
-            name = data["name"]
+            name = data["name"],
+            session = session
             )
 
     elif item_type == 'dashboard_chart':
@@ -86,7 +92,8 @@ def save_object(item_type, id, data):
             id = id,
             dashboard_id = data["dashboard_id"],
             order = data.get("order", default = None),
-            chart_id = data["chart_id"]
+            chart_id = data["chart_id"],
+            session = session
             )
 
     elif item_type == 'chart':
@@ -102,13 +109,15 @@ def save_object(item_type, id, data):
             page_column = data["page_column"],
             access_columns = data["access_columns"],
             access_groups = data["access_groups"],
-            options = data["options"]
+            options = data["options"],
+            session = session
             )
 
     elif item_type == 'group_category':
         save_group_category(
             id = id,
-            name = data["name"]
+            name = data["name"],
+            session = session
             )
 
 
@@ -116,14 +125,25 @@ def save_object(item_type, id, data):
         save_group(
             id = id,
             name = data["name"],
-            group_category_id = data.get("group_category_id", default = None)
+            group_category_id = data.get("group_category_id", default = None),
+            session = session
             )
 
     elif item_type == 'user_group':
         save_user_group(
             id = id,
             user_id = data["user_id"],
-            group_id = data["group_id"]
+            group_id = data["group_id"],
+            session = session
+            )
+
+    elif item_type == 'user':
+        save_user(
+            id = id,
+            name = data.get("name"),
+            username = data.get("username"),
+            password = data.get("password"),
+            session = session
             )
 
 def save_location(id,
@@ -134,10 +154,10 @@ def save_location(id,
     port, 
     address, 
     subtype_id, 
-    username 
+    username,
+    session
 ):
 
-    session = db_session.create_session()
     if id:
     	location = session.query(Location).filter_by(id=id).first()
     else:
@@ -152,8 +172,6 @@ def save_location(id,
     location.port = port
     location.subtype_id = subtype_id
     location.username = username
-    session.commit()
-    session.close()
     return location
 
 
@@ -164,9 +182,9 @@ def save_query(id,
     request_method_id,
     head, 
     body, 
-    location_id
+    location_id,
+    session
 ):
-    session = db_session.create_session()
 
     if id:
     	query = session.query(Query).filter_by(id=id).first()
@@ -181,9 +199,6 @@ def save_query(id,
     query.head = head
     query.body = body
     query.location_id = location_id
-
-    session.commit()
-    session.close()
     return query
 
 
@@ -192,12 +207,12 @@ def save_data_view(id,
     view_name,
     business_keys, 
     information_columns, 
-    query_id
+    query_id,
+    session
 ):
-    session = db_session.create_session()
 
     if id:
-        drop_view(id)
+        drop_view(id, session)
         data_view = session.query(DataView).filter_by(id=id).first()
     else:
         data_view = DataView()
@@ -208,18 +223,17 @@ def save_data_view(id,
     data_view.business_keys = business_keys
     data_view.information_columns = information_columns
     data_view.query_id = query_id
+    create_view(data_view.id, session)
     session.commit()
-    create_view(data_view.id)
-    session.close()
     return data_view
 
 
 def save_user(id,
     name,
     username,
-    password
+    password,
+    session
 ):
-    session = db_session.create_session()
 
     if id:
         user = session.query(User).filter_by(id=id).first()
@@ -230,31 +244,26 @@ def save_user(id,
     user.name = name
     user.username = username
     if password !='': user.password = generate_password_hash(password, method='sha256')
-
-    session.commit()
-    session.close()
     return user
 
 def save_group_category(id,
-    name
+    name,
+    session
 ):
 
-    session = db_session.create_session()
     if id:
         group_category = session.query(GroupCategory).filter_by(id=id).first()
     else:
         group_category = GroupCategory()
         session.add(group_category)
     group_category.name = name
-    session.commit()
-    session.close()
     return group_category
 
 def save_group(id,
     name,
-    group_category_id
+    group_category_id,
+    session
 ):
-    session = db_session.create_session()
 
     if id:
         group = session.query(Group).filter_by(id=id).first()
@@ -264,17 +273,14 @@ def save_group(id,
         
     group.name = name
     group.group_category_id = group_category_id
-
-    session.commit()
-    session.close()
     return group
 
 def save_user_group(id,
     user_id,
-    group_id
+    group_id,
+    session
 ):
 
-    session = db_session.create_session()
     if id:
         user_group = session.query(UserGroup).filter_by(id=id).first()
     else:
@@ -282,8 +288,6 @@ def save_user_group(id,
         session.add(user_group)
     user_group.user_id = user_id
     user_group.group_id = group_id
-    session.commit()
-    session.close()
     return user_group
 
 def save_endpoint(id,
@@ -294,10 +298,10 @@ def save_endpoint(id,
     key,
     notasi_query, 
     # request_body, 
-    response_body
+    response_body,
+    session
 ):
 
-    session = db_session.create_session()
     if id:
         endpoint = session.query(Endpoint).filter_by(id=id).first()
     else:
@@ -311,16 +315,14 @@ def save_endpoint(id,
     endpoint.notasi_query = notasi_query
     # endpoint.request_body = request_body
     endpoint.response_body = response_body
-    session.commit()
-    session.close()
     return endpoint
 
 def save_schedule(id,
     name,
-    cron_schedule
+    cron_schedule,
+    session
 ):
 
-    session = db_session.create_session()
     if id:
         schedule = session.query(Schedule).filter_by(id=id).first()
     else:
@@ -328,16 +330,14 @@ def save_schedule(id,
         session.add(schedule)
     schedule.name = name
     schedule.cron_schedule = cron_schedule
-    session.commit()
-    session.close()
     return schedule
 
 def save_schedule_step(id,
     query_id,
-    schedule_id
+    schedule_id,
+    session
 ):
 
-    session = db_session.create_session()
     if id:
         schedule_step = session.query(ScheduleStep).filter_by(id=id).first()
     else:
@@ -345,34 +345,30 @@ def save_schedule_step(id,
         session.add(schedule_step)
     schedule_step.query_id = query_id
     schedule_step.schedule_id = schedule_id
-    session.commit()
-    session.close()
     delete_cron_job(schedule_id)
-    write_cron_job(schedule_id)
+    write_cron_job(schedule_id, session)
     return schedule_step
 
 def save_dashboard(id,
-    name
+    name,
+    session
 ):
 
-    session = db_session.create_session()
     if id:
         dashboard = session.query(Dashboard).filter_by(id=id).first()
     else:
         dashboard = Dashboard()
         session.add(dashboard)
     dashboard.name = name
-    session.commit()
-    session.close()
     return dashboard
 
 def save_dashboard_chart(id,
     dashboard_id,
     order,
-    chart_id
+    chart_id,
+    session
 ):
 
-    session = db_session.create_session()
     if id:
         dashboard_chart = session.query(DashboardChart).filter_by(id=id).first()
     else:
@@ -381,8 +377,6 @@ def save_dashboard_chart(id,
     dashboard_chart.dashboard_id = dashboard_id
     dashboard_chart.order = order
     dashboard_chart.chart_id = chart_id
-    session.commit()
-    session.close()
     return dashboard_chart
 
 def save_chart(id,
@@ -396,10 +390,10 @@ def save_chart(id,
     page_column,
     options,
     access_columns,
-    access_groups
+    access_groups,
+    session
     ):
 
-    session = db_session.create_session()
     if id:
         chart = session.query(Chart).filter_by(id=id).first()
     else:
@@ -416,14 +410,12 @@ def save_chart(id,
     chart.options = options
     chart.access_columns = access_columns
     chart.access_groups = access_groups
-    session.commit()
-    session.close()
     return chart
 
 
-def insert_user_data(new_data, view_run_id):
-  
-  session = db_session.create_session()
+def insert_user_data(new_data, view_run_id,
+    session):
+
   view_run = session.query(ViewRun) \
     .filter_by(id=view_run_id) \
     .first()
@@ -453,8 +445,5 @@ def insert_user_data(new_data, view_run_id):
     user_data.view_run_id = view_run_id
   else:
     current_data.view_run_id = view_run_id
-  
-  session.commit()
-  session.close()
 
 

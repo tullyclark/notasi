@@ -21,14 +21,6 @@ def default(o):
     if isinstance(o, (datetime.date, datetime.datetime)):
         return o.isoformat()
 
-def get_locations():
-	session = db_session.create_session()
-	locations = session.query(Location).all()
-	session.close()
-
-	return locations
-
-
 def sql_select(
 	query
 ):
@@ -200,9 +192,8 @@ def ldap_select(query):
 
 
 
-def create_view(view_id):
+def create_view(view_id, session):
 
-	session = db_session.create_session()
 	data_view = session.query(DataView) \
 		.filter_by(id=view_id) \
 		.first()
@@ -257,8 +248,6 @@ def create_view(view_id):
 		'''
 
 	session.execute(sql_text)
-	session.commit()
-	session.close()
 
 
 

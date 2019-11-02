@@ -19,9 +19,19 @@ def before_request():
 
 @blueprint.route('/')
 def index():
+
+	session = db_session.create_session()
+	try:
+		schedules = get_objects(Schedule, session)
+	except Exception as error:
+		print(str(error))
+	finally:
+		session.close()
+
+
 	return flask.render_template(
 		'schedule_index.html'
-		,schedules = get_objects(Schedule)
+		,schedules = schedules
 	)
 
 
@@ -30,18 +40,36 @@ def edit():
 	id = flask.request.args.get('id', default = None, type = int)
 
 	if flask.request.method == "GET":
+
+		session = db_session.create_session()
+		try:
+			data_obj = search_object(id, Schedule, session)
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
+
+
 		return flask.render_template(
 			'schedule_edit.html'
 			, item_type = 'schedule'
-			, data_obj = search_object(id, Schedule)
+			, data_obj = data_obj
 			, back_link = flask.request.referrer
 
 			)
 
 	if flask.request.method == "POST":
 		data = flask.request.form
-		save_object('schedule', id, data)
+		session = db_session.create_session()
+		try:
+			save_object('schedule', id, data, session)
+			session.commit()
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
 		return flask.redirect('/schedule')
+
 
 @blueprint.route('/schedule_step/edit', methods=['GET', 'POST'])
 def schedule_edit():
@@ -49,16 +77,34 @@ def schedule_edit():
 	schedule_id = flask.request.args.get('schedule_id', default = None, type = int)
 
 	if flask.request.method == "GET":
+
+		session = db_session.create_session()
+		try:
+			schedule = search_object(schedule_id, Schedule, session)
+			queries = get_objects(Query, session)
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
+
+
 		return flask.render_template(
 			'schedule_step_edit.html'
 			, item_type = 'schedule_step'
-			, schedule = search_object(schedule_id, Schedule)
+			, schedule = schedule
 			, back_link = flask.request.referrer
-			, queries = get_objects(Query)
+			, queries = queries
 
 			)
 
 	if flask.request.method == "POST":
 		data = flask.request.form
-		save_object('schedule_step', id, data)
+		session = db_session.create_session()
+		try:
+			save_object('schedule_step', id, data, session)
+			session.commit()
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
 		return flask.redirect('/schedule/schedule_step/edit?schedule_id=' + str(schedule_id))

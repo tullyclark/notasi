@@ -9,10 +9,10 @@ from utils.json import flatten_json
 
 def update_users(
 	query
+	, session
 ):
 
 	if query.notasi_query:
-		session = db_session.create_session()
 		notasi_query = pandas.read_sql(query.notasi_query, db_session.notasi_engine()).to_dict('records')
 
 		for row in notasi_query:
@@ -25,9 +25,6 @@ def update_users(
 				session.add(user)
 				user.username = row["username"]
 				user.name = row["name"]
-			session.commit()
-		session.close()
-
 
 	response = [{"job":"users added"}]
 
@@ -35,9 +32,8 @@ def update_users(
 
 def update_groups(
 	query
+	, session
 ):
-
-	session = db_session.create_session()
 		
 	if query.notasi_query:
 		notasi_query = pandas.read_sql(query.notasi_query, db_session.notasi_engine()).to_dict('records')
@@ -49,7 +45,6 @@ def update_groups(
 				category = GroupCategory()
 				session.add(category)
 				category.name = group_category
-				session.commit()
 
 			for group in set([d["group_name"] for d in notasi_query if d['group_category'] == group_category]):
 
@@ -64,7 +59,6 @@ def update_groups(
 					session.add(stored_group)
 					stored_group.name = group
 					stored_group.group_category_id = category.id
-					session.commit()
 
 				
 
@@ -72,9 +66,9 @@ def update_groups(
 
 def update_user_groups(
 	query
+	, session
 ):	
-	session = db_session.create_session()
-		
+
 	if query.notasi_query:
 		notasi_query = pandas.read_sql(query.notasi_query, db_session.notasi_engine()).to_dict('records')
 		group_categories = []
@@ -118,7 +112,6 @@ def update_user_groups(
 					, "group_name": existing_row.group.name} not in notasi_query:
 
 					session.delete(existing_row)
-					session.commit()
 
 
 

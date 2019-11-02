@@ -27,20 +27,24 @@ def local():
     if request.method =='GET':
         next = request.args.get('next', default = "/", type = int)
         session = db_session.create_session()
-        count = session.query(User).count()
-        session.close()
+        try:
+            count = session.query(User).count()
+        finally:
+            session.close()
 
         if count == 0:
             return redirect(url_for('auth.signup'))
         return render_template('login.html', next_dest = next_dest)
     if request.method =='POST':
-        session = db_session.create_session()
         username = request.form.get('username')
         password = request.form.get('password')
         remember = True if request.form.get('remember') else False
 
-        user = session.query(User).filter_by(username=username).first()
-
+        session = db_session.create_session()
+        try:
+            user = session.query(User).filter_by(username=username).first()
+        finally:
+            session.close()
         # check if user actually exists
         # take the user supplied password, hash it, and compare it to the hashed password in database
         if not user or not check_password_hash(user.password, password): 
@@ -48,14 +52,15 @@ def local():
 
         # if the above check passes, then we know the user has the right credentials
         flask_login.login_user(user, remember=remember)
-        session.close()
         return redirect(next_dest)
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
     session = db_session.create_session()
-    count = session.query(User).count()
-    session.close()
+    try:
+        count = session.query(User).count()
+    finally:
+        session.close()
 
     if count > 0:
         return redirect(url_for('auth.login'))
@@ -64,33 +69,30 @@ def signup():
         return render_template('signup.html')
 
     if request.method == 'POST':
-        session = db_session.create_session()
 
         username = request.form.get('username')
         name = request.form.get('name')
         password = request.form.get('password')
 
-        user = session.query(User).filter_by(username=username).first() # if this returns a user, then the username already exists in database
 
-        if user: # if a user is found, we want to redirect back to signup page so user can try again  
-            return redirect(url_for('auth.signup'))
+        session = db_session.create_session()
 
-        # create new user with the form data. Hash the password so plaintext version isn't saved.
-        new_user = User(username=username, name=name, password=generate_password_hash(password, method='sha256'))
-        session.add(new_user)
-        session.commit()
-        admin_group = session.query(Group) \
-            .join(GroupCategory) \
-            .filter(Group.name=='Administrators') \
-            .filter(GroupCategory.name == 'Access Level Groups') \
-            .first()
-        user_group = UserGroup(user_id = new_user.id, group_id = admin_group.id)
+        try:
+            new_user = User(username=username, name=name, password=generate_password_hash(password, method='sha256'))
+            session.add(new_user)
+            session.commit()
+            admin_group = session.query(Group) \
+                .join(GroupCategory) \
+                .filter(Group.name=='Administrators') \
+                .filter(GroupCategory.name == 'Access Level Groups') \
+                .first()
+            user_group = UserGroup(user_id = new_user.id, group_id = admin_group.id)
 
-        # add the new user to the database
-        session.add(user_group)
-        session.commit()
-
-        session.close()
+            # add the new user to the database
+            session.add(user_group)
+            session.commit()
+        finally:
+            session.close()
         return redirect(url_for('auth.login'))
 
 

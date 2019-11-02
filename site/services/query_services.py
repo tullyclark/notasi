@@ -6,29 +6,27 @@ from data.db_session import create_session
 ##get linked sessions
 def run_query(id, out):
 	session = create_session()
-	views = session.query(DataView) \
-	.filter_by(query_id=id) \
-	.all()
 
-	session.close()
+	try:
+		views = session.query(DataView).filter_by(query_id=id).all()
+		data=[]
+		data = select_user_data(id, session)
+		
+		if out == 'write':
+			for data_view in views:
 
-	data=[]
-	data = select_user_data(id)
+				view_run = ViewRun()
+				session.add(view_run)
+				view_run.data_view_id = data_view.id
+
+				for d in data:
+					insert_user_data(d, view_run.id, session)
 
 
-	if out == 'write':
-		for data_view in views:
-
-			session = create_session()
-
-			view_run = ViewRun()
-			session.add(view_run)
-			view_run.data_view_id = data_view.id
-			session.commit()
-
-			for d in data:
-				insert_user_data(d, view_run.id)
-			
-			session.close()
-	else:
+	except Exception as error:
+		print(str(error))
+		session.rollback()
+	finally:
+		session.commit()
+		session.close()
 		return(data)

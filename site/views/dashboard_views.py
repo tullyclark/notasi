@@ -23,8 +23,18 @@ def before_request():
 @blueprint.route('/')
 @is_admin
 def index():
-    return flask.render_template('dashboard_index.html',
-    	dashboards = get_objects(Dashboard))
+
+	session = db_session.create_session()
+	try:
+		dashboards = get_objects(Dashboard, session)
+	except Exception as error:
+		print(str(error))
+	finally:
+		session.close()
+
+	return flask.render_template('dashboard_index.html',dashboards = dashboards)
+
+
 
 @blueprint.route('/edit', methods=['GET', 'POST'])
 @is_admin
@@ -32,17 +42,37 @@ def edit():
 	id = flask.request.args.get('id', default = None, type = int)
 
 	if flask.request.method == "GET":
+
+		session = db_session.create_session()
+		try:
+			data_obj = search_object(id, Dashboard, session)
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
+
+
 		return flask.render_template(
 			'dashboard_edit.html'
 			, item_type = 'dashboard'
 			, back_link = flask.request.referrer
-			, data_obj = search_object(id, Dashboard)
+			, data_obj = data_obj
 			)
 
 	if flask.request.method == "POST":
-		data = flask.request.form
-		save_object('dashboard', id, data)
+		data = flask.request.form		
+		session = db_session.create_session()
+		try:
+			save_object('dashboard', id, data, session)
+			session.commit()
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
 		return flask.redirect('/dashboard')
+
+
+
 
 
 @blueprint.route('/dashboard_chart/edit', methods=['GET', 'POST'])
@@ -52,35 +82,62 @@ def dashboard_chart_edit():
 	dashboard_id = flask.request.args.get('dashboard_id', default = None, type = int)
 
 	if flask.request.method == "GET":
+
+		session = db_session.create_session()
+		try:
+			charts = get_objects(Chart, session)
+			dashboard = search_object(dashboard_id, Dashboard, session)
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
+
 		return flask.render_template(
 			'dashboard_chart_edit.html'
 			, item_type = 'dashboard_chart'
-			, dashboard = search_object(dashboard_id, Dashboard)
+			, dashboard = dashboard
 			, back_link = flask.request.referrer
-			, charts = get_objects(Chart)
+			, charts = charts
 
 			)
 
 	if flask.request.method == "POST":
-		data = flask.request.form
-		save_object('dashboard_chart', id, data)
+		data = flask.request.form		
+		session = db_session.create_session()
+		try:
+			save_object('dashboard_chart', id, data, session)
+			session.commit()
+		except Exception as error:
+			print(str(error))
+		finally:
+			session.close()
 		return flask.redirect('/dashboard/dashboard_chart/edit?dashboard_id=' + str(dashboard_id))
 
 
 
 @blueprint.route('/run/<id>')
 def run(id: int):
-	dashboard =search_object(id, Dashboard)
-	charts = []
-	pages = []
-	for dashboard_chart in dashboard.dashboard_charts:
-		for chart in run_chart(dashboard_chart.chart_id):
-			charts.append(chart)
-			if chart["page"] and chart["page"] not in pages:
-				pages.append(chart["page"])
 
-	return flask.render_template(
-		'dashboard_run.html'
-		, charts = charts
-		, pages = pages)
+	session = db_session.create_session()
+	try:
+		dashboard =search_object(id, Dashboard, session)
+		charts = []
+		pages = []
+		for dashboard_chart in dashboard.dashboard_charts:
+			for chart in run_chart(dashboard_chart.chart_id, session):
+				charts.append(chart)
+				if chart["page"] and chart["page"] not in pages:
+					pages.append(chart["page"])
+		return flask.render_template(
+			'dashboard_run.html'
+			, charts = charts
+			, pages = pages)
+
+	except Exception as error:
+		print(str(error))
+	finally:
+		session.close()
+	
+
+
 

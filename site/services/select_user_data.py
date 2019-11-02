@@ -1,18 +1,14 @@
 
-from data.source import Location, Query, DataView, Subtype, LocationType
+from data.source import Query
 from services.process_services import sql_select, file_select, http_select, ldap_select
 from services.user_group_services import update_users, update_groups, update_user_groups
 # from uwsgi import scheduler
 # from apscheduler.triggers.cron import CronTrigger
-import datetime
-from services.select_services import search_object
-import data.db_session as db_session
 import sqlalchemy.orm
 
 
-def select_user_data(query_id):
-	print("start: " + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
-	session = db_session.create_session()
+def select_user_data(query_id, session):
+
 	query = session.query(Query).options(sqlalchemy.orm.joinedload('*')) \
 		.filter_by(id=query_id) \
 		.first()
@@ -32,14 +28,11 @@ def select_user_data(query_id):
 		data_list = ldap_select(query)
 	
 	if location_type_name =='Notasi Users':
-		data_list = update_users(query)
+		data_list = update_users(query, session)
 	
 	if location_type_name =='Notasi Groups':
-		update_groups(query)
-		update_user_groups(query)
+		update_groups(query, session)
+		update_user_groups(query, session)
 		data_list = []
 
-	print("stop: " + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'))
 	return(data_list)
-	
-	session.close()

@@ -8,8 +8,7 @@ from utils.split_strip import split_strip
 import random
 import collections
 
-def run_chart(id):
-	session = db_session.create_session()
+def run_chart(id, session):
 	chart = session.query(Chart) \
 		.filter_by(id=id)\
 		.first()
@@ -39,8 +38,6 @@ def run_chart(id):
 	query = chart.notasi_query
 	if  sql_cols_concat:
 		query = "select * from (" + query + ") as tab1 where " + sql_cols_concat
-
-	session.close()
 
 
 	####### COLUMN GROUPS ############
@@ -116,6 +113,7 @@ def run_chart(id):
 		"x_categories": [d[chart.x_categories] for d in l], \
 		"dataset_legends": split_strip(chart.dataset_legends, ","), \
 		"chart": chart, \
+		"options": chart.options, \
 		"id": chart.id, \
 		"name": chart.name})
 

@@ -93,8 +93,10 @@ def index():
 
 
             database_session = db_session.create_session()
-            flask_user = database_session.query(User).filter_by(username=session['samlNameId']).first()
-            database_session.close
+            try:
+                flask_user = database_session.query(User).filter_by(username=session['samlNameId']).first()
+            finally:
+                database_session.close()
             if not flask_user:
                 return 'SSO user not found'
             flask_login.login_user(flask_user)
