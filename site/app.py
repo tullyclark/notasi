@@ -2,6 +2,7 @@ import flask
 import os
 import data.db_session as db_session
 from pytz import utc
+from data.source import User
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
@@ -9,6 +10,7 @@ from flask_login import LoginManager
 import config
 from views import home_views, schedule_views, auth_views, sso_views, api_views, user_views, delete_view, chart_views, dashboard_views, group_views
 from views.process_views import edit_view, process_views
+from utils.lookup_init import  init_rows
 
 
 app = flask.Flask(__name__)
@@ -18,7 +20,6 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 
-from data.source import User
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -30,6 +31,12 @@ def load_user(user_id):
 
 
 db_session.global_init()
+init_rows()
+
+
+
+
+
 
 app.register_blueprint(home_views.blueprint)
 app.register_blueprint(auth_views.auth, url_prefix='/auth')

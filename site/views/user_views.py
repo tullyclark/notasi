@@ -21,9 +21,17 @@ def before_request():
 @blueprint.route('/')
 def index():
 
+
+	session = db_session.create_session()
+	try:
+		users = get_objects(User, session)
+	except Exception as error:
+		print(str(error))
+	finally:
+		session.close()
+
 	return flask.render_template(
 		'user/index.html'
-		, users = get_objects(User)
 	)
 
 @blueprint.route('/edit', methods=['POST', 'GET'])
