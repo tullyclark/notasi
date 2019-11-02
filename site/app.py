@@ -16,6 +16,11 @@ from utils.lookup_init import  init_rows
 app = flask.Flask(__name__)
 app.config['SECRET_KEY'] = config.flask_secret_key
 
+
+db_session.global_init()
+init_rows()
+
+
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
@@ -30,8 +35,6 @@ def load_user(user_id):
     session.close()
 
 
-db_session.global_init()
-init_rows()
 
 
 
