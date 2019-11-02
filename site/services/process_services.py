@@ -192,11 +192,8 @@ def ldap_select(query):
 
 
 
-def create_view(view_id, session):
+def create_view(data_view, session):
 
-	data_view = session.query(DataView) \
-		.filter_by(id=view_id) \
-		.first()
 
 	sql_text = f"create or replace view {data_view.view_name} as "
 
