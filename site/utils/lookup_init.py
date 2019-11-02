@@ -67,26 +67,26 @@ def init_rows():
 
 
 def init_location_type(name, session):
-    if not session.query(LocationType).filter_by(name=name):
+    if not session.query(LocationType).filter_by(name=name).first():
     	location_type = LocationType()
     	location_type.name = name
     	session.add(location_type)
 
 def init_request_method(name, session):
-    if not session.query(RequestMethod).filter_by(name=name):
+    if not session.query(RequestMethod).filter_by(name=name).first():
     	request_method = RequestMethod()
     	request_method.name = name
     	session.add(request_method)
 
 def init_subtype(name, dialect, session):
-    if not session.query(Subtype).filter_by(name=name, dialect=dialect):
+    if not session.query(Subtype).filter_by(name=name, dialect=dialect).first():
     	subtype = Subtype()
     	subtype.name = name
     	subtype.dialect = dialect
     	session.add(subtype)
 
 def init_chart_type(name, chart_type, session):
-    if not session.query(ChartType).filter_by(name=name, chart_type=chart_type):
+    if not session.query(ChartType).filter_by(name=name, chart_type=chart_type).first():
     	chart_type = ChartType()
     	chart_type.name = name
     	chart_type.chart_type = chart_type
