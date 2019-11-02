@@ -86,7 +86,7 @@ def init_subtype(name, dialect, session):
     	session.add(subtype)
 
 def init_chart_type(name, type, session):
-    if not session.query(ChartType).filter_by(name=name, chart_type=chart_type).first():
+    if not session.query(ChartType).filter_by(name=name, chart_type=type).first():
     	chart_type = ChartType()
     	chart_type.name = name
     	chart_type.chart_type = type
