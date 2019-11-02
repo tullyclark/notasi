@@ -223,6 +223,7 @@ def save_data_view(id,
     data_view.business_keys = business_keys
     data_view.information_columns = information_columns
     data_view.query_id = query_id
+    session.commit()
     create_view(data_view, session)
     return data_view
 
