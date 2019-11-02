@@ -18,6 +18,7 @@ def run_query(id, out):
 				view_run = ViewRun()
 				session.add(view_run)
 				view_run.data_view_id = data_view.id
+				session.commit()
 
 				for d in data:
 					insert_user_data(d, view_run.id, session)
