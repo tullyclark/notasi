@@ -31,7 +31,8 @@ def index():
 		session.close()
 
 	return flask.render_template(
-		'user/index.html'
+		'user/index.html',
+		users = users
 	)
 
 @blueprint.route('/edit', methods=['POST', 'GET'])
