@@ -39,12 +39,13 @@ def run(id: int, func: str):
 	if flask.request.method == "GET":
 		try:
 			data = run_query(id, func)
+			temp = flask.render_template('shared/test_response.html', table = pandas.DataFrame(data).to_html())
 		except Exception as error:
 			message = str(type(error).__name__) +': ' +str(error)
 			temp = flask.render_template(
 				'process/error.html',
 				error = message)
-		temp = flask.render_template('shared/test_response.html', table = pandas.DataFrame(data).to_html())
+		
 
 		return temp
 
