@@ -11,7 +11,7 @@ fi
 
 #get dependancies
 apt-get update
-apt-get install python3-pip libxmlsec1-dev pkg-config virtualenv uwsgi nginx postgresql postgresql-server-dev-10 libmysqlclient-dev
+apt-get install python3-pip libxmlsec1-dev pkg-config virtualenv uwsgi nginx postgresql postgresql-server-dev-10 libmysqlclient-dev unixodbc-dev
 
 #get installation location
 read -e -p "Install Location [/opt/notasi]: " InstallLocation
