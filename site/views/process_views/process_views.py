@@ -44,8 +44,7 @@ def run(id: int, func: str):
 			temp = flask.render_template(
 				'process/error.html',
 				error = message)
-		if data:
-			temp = flask.render_template('shared/test_response.html', table = pandas.DataFrame(data).to_html())
+		temp = flask.render_template('shared/test_response.html', table = pandas.DataFrame(data).to_html())
 
 		return temp
 
