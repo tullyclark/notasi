@@ -31,7 +31,9 @@ def sql_select(
 		(":" + location.password if location.password else "") + \
 		"@" + location.address + \
 		":" + location.port + \
-		("/" + location.database if location.database else "")
+		("/" + location.database if location.database else "") + \
+		("?driver=ODBC+DRIVER+13+for+SQL+Server" if location.subtype.dialect == 'mssql+pyodbc' else "")
+
 	print(connection_string)
 
 	location_engine = sa.create_engine(connection_string)
