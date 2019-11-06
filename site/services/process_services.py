@@ -32,7 +32,7 @@ def sql_select(
 		"@" + location.address + \
 		":" + location.port + \
 		("/" + location.database if location.database else "") + \
-		("?driver=ODBC+DRIVER+13+for+SQL+Server" if location.subtype.dialect == 'mssql+pyodbc' else "")
+		("?driver=ODBC+DRIVER+17+for+SQL+Server" if location.subtype.dialect == 'mssql+pyodbc' else "")
 
 	print(connection_string)
 
