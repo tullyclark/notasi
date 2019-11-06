@@ -10,8 +10,10 @@ if [ $(whoami) != "root" ]; then
 fi
 
 #get dependancies
+curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 apt-get update
 apt-get install python3-pip libxmlsec1-dev pkg-config virtualenv uwsgi nginx postgresql postgresql-server-dev-10 libmysqlclient-dev unixodbc-dev
+ACCEPT_EULA=Y apt-get install msodbcsql17
 
 #get installation location
 read -e -p "Install Location [/opt/notasi]: " InstallLocation
