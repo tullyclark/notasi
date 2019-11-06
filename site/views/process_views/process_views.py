@@ -37,8 +37,10 @@ def index():
 @blueprint.route('/run/query/<id>/<func>', methods=['POST', 'GET'])
 def run(id: int, func: str):
 	if flask.request.method == "GET":
-
-		data = run_query(id, func)
+		try:
+			data = run_query(id, func)
+		except Exception as error:
+			print(str(error))
 		if data:
 			return flask.render_template('shared/test_response.html', table = pandas.DataFrame(data).to_html())
 		return flask.redirect('/process')

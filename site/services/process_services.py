@@ -24,15 +24,19 @@ def default(o):
 def sql_select(
 	query
 ):
-		
+	
 	location = query.location
-	location_engine = sa.create_engine(location.subtype.dialect + \
+	connection_string = location.subtype.dialect + \
 		"://" + location.username + \
-		":" + location.password + \
+		(":" + location.password if location.password else "") + \
 		"@" + location.address + \
 		":" + location.port + \
-		"/" + location.database)
+		("/" + location.database if location.database else "")
+	print(connection_string)
+
+	location_engine = sa.create_engine(connection_string)
 	location_connection = location_engine.connect()
+
 
 	formatted_queries = []
 	if query.notasi_query:
