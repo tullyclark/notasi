@@ -20,6 +20,7 @@ def init_rows():
 		, {'name': 'PostgreSQL','dialect': 'postgresql'}
 		, {'name': 'MySQL','dialect': 'mysql+mysqldb'}
 		, {'name': 'SQL Server','dialect': 'mssql+pyodbc'}
+		, {'name': 'Oracle SQL (untested)','dialect': 'oracle+cx_oracle'}
 		, {'name': 'Active Directory' ,'dialect': 'Active Directory'}
 		, {'name': 'LDAP3','dialect': 'LDAP3'}]
 
