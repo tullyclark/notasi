@@ -18,6 +18,7 @@ def init_rows():
 	subtypes = [
 		{'name': 'DB2','dialect': 'db2'}
 		, {'name': 'PostgreSQL','dialect': 'postgresql'}
+		, {'name': 'MySQL','dialect': 'mysql+mysqldb'}
 		, {'name': 'Active Directory' ,'dialect': 'Active Directory'}
 		, {'name': 'LDAP3','dialect': 'LDAP3'}]
 
