@@ -40,10 +40,14 @@ def run(id: int, func: str):
 		try:
 			data = run_query(id, func)
 		except Exception as error:
-			print(str(error))
+			message = str(type(error).__name__) +': ' +str(error)
+			temp = flask.render_template(
+				'process/error.html',
+				error = message)
 		if data:
-			return flask.render_template('shared/test_response.html', table = pandas.DataFrame(data).to_html())
-		return flask.redirect('/process')
+			temp = flask.render_template('shared/test_response.html', table = pandas.DataFrame(data).to_html())
+
+		return temp
 
 
 
