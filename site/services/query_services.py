@@ -23,11 +23,11 @@ def run_query(id, out):
 				for d in data:
 					insert_user_data(d, view_run.id, session)
 		session.commit()
+		return(data)
 
 
 	except Exception as error:
-		print(str(error))
+		raise
 		# session.rollback()
 	finally:
 		session.close()
-		return(data)

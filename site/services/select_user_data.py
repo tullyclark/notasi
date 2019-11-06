@@ -15,7 +15,6 @@ def select_user_data(query_id, session):
 
 	try:
 		if location_type_name =='SQL':
-			print(sql_select(query))
 			data_list = sql_select(query)
 
 		if location_type_name =='Folder':
