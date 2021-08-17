@@ -88,7 +88,8 @@ fields = [{
 		"display": "show",
 		"label": "Body",
 		"placeholder": "Use {notasi_col} to access variables"
-	}], {
+	}]
+}, {
 		"type": "Selenium",
 		"fields": [{
 			"id": "notasi_query",
