@@ -143,8 +143,6 @@ def http_select(
 
 def selenium_select(
 	query
-):
-	query
 	):
     loc = {}
     script = '' + query.body
