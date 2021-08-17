@@ -88,7 +88,27 @@ fields = [{
 		"display": "show",
 		"label": "Body",
 		"placeholder": "Use {notasi_col} to access variables"
-	}]
+	}], {
+		"type": "Selenium",
+		"fields": [{
+			"id": "notasi_query",
+			"display": "show",
+			"placeholder": "Query Notasi Database"
+		}, {
+			"id": "endpoint",
+			"display": "hide"
+		}, {
+			"id": "request_method_id",
+			"display": "hide"
+		}, {
+			"id": "head",
+			"display": "hide"
+		}, {
+			"id": "request_body",
+			"display": "show",
+			"label": "Selenium Script",
+			"placeholder": "Selenium Script"
+		}]
 }, {
 	"type": "LDAP",
 	"fields": [{
@@ -153,4 +173,3 @@ query_view("#location_id", "location_type");
 $('#location_id').change(function(){
 	query_view("#location_id", "location_type");
 });
-

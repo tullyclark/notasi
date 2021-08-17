@@ -66,14 +66,9 @@ def sql_select(
 def file_select(
 	query
 	):
-	file = pathlib.Path(query.location.address) / query.endpoint
-	if file.suffix =='.csv':
-		df = pandas.read_csv(file)
-		return flatten_json(df.to_dict('records'))
-	elif file.suffix =='.json':
-		json_obj = json.load(file.open())
-		return flatten_json(json_obj)
-
+	exec(query.body)
+    return scipt_output
+    
 def http_select(
 	query
 	):
@@ -140,6 +135,17 @@ def http_select(
 
 	result = [item for sublist in responses for item in sublist]
 	return result
+
+def selenium_select(
+	query
+):
+	file = pathlib.Path(query.location.address) / query.endpoint
+	if file.suffix =='.csv':
+		df = pandas.read_csv(file)
+		return flatten_json(df.to_dict('records'))
+	elif file.suffix =='.json':
+		json_obj = json.load(file.open())
+		return flatten_json(json_obj)
 
 def ldap_select(query):
 

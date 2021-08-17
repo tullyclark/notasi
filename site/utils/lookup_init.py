@@ -6,6 +6,7 @@ def init_rows():
 		{'name': 'SQL'}
 		, {'name': 'Folder'}
 		, {'name': 'HTTP'}
+		, {'name': 'Selenium'}
 		, {'name': 'LDAP'}
 		, {'name': 'Notasi Users'}
 		, {'name': 'Notasi Groups'}]
@@ -34,9 +35,9 @@ def init_rows():
 		,{'name':'Polar Area', 'type':'polarArea'}]
 
 	session = db_session.create_session()
-	try:	
+	try:
 		for location_type in location_types:
-			init_location_type(location_type.get("name"), session)	
+			init_location_type(location_type.get("name"), session)
 
 		for request_method in request_methods:
 			init_request_method(request_method.get("name"), session)
@@ -48,14 +49,14 @@ def init_rows():
 			init_chart_type(chart_type.get("name"), chart_type.get("type"), session)
 
 		group_category = session.query(GroupCategory).filter_by(name='Access Level Groups').first()
-		
+
 		if not group_category:
 			group_category = GroupCategory()
 			group_category.name = 'Access Level Groups'
 			session.add(group_category)
 
 		group = session.query(Group).filter_by(name='Administrators', group_category_id = group_category.id).first()
-		
+
 		if not group:
 			group = Group()
 			group.name = 'Administrators'

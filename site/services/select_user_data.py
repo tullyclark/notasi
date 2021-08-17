@@ -1,6 +1,6 @@
 
 from data.source import Query
-from services.process_services import sql_select, file_select, http_select, ldap_select
+from services.process_services import sql_select, file_select, http_select, selenium_select, ldap_select
 from services.user_group_services import update_users, update_groups, update_user_groups
 import sqlalchemy.orm
 
@@ -23,6 +23,9 @@ def select_user_data(query_id, session):
 		if location_type_name =='HTTP':
 			data_list = http_select(query)
 
+		if location_type_name =='Selenium':
+			data_list = selenium_select(query)
+
 		if location_type_name =='LDAP':
 			data_list = ldap_select(query)
 
@@ -38,4 +41,4 @@ def select_user_data(query_id, session):
 	except Exception as error:
 		raise
 
-	return(data_list) 
+	return(data_list)

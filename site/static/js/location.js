@@ -44,6 +44,29 @@ fields = [{
 		"display": "hide"
 	}]
 }, {
+	"type": "Selenium",
+	"fields": [{
+		"id": "address",
+		"display": "show",
+		"label": "Parameters",
+		"placeholder": ""
+	}, {
+		"id": "port",
+		"display": "hide",
+	}, {
+		"id": "database",
+		"display": "hide"
+	}, {
+		"id": "username",
+		"display": "hide"
+	}, {
+		"id": "password",
+		"display": "hide"
+	}, {
+		"id": "subtype_id",
+		"display": "hide"
+	}]
+}, {
 	"type": "Notasi Groups",
 	"fields": [{
 		"id": "address",
@@ -180,4 +203,3 @@ query_view("#location_type_id", "location_type");
 $('#location_type_id').change(function(){
 	query_view("#location_type_id", "location_type");
 });
-
