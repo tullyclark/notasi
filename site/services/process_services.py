@@ -155,12 +155,12 @@ def http_select(
 def selenium_select(
 	query
 	):
-	loc = {}
 	script = query.body
 	options = Options()
 	options.headless = True
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
-	exec(script, globals(), [loc,options, driver])
+	loc = {"driver": driver, "options":options}
+	exec(script, globals(), )
 	return loc['output']
 
 def ldap_select(query):
