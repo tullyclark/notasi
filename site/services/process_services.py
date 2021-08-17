@@ -159,6 +159,7 @@ def selenium_select(
 	options = Options()
 	options.add_argument("--disable-extensions")
 	options.add_argument("--headless")
+	options.add_argument("--window-size=800,600")
 
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
 	loc = {"driver": driver, "options":options}
