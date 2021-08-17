@@ -66,9 +66,11 @@ def sql_select(
 def file_select(
 	query
 	):
-	exec(query.body)
-    return scipt_output
-    
+    loc = {}
+    script = '' + query.body
+    exec(script, {}, loc)
+    return loc['output']
+
 def http_select(
 	query
 	):
