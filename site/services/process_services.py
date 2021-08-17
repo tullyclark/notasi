@@ -160,7 +160,7 @@ def selenium_select(
 	options.headless = True
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
 	loc = {"driver": driver, "options":options}
-	exec(script, globals(), )
+	exec(script, globals(), loc)
 	return loc['output']
 
 def ldap_select(query):
