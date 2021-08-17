@@ -17,6 +17,15 @@ from utils.split_strip import split_strip
 from ldap3 import Server, Connection, ALL, ALL_ATTRIBUTES, NTLM, SIMPLE
 
 
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+
 def default(o):
     if isinstance(o, (datetime.date, datetime.datetime)):
         return o.isoformat()
