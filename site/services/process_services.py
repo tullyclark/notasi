@@ -160,7 +160,12 @@ def selenium_select(
 	options.add_argument("--disable-extensions")
 	options.add_argument("--headless")
 	options.add_argument("--window-size=800,600")
-
+	options.addArguments("--test-type")
+	options.addArguments("--disable-gpu")
+	options.addArguments("--no-first-run")
+	options.addArguments("--no-default-browser-check")
+	options.addArguments("--ignore-certificate-errors")
+	options.addArguments("--start-maximized")
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
 	loc = {"driver": driver, "options":options}
 	exec(script, globals(), loc)
