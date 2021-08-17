@@ -25,6 +25,7 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.chrome.options import Options
 
 
 def default(o):
@@ -155,17 +156,10 @@ def selenium_select(
 	query
 	):
 	script = query.body
-	options = webdriver.ChromeOptions()
-	options.addArguments("window-size=1920,1080");
-	options.addArguments("disable-extensions");
-	options.addArguments("proxy-server='direct://'");
-	options.addArguments("proxy-bypass-list=*");
-	options.addArguments("start-maximized");
-	options.addArguments("headless");
-	options.addArguments("disable-gpu");
-	options.addArguments("disable-dev-shm-usage");
-	options.addArguments("no-sandbox");
-	options.addArguments("ignore-certificate-errors");
+	options = Options()
+	options.add_argument("--disable-extensions")
+	options.add_argument("--headless")
+
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
 	loc = {"driver": driver, "options":options}
 	exec(script, globals(), loc)
