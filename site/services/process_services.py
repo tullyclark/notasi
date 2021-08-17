@@ -157,6 +157,9 @@ def selenium_select(
 	):
     loc = {}
     script = query.body
+	options = Options()
+	options.headless = True
+	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
     exec(script, globals(), loc)
     return loc['output']
 
