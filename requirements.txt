@@ -31,3 +31,5 @@ tzlocal==2.0.0
 urllib3==1.25.6
 uWSGI==2.0.18
 Werkzeug==0.16.0
+html5lib
+BeautifulSoup4
