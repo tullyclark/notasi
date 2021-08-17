@@ -66,10 +66,13 @@ def sql_select(
 def file_select(
 	query
 	):
-    loc = {}
-    script = '' + query.body
-    exec(script, {}, loc)
-    return loc['output']
+	file = pathlib.Path(query.location.address) / query.endpoint
+	if file.suffix =='.csv':
+		df = pandas.read_csv(file)
+		return flatten_json(df.to_dict('records'))
+	elif file.suffix =='.json':
+		json_obj = json.load(file.open())
+		return flatten_json(json_obj)
 
 def http_select(
 	query
@@ -141,13 +144,12 @@ def http_select(
 def selenium_select(
 	query
 ):
-	file = pathlib.Path(query.location.address) / query.endpoint
-	if file.suffix =='.csv':
-		df = pandas.read_csv(file)
-		return flatten_json(df.to_dict('records'))
-	elif file.suffix =='.json':
-		json_obj = json.load(file.open())
-		return flatten_json(json_obj)
+	query
+	):
+    loc = {}
+    script = '' + query.body
+    exec(script, {}, loc)
+    return loc['output']
 
 def ldap_select(query):
 
