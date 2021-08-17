@@ -112,10 +112,10 @@ def http_select(
 			header = []
 
 		if data_string:
-            try:
-                data = json.loads(data_string)
-            except ValueError as e:
-                data = data_string
+			try:
+				data = json.loads(data_string)
+			except ValueError as e:
+				data = data_string
 		else:
 			data = []
 
