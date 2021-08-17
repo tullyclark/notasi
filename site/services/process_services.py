@@ -156,16 +156,16 @@ def selenium_select(
 	):
 	script = query.body
 	options = webdriver.ChromeOptions()
-	options.addArguments("--window-size=1920,1080");
-	options.addArguments("--disable-extensions");
-	options.addArguments("--proxy-server='direct://'");
-	options.addArguments("--proxy-bypass-list=*");
-	options.addArguments("--start-maximized");
-	options.addArguments("--headless");
-	options.addArguments("--disable-gpu");
-	options.addArguments("--disable-dev-shm-usage");
-	options.addArguments("--no-sandbox");
-	options.addArguments("--ignore-certificate-errors");
+	options.addArguments("window-size=1920,1080");
+	options.addArguments("disable-extensions");
+	options.addArguments("proxy-server='direct://'");
+	options.addArguments("proxy-bypass-list=*");
+	options.addArguments("start-maximized");
+	options.addArguments("headless");
+	options.addArguments("disable-gpu");
+	options.addArguments("disable-dev-shm-usage");
+	options.addArguments("no-sandbox");
+	options.addArguments("ignore-certificate-errors");
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
 	loc = {"driver": driver, "options":options}
 	exec(script, globals(), loc)
