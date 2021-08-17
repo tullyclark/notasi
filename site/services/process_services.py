@@ -29,8 +29,8 @@ from selenium.webdriver.chrome.options import Options
 
 
 def default(o):
-    if isinstance(o, (datetime.date, datetime.datetime)):
-        return o.isoformat()
+	if isinstance(o, (datetime.date, datetime.datetime)):
+		return o.isoformat()
 
 def sql_select(
 	query
@@ -155,13 +155,13 @@ def http_select(
 def selenium_select(
 	query
 	):
-    loc = {}
-    script = query.body
+	loc = {}
+	script = query.body
 	options = Options()
 	options.headless = True
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
-    exec(script, globals(), loc)
-    return loc['output']
+	exec(script, globals(), loc)
+	return loc['output']
 
 def ldap_select(query):
 
@@ -208,15 +208,13 @@ def ldap_select(query):
 	for formatted_query in formatted_queries:
 
 		conn.search(dc
-		  , formatted_query
-		  , attributes=[ALL_ATTRIBUTES])
+			, formatted_query
+			, attributes=[ALL_ATTRIBUTES])
 
 		for entry in conn.entries:
-
-		  dict1 = json.loads(entry.entry_to_json())["attributes"]
-		  dict1['dn'] = json.loads(entry.entry_to_json())["dn"]
-
-		  data.append(dict1)
+			dict1 = json.loads(entry.entry_to_json())["attributes"]
+			dict1['dn'] = json.loads(entry.entry_to_json())["dn"]
+			data.append(dict1)
 
 	data = flatten_json(data)
 	return(data)
