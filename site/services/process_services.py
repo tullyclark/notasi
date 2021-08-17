@@ -6,6 +6,7 @@ import pandas
 import json
 import pathlib
 import json
+import time
 import requests
 from io import StringIO
 
@@ -24,6 +25,7 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.chrome.options import Options
 
 
 def default(o):
@@ -154,8 +156,8 @@ def selenium_select(
 	query
 	):
     loc = {}
-    script = '' + query.body
-    exec(script, {}, loc)
+    script = query.body
+    exec(script, globals(), loc)
     return loc['output']
 
 def ldap_select(query):
