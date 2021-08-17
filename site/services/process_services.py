@@ -24,7 +24,7 @@ def default(o):
 def sql_select(
 	query
 ):
-	
+
 	location = query.location
 	connection_string = location.subtype.dialect + \
 		"://" + location.username + \
@@ -47,7 +47,7 @@ def sql_select(
 		for row in notasi_query:
 			key_list = list(row.keys())
 			formatted_query = query.body
-			
+
 			for key in key_list:
 				formatted_query = formatted_query.replace('{' + str(key) + '}', str(row[key]))
 
@@ -77,7 +77,7 @@ def file_select(
 def http_select(
 	query
 	):
-	
+
 	url_string = query.location.address + query.endpoint
 	headers_string = query.head if query.head else ''
 	data_string = query.body if query.body else ''
@@ -115,7 +115,10 @@ def http_select(
 			header = []
 
 		if data_string:
-			data = json.loads(data_string)
+            try:
+                data = json.loads(data_string)
+            except ValueError as e:
+                data = data_string
 		else:
 			data = []
 
@@ -129,7 +132,7 @@ def http_select(
 				responses.append(flatten_json(pandas.DataFrame(response, index=[0])))
 			else:
 				responses.append(flatten_json(pandas.DataFrame(response)))
-			
+
 	elif query.request_method.name == "POST":
 		for request_var in request_vars:
 			response = requests.post(url = request_var['url'], headers = request_var['headers'], data = request_var['data']).json()
@@ -139,7 +142,7 @@ def http_select(
 	return result
 
 def ldap_select(query):
-	
+
 	location = query.location
 
 	dc = 'dc=' + ',dc='.join(split_strip(location.database, "."))
@@ -162,14 +165,14 @@ def ldap_select(query):
 
 
 	formatted_queries = []
-	
+
 	if query.notasi_query:
 		notasi_query = pandas.read_sql(query.notasi_query, db_session.notasi_engine()).to_dict('records')
 
 		for row in notasi_query:
 			key_list = list(row.keys())
 			formatted_query = query.body
-			
+
 			for key in key_list:
 				formatted_query = formatted_query.replace('{' + str(key) + '}', str(row[key]))
 
@@ -190,7 +193,7 @@ def ldap_select(query):
 
 		  dict1 = json.loads(entry.entry_to_json())["attributes"]
 		  dict1['dn'] = json.loads(entry.entry_to_json())["dn"]
-		  
+
 		  data.append(dict1)
 
 	data = flatten_json(data)
@@ -205,10 +208,10 @@ def create_view(data_view, session):
 
 	business_keys = []
 	information_columns = []
-	
+
 	for col in split_strip(data_view.business_keys, ","):
 		business_keys.append({"json": "data ->> '" + col + "'", "name":col})
-	
+
 	for col in split_strip(data_view.information_columns, ","):
 		information_columns.append({"json": "data ->> '" + col + "'", "name":col})
 
@@ -218,42 +221,36 @@ def create_view(data_view, session):
 	business_keys_order = "row_number() over (partition by " + " , ".join(col["json"] for col in business_keys) + ' order by view_run_id desc) as rownum'
 
 	all_cols = business_keys_json_name+ ', ' + information_columns_json_name + "," + business_keys_order
-	
+
 	col_names = " , ".join(col["name"] for col in business_keys + information_columns)
 
 	sql_text = f'''
 		create or replace view {data_view.view_name} as
-			
-			with q1 as 
+
+			with q1 as
 			(
-				SELECT 
+				SELECT
 					{all_cols}
 					, user_data.view_run_id
-				FROM 
-					user_data 
-					inner join view_runs on view_runs.id = user_data.view_run_id 
-				WHERE 
+				FROM
+					user_data
+					inner join view_runs on view_runs.id = user_data.view_run_id
+				WHERE
 					data_view_id = {data_view.id}
-			) 
+			)
 
-			SELECT 
+			SELECT
 				{col_names}
-				, case 
+				, case
 					when view_run_id = (select max(id) from view_runs where data_view_id = {data_view.id})
 					then 1
 					end as in_last_run
-			FROM 
-				q1 
-			WHERE 
+			FROM
+				q1
+			WHERE
 				rownum = 1;
 
 
 		'''
 
 	session.execute(sql_text)
-
-
-
-
-
-
