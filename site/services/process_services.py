@@ -179,7 +179,7 @@ def selenium_select(
 	options.add_experimental_option("prefs",prefs)
 
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
-	loc = {"driver": driver, "options":options}
+	loc = {"driver": driver, "options":options, "download_directory":path}
 	exec(script, globals(), loc)
 	return loc['output']
 
