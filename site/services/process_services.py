@@ -11,6 +11,7 @@ import time
 import os
 import requests
 from io import StringIO
+import config
 
 import data.db_session as db_session
 from data.source import Location, Query, DataView, Subtype, LocationType
@@ -171,9 +172,12 @@ def selenium_select(
 	options.add_argument("--no-default-browser-check")
 	options.add_argument("--ignore-certificate-errors")
 	options.add_argument("--start-maximized")
-	# prefs = {"download.default_directory" : "/some/path"}
-	# options.add_experimental_option("prefs",prefs)
-	print(os.getcwd())
+
+	path = os.path.join(config.storage_location, datetime.datetime.now().strftime("%Y%m%d%H%M%S")+"_"+uuid.uuid4().hex)
+	os.mkdir(path)
+	prefs = {"download.default_directory" : path}
+	options.add_experimental_option("prefs",prefs)
+
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
 	loc = {"driver": driver, "options":options}
 	exec(script, globals(), loc)
