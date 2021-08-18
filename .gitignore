@@ -129,8 +129,7 @@ site/config.py
 site/ldap_test.py
 .DS_Store
 site/.DS_Store
-site/.DS_Store
-site/.DS_Store
+site/storage/*
 site/saml/settings.json
 site/saml/advanced_settings.json
 .DS_Store
