@@ -2,11 +2,13 @@ import sqlalchemy.orm
 import sqlalchemy as sa
 import ibm_db_sa
 import datetime
+import uuid
 import pandas
 import json
 import pathlib
 import json
 import time
+import os
 import requests
 from io import StringIO
 
@@ -157,6 +159,8 @@ def selenium_select(
 	query
 	):
 	script = query.body
+	download_location = datetime.datetime.now().strftime("%Y%m%d%H%M%S")+"_"+uuid.uuid4().hex
+
 	options = Options()
 	options.add_argument("--disable-extensions")
 	options.add_argument("--headless")
@@ -167,6 +171,9 @@ def selenium_select(
 	options.add_argument("--no-default-browser-check")
 	options.add_argument("--ignore-certificate-errors")
 	options.add_argument("--start-maximized")
+	# prefs = {"download.default_directory" : "/some/path"}
+	# options.add_experimental_option("prefs",prefs)
+	print(os.getcwd())
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
 	loc = {"driver": driver, "options":options}
 	exec(script, globals(), loc)
