@@ -23,6 +23,10 @@ InstallLocation=$(readlink \-f "${InstallLocation:-/opt/notasi}")
 #clone from git
 git clone https://github.com/tullyclark/notasi $InstallLocation
 
+#get Selenium Storage Location
+read -e -p "Selenium Storage Location [${InstallLocation}/site/storage]: " StorageLocation
+StorageLocation=$(readlink \-f "${StorageLocation:-${InstallLocation}/site/storage}")
+mkdir -p ${StorageLocation}
 
 #What user will run it?
 read -e -p "Owner (User) [${SUDO_USER:-$(whoami)}]: " User
@@ -106,6 +110,7 @@ echo "Generating Config File"
 FlaskSecretKey=$(openssl rand -base64 32) \
 SQLAlchemySecretKey=$(openssl rand -base64 32) \
 NotasiPassword=$NotasiPassword \
+StorageLocation=$StorageLocation \
 envsubst < $InstallLocation/install/config-template.py > $InstallLocation/site/config.py
 
 
