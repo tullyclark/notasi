@@ -165,7 +165,7 @@ def selenium_select(
 	options = Options()
 	options.add_argument("--disable-extensions")
 	options.add_argument("--headless")
-	options.add_argument("--window-size=800,600")
+	options.add_argument("window-size=1920x1080")
 	options.add_argument("--test-type")
 	options.add_argument("--disable-gpu")
 	options.add_argument("--no-first-run")
