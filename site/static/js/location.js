@@ -49,7 +49,7 @@ fields = [{
 		"id": "address",
 		"display": "show",
 		"class": "code",
-		"label": "Parameters",
+		"label": "Selelium Script",
 		"placeholder": ""
 	}, {
 		"id": "port",

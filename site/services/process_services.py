@@ -159,7 +159,7 @@ def http_select(
 def selenium_select(
 	query
 	):
-	script = query.body
+	location = query.location
 	download_location = datetime.datetime.now().strftime("%Y%m%d%H%M%S")+"_"+uuid.uuid4().hex
 
 	options = Options()
@@ -180,7 +180,9 @@ def selenium_select(
 
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
 	loc = {"driver": driver, "options":options, "download_directory":path}
-	exec(script, globals(), loc)
+	if location.address:
+		exec(location.address, globals(), loc)
+	exec(query.body, globals(), loc)
 	return loc['output']
 
 def ldap_select(query):
