@@ -195,7 +195,7 @@ def selenium_select(
 		loc['output'] = pandas.DataFrame(loc['output'])
 	if type(loc['output']) == pandas.core.frame.DataFrame:
 		loc['output'] = clean_dataframe(loc['output'])
-		loc['output'] = flatten_json(df.to_dict('records'))
+		loc['output'] = flatten_json(loc['output'].to_dict('records'))
 	return loc['output']
 
 def ldap_select(query):
