@@ -183,6 +183,7 @@ def selenium_select(
 	if location.database:
 		exec(location.database, globals(), loc)
 	exec(query.body, globals(), loc)
+	driver.close()
 	return loc['output']
 
 def ldap_select(query):
