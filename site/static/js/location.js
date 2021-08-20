@@ -53,13 +53,13 @@ fields = [{
 		"display": "hide",
 	}, {
 		"id": "database",
-		"display": "hide"
-	}, {
-		"id": "username",
 		"display": "show",
 		"class": "code",
 		"label": "Selelium Script",
 		"placeholder": ""
+	}, {
+		"id": "username",
+		"display": "hide"
 	}, {
 		"id": "password",
 		"display": "hide"
