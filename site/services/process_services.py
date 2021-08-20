@@ -180,8 +180,8 @@ def selenium_select(
 
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
 	loc = {"driver": driver, "options":options, "download_directory":path}
-	if location.address:
-		exec(location.address, globals(), loc)
+	if location.database:
+		exec(location.database, globals(), loc)
 	exec(query.body, globals(), loc)
 	return loc['output']
 
