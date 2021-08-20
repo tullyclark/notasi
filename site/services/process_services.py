@@ -36,6 +36,17 @@ def default(o):
 	if isinstance(o, (datetime.date, datetime.datetime)):
 		return o.isoformat()
 
+def clean_dataframe(df):
+	cols = df.columns
+	new_column_names = []
+
+	for col in cols:
+		new_col = col.lstrip().rstrip().lower().replace (" ", "_") #strip beginning spaces, makes lowercase, add underscpre
+		new_column_names.append(new_col)
+
+	df.columns = new_column_names
+	return df
+
 def sql_select(
 	query
 ):
@@ -163,15 +174,7 @@ def selenium_select(
 	download_location = datetime.datetime.now().strftime("%Y%m%d%H%M%S")+"_"+uuid.uuid4().hex
 
 	options = Options()
-	options.add_argument("--disable-extensions")
-	options.add_argument("--headless")
-	options.add_argument("window-size=1920x1080")
-	options.add_argument("--test-type")
-	options.add_argument("--disable-gpu")
-	options.add_argument("--no-first-run")
-	options.add_argument("--no-default-browser-check")
-	options.add_argument("--ignore-certificate-errors")
-	options.add_argument("--start-maximized")
+	options.headless = True
 
 	path = os.path.join(config.storage_location, datetime.datetime.now().strftime("%Y%m%d%H%M%S")+"_"+uuid.uuid4().hex)
 	os.mkdir(path)
@@ -180,10 +183,19 @@ def selenium_select(
 
 	driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver', options=options)
 	loc = {"driver": driver, "options":options, "download_directory":path}
-	if location.database:
-		exec(location.database, globals(), loc)
-	exec(query.body, globals(), loc)
-	driver.close()
+	try:
+		if location.database:
+			exec(location.database, globals(), loc)
+		exec(query.body, globals(), loc)
+		driver.quit()
+	except ValueError as e:
+		driver.quit()
+		raise
+	if type(loc['output']) == dict:
+		loc['output'] = pandas.DataFrame(loc['output'])
+	if type(loc['output']) == pandas.core.frame.DataFrame:
+		loc['output'] = clean_dataframe(loc['output'])
+		loc['output'] = flatten_json(df.to_dict('records'))
 	return loc['output']
 
 def ldap_select(query):
