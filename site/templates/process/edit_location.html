@@ -20,28 +20,28 @@
 
 <div style = 'display: none;'>
 	<label for="address">Address</label>
-	<input id="address" name="address" type="text" placeholder="Address" class="form-control" value="{{ data_obj.address if data_obj.address }}">
+	<textarea id="address" name="address" type="text" placeholder="Address" class="form-control code">{{ data_obj.address if data_obj.address }}</textarea>
 </div>
 
 <div style = 'display: none;'>
 	<label for="port">Port</label>
-	<input id="port" name="port" type="text" placeholder="Port" class="form-control" value="{{ data_obj.port if data_obj.port }}">
+	<textarea id="port" name="port" type="text" placeholder="Port" class="form-control code">{{ data_obj.port if data_obj.port }}</textarea>
 </div>
 
 <div style = 'display: none;'>
 	<label for="database">Database</label>
-	<!-- <input id="database" name="database" type="text" placeholder= "Database" class="form-control" value="{{ data_obj.database if data_obj.database }}"> -->
 	<textarea id="database" name="database" type="text" placeholder="Database" class="form-control code">{{ data_obj.database if data_obj.database }}</textarea>
 </div>
 
 <div style = 'display: none;'>
 	<label for="username">Username</label>
-	<input id = "username" name="username" type="text" placeholder="Username" class="form-control" value="{{ data_obj.username if data_obj.username }}">
+	<textarea id="username" name="username" type="text" placeholder="Username" class="form-control code">{{ data_obj.username if data_obj.username }}</textarea>
 </div>
 
 <div style = 'display: none;'>
 	<label for="password">Password</label>
 	<input id="password" name="password" type="password" placeholder= {% if data_obj.password %} "********" {% else %} "Password" {% endif %} class="form-control">
+	
 </div>
 
 <div style = 'display: none;'>
