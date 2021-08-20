@@ -8,8 +8,9 @@ function query_view(id, value){
 	selected_field = fields.find(x => x.type === selected).fields
 	$.each(selected_field, function(index, field){
 		$("#"+field.id).parent()[field.display]();
-		$("#"+field.id).attr("placeholder", field.placeholder)
-		$("label[for='" +field.id+"']").text(field.label)
+		$("#"+field.id).attr("placeholder", field.placeholder);
+		$("#"+field.id).addClass(field.class);
+		$("label[for='" +field.id+"']").text(field.label);
 	});
 }
 

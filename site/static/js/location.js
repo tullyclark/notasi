@@ -48,6 +48,7 @@ fields = [{
 	"fields": [{
 		"id": "address",
 		"display": "show",
+		"class": "code",
 		"label": "Parameters",
 		"placeholder": ""
 	}, {
