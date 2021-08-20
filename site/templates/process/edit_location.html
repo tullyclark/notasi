@@ -30,7 +30,8 @@
 
 <div style = 'display: none;'>
 	<label for="database">Database</label>
-	<input id="database" name="database" type="text" placeholder= "Database" class="form-control" value="{{ data_obj.database if data_obj.database }}">
+	<!-- <input id="database" name="database" type="text" placeholder= "Database" class="form-control" value="{{ data_obj.database if data_obj.database }}"> -->
+	<textarea id="database" name="database" type="text" placeholder="Database" class="form-control">{{ data_obj.database if data_obj.database }}</textarea>
 </div>
 
 <div style = 'display: none;'>
