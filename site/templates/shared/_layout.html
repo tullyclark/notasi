@@ -10,7 +10,7 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/static/css/site.css" />
-    
+
     {% if request.args.get('mode') =="iframe"%}
       <link rel="stylesheet" href="/static/css/iframe.css" />
     {% endif %}
@@ -79,7 +79,7 @@
                 <a class="nav-link" href="/auth/login">Login</a>
               </li>
             </ul>
-            
+
             {% endif %}
           </div>
         </div>
@@ -101,10 +101,10 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
+{% block additional_js %}{% endblock %}
 <script src="/static/js/site.js"></script>
 
 
-{% block additional_js %}{% endblock %}
 
 </body>
 </html>
