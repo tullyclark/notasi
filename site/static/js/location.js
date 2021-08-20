@@ -47,10 +47,7 @@ fields = [{
 	"type": "Selenium",
 	"fields": [{
 		"id": "address",
-		"display": "show",
-		"class": "code",
-		"label": "Selelium Script",
-		"placeholder": ""
+		"display": "hide"
 	}, {
 		"id": "port",
 		"display": "hide",
@@ -59,7 +56,10 @@ fields = [{
 		"display": "hide"
 	}, {
 		"id": "username",
-		"display": "hide"
+		"display": "show",
+		"class": "code",
+		"label": "Selelium Script",
+		"placeholder": ""
 	}, {
 		"id": "password",
 		"display": "hide"
