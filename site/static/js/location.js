@@ -54,7 +54,6 @@ fields = [{
 	}, {
 		"id": "database",
 		"display": "show",
-		"class": "code",
 		"label": "Selelium Script",
 		"placeholder": ""
 	}, {
