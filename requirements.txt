@@ -2,7 +2,7 @@ APScheduler==3.6.1
 certifi==2019.9.11
 chardet==3.0.4
 Click==7.0
-cryptography==3.2
+cryptography==3.3.2
 cx-Oracle==7.2.3
 Flask==1.1.1
 Flask-Login==0.4.1
