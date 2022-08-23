@@ -6,8 +6,8 @@ cryptography==3.3.2
 cx-Oracle==7.2.3
 Flask==1.1.1
 Flask-Login==0.4.1
-ibm-db==3.0.1
-ibm-db-sa==0.3.5
+ibm-db
+ibm-db-sa
 idna==2.8
 itsdangerous==1.1.0
 Jinja2==2.11.3
