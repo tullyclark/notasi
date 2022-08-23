@@ -10,11 +10,12 @@ if [ $(whoami) != "root" ]; then
 fi
 
 #get dependancies
+. /etc/lsb-release
 curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+curl https://packages.microsoft.com/config/ubuntu/$DISTRIB_RELEASE/prod.list > /etc/apt/sources.list.d/mssql-release.list
 apt-get update
 apt-get install python3-pip libxmlsec1-dev pkg-config virtualenv uwsgi nginx postgresql postgresql-server-dev-all libmysqlclient-dev unixodbc-dev chromium-chromedriver
-ACCEPT_EULA=Y apt-get install msodbcsql17
+ACCEPT_EULA=Y apt-get install msodbcsql18
 
 #get installation location
 read -e -p "Install Location [/opt/notasi]: " InstallLocation
