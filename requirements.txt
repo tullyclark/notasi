@@ -30,6 +30,6 @@ SQLAlchemy-Utils==0.34.2
 tzlocal==2.0.0
 urllib3
 uWSGI==2.0.18
-Werkzeug==0.16.0
+Werkzeug==2.2.3
 html5lib
 BeautifulSoup4
